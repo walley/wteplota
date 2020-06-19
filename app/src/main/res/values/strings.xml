@@ -1,0 +1,14 @@
+<resources>
+  <string name="app_name">wteplota</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="nav_header_title">WTeplota</string>
+  <string name="nav_header_subtitle">Your own IoT stuff</string>
+  <string name="nav_header_desc"></string>
+  <string name="action_settings">Settings</string>
+
+  <string name="menu_home">Home</string>
+  <string name="menu_house">House</string>
+  <string name="menu_gallery">nic</string>
+  <string name="menu_slideshow">nic</string>
+</resources>
