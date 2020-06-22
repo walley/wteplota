@@ -108,58 +108,5 @@ public class MainActivity extends AppCompatActivity
     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show();
   }
 
-  private void get_temp()
-  {
-    Ion.with(context)
-            .load("http://91.232.214.23/android/android.php")
-            .asJsonArray()
-            .setCallback(new FutureCallback<JsonArray>()
-            {
-              @Override
-              public void onCompleted(Exception exception, JsonArray result)
-              {
-                String item_json;
 
-                if (result == null) {
-                  Log.e(TAG, "json error");
-                  return;
-                }
-                // do stuff with the result or error
-                Log.i(TAG, "json loaded" + result);
-                Iterator it = result.iterator();
-                while (it.hasNext()) {
-                  JsonElement element = (JsonElement) it.next();
-                  Log.i(TAG, element.getAsJsonObject().toString());
-                  String xs = element.getAsJsonObject().toString();
-                  //item_json = element.getAsJsonObject().getAsString();
-                  //Log.i(TAG, item_json);
-                  EventBus.getDefault().post(new MessageEvent(xs));
-                }
-
-              }
-            });
-  }
-
-  private void get_temp2()
-  {
-    Ion.with(context)
-            .load("http://91.232.214.23/android/android.php")
-            .asJsonObject()
-            .setCallback(new FutureCallback<JsonObject>()
-            {
-              @Override
-              public void onCompleted(Exception exception, JsonObject result)
-              {
-                if (result == null) {
-                  Log.e(TAG, "json error");
-                  return;
-                }
-                // do stuff with the result or error
-                Log.i(TAG, "json loaded" + result);
-                for (Map.Entry<String, JsonElement> entry : result.entrySet()) {
-                  System.out.println("Key = " + entry.getKey() + " Value = " + entry.getValue());
-                }
-              }
-            });
-  }
 }

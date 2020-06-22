@@ -1,5 +1,6 @@
 package org.walley.wteplota.ui.home;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -37,10 +38,11 @@ import java.util.Map;
 public class HomeFragment extends Fragment
 {
   public static final String TAG = "WT-H";
-  TextView textView;
+  TextView tv_data;
   TextView item;
   LinearLayout ll_scroll;
   Hashtable<String, JsonObject> data;
+  GradientDrawable gd;
   private HomeViewModel homeViewModel;
 
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,18 +53,26 @@ public class HomeFragment extends Fragment
     data = new Hashtable<String, JsonObject>();
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+    gd = new GradientDrawable();
+    gd.setColor(0xFF00FF00); // Changes this drawbale to use a single color instead of a gradient
+    gd.setCornerRadius(5);
+    gd.setSize(400, 100);
+    gd.setStroke(3, 0x03DAC5);
+
     ll_scroll = (LinearLayout) root.findViewById(R.id.ll_scroll);
     homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-    textView = root.findViewById(R.id.text_home);
-    textView.setMovementMethod(new ScrollingMovementMethod());
-    textView.setTextSize(20);
+    tv_data = root.findViewById(R.id.text_home);
+    tv_data.setMovementMethod(new ScrollingMovementMethod());
+    tv_data.setTextSize(20);
+
+    tv_data.setText("kokot");
 
     homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>()
     {
       @Override
       public void onChanged(@Nullable String s)
       {
-        textView.setText(s);
+        tv_data.setText(s);
       }
     });
 
@@ -95,7 +105,7 @@ public class HomeFragment extends Fragment
 
   private void get_temp()
   {
-    final ArrayList<String> rooms_list = new ArrayList<String>();
+    final ArrayList<String> rooms_list = new ArrayList<>();
     Ion.with(getActivity())
             .load("http://91.232.214.23/android/android.php")
             .asJsonArray()
@@ -125,47 +135,54 @@ public class HomeFragment extends Fragment
                   temps += "--------\n";
                   for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
                     if (entry.getKey().equals("jmeno")) {
-                      rooms_list.add(entry.getValue().toString());
-                      data.put(entry.getValue().toString(), jo);
+                      String room_name = entry.getValue().toString().replace("\"", "");
+                      data.put(room_name, jo);
+                      rooms_list.add(room_name);
                       Log.i(TAG, "jmeno, " + entry.getValue().toString());
                     }
-                    temps += "> " + entry.getKey() + " = " + entry.getValue() + "\n";
+                    temps += entry.getKey() + " = " + entry.getValue() + "\n";
                   }
-                  textView.setText(temps);
+                  tv_data.setText(temps);
 //                  EventBus.getDefault().post(new MessageEvent(xs));
                 }
-                for (int i = 0; i < rooms_list.size(); i++) {
-                  item = new TextView(getActivity());
-                  item.setOnClickListener(new View.OnClickListener()
-                  {
-                    @Override
-                    public void onClick(View v)
-                    {
-                      String ss;
-                      TextView tv = (TextView) v;
-                      String str = tv.getText().toString();
-                      JsonObject n = data.get(str);
-                      Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-                      ss = "";
-                      if (n != null) {
-                        for (Map.Entry<String, JsonElement> entry : n.entrySet()) {
-                          ss += "> " + entry.getKey() + " = " + entry.getValue() + "\n";
-                        }
 
-                        textView.setText(ss);
-                      }
-                    }
-                  });
-                  item.setClickable(true);
-
-                  item.setTextSize(25);
-                  String entry = rooms_list.get(i);
-                  item.setText(entry);
-                  ll_scroll.addView(item);
-                  Log.i(TAG, "entry, " + entry);
-                }
-
+                create_rooms_menu(rooms_list);
               }
             });
+  }
+
+  private void create_rooms_menu(ArrayList<String> rooms_list)
+  {
+    for (int i = 0; i < rooms_list.size(); i++) {
+      item = new TextView(getActivity());
+      item.setOnClickListener(new View.OnClickListener()
+      {
+        @Override
+        public void onClick(View v)
+        {
+          StringBuilder ss;
+          TextView tv = (TextView) v;
+          String str = tv.getText().toString();
+          JsonObject n = data.get(str);
+          Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+          tv_data.setText("as");
+          ss = new StringBuilder();
+          if (n != null) {
+            for (Map.Entry<String, JsonElement> entry : n.entrySet()) {
+              ss.append(entry.getKey()).append(" = ");
+              ss.append(entry.getValue()).append("\n");
+            }
+            tv_data.setText(ss.toString());
+          }
+        }
+      });
+      item.setClickable(true);
+      item.setTextSize(25);
+      item.setBackground(gd);
+      String entry = rooms_list.get(i);
+      item.setText(entry.replace("\"", ""));
+      ll_scroll.addView(item);
+      Log.i(TAG, "entry, " + entry);
+    }
   }
 }
