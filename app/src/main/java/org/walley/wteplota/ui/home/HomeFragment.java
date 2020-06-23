@@ -163,6 +163,8 @@ public class HomeFragment extends Fragment
 
   private void create_rooms_menu(ArrayList<String> rooms_list)
   {
+    ll_scroll.removeAllViews();
+    ll_scroll.invalidate();
     for (int i = 0; i < rooms_list.size(); i++) {
       item = new TextView(getActivity());
       item.setOnClickListener(new View.OnClickListener()
