@@ -10,21 +10,26 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.walley.wteplota.MessageEvent;
 import org.walley.wteplota.R;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -38,6 +43,8 @@ public class HomeFragment extends Fragment
   LinearLayout ll_scroll;
   Hashtable<String, JsonObject> data;
   GradientDrawable gd;
+  private SwipeRefreshLayout swipeContainer;
+
   private HomeViewModel homeViewModel;
 
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -73,6 +80,15 @@ public class HomeFragment extends Fragment
 
     get_temp();
 
+    swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainer);
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+    {
+      @Override
+      public void onRefresh()
+      {
+        get_temp();
+      }
+    });
     return root;
   }
 
@@ -90,8 +106,6 @@ public class HomeFragment extends Fragment
     super.onStop();
   }
 
-
-  // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(MessageEvent event)
   {
@@ -142,6 +156,7 @@ public class HomeFragment extends Fragment
                 }
 
                 create_rooms_menu(rooms_list);
+                swipeContainer.setRefreshing(false);
               }
             });
   }
