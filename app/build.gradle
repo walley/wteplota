@@ -3,10 +3,20 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         debug {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
             storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
             keyAlias 'walley'
-            storePassword 'aaaaaa'
-            keyPassword 'aaaaaa'
+            storePassword properties.getProperty('storePassword')
+            keyPassword properties.getProperty('keyPassword')
+        }
+        release {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
+            keyAlias 'walley'
+            storePassword properties.getProperty('storePassword')
+            keyPassword properties.getProperty('keyPassword')
         }
     }
     compileSdkVersion 29
@@ -16,7 +26,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "0.1"
+        versionName '0.2'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
