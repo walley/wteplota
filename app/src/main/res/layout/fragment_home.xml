@@ -6,26 +6,26 @@
   android:layout_height="match_parent"
   tools:context=".ui.home.HomeFragment">
 
-  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeContainer"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <HorizontalScrollView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
+      android:layout_height="wrap_content">
 
-      <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+      <LinearLayout
+        android:id="@+id/ll_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"></LinearLayout>
+    </HorizontalScrollView>
 
-        <LinearLayout
-          android:id="@+id/ll_scroll"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:orientation="horizontal"></LinearLayout>
-      </HorizontalScrollView>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/swipeContainer"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
       <TextView
         android:id="@+id/text_home"
@@ -34,6 +34,6 @@
         android:text="Placeholder"
         android:textAlignment="center"
         android:textSize="20sp" />
-    </LinearLayout>
-  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+  </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

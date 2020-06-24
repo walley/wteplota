@@ -1,5 +1,6 @@
 package org.walley.wteplota.ui.home;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment
 
   private HomeViewModel homeViewModel;
 
+  @SuppressLint("ResourceAsColor")
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState
                           )
@@ -56,9 +58,9 @@ public class HomeFragment extends Fragment
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
     gd = new GradientDrawable();
-    gd.setColor(0xFF00FF00); // Changes this drawbale to use a single color instead of a gradient
+    gd.setColor(R.color.menu);
     gd.setCornerRadius(5);
-    gd.setSize(400, 100);
+    gd.setSize(300, 100);
     gd.setStroke(3, 0x03DAC5);
 
     ll_scroll = (LinearLayout) root.findViewById(R.id.ll_scroll);

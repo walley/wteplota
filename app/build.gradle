@@ -4,8 +4,8 @@ android {
     signingConfigs {
         debug {
             storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
-            storePassword 'aaaaaa'
             keyAlias 'walley'
+            storePassword 'aaaaaa'
             keyPassword 'aaaaaa'
         }
     }
@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.greenrobot:eventbus:3.2.0'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
