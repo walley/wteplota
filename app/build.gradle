@@ -10,7 +10,7 @@ android {
         debug {
             storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
             keyAlias 'walley'
-            keyPassword kp['store']
+            keyPassword kp['key']
             storePassword kp['store']
         }
         release {
