@@ -1,22 +1,19 @@
 apply plugin: 'com.android.application'
 
+def kpFile = rootProject.file("local.properties")
+def kp = new Properties()
+kp.load(new FileInputStream(kpFile))
+
+
 android {
     signingConfigs {
         debug {
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
             storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
             keyAlias 'walley'
-            storePassword properties.getProperty('storePassword')
-            keyPassword properties.getProperty('keyPassword')
+            keyPassword kp['store']
+            storePassword kp['store']
         }
         release {
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            storeFile file('/home/walley/src/androidkey/my-release-key.keystore')
-            keyAlias 'walley'
-            storePassword properties.getProperty('storePassword')
-            keyPassword properties.getProperty('keyPassword')
         }
     }
     compileSdkVersion 29
@@ -48,8 +45,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.koushikdutta.ion:ion:2+'
-    implementation 'com.koushikdutta.async:androidasync:2+'
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
+    implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.greenrobot:eventbus:3.2.0'
 
