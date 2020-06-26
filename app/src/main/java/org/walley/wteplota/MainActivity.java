@@ -1,9 +1,13 @@
 package org.walley.wteplota;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity
 {
   public static final String TAG = "WT";
   Context context = this;
+
+  private static final int RESULT_SETTINGS = 2;
 
   private AppBarConfiguration mAppBarConfiguration;
 
@@ -95,11 +101,43 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data)
+  {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    switch (requestCode) {
+      case RESULT_SETTINGS:
+        //validate_settings();
+        showUserSettings();
+        break;
+    }
+
+  }
+
+  @Override
   public boolean onSupportNavigateUp()
   {
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     return NavigationUI.navigateUp(navController, mAppBarConfiguration)
             || super.onSupportNavigateUp();
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+
+    //noinspection SimplifiableIfStatement
+    if (id == R.id.action_settings) {
+      Intent i_preferences = new Intent();
+      i_preferences.setClass(context, wt_preferences.class);
+      startActivityForResult(i_preferences, RESULT_SETTINGS);
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
@@ -108,5 +146,21 @@ public class MainActivity extends AppCompatActivity
     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show();
   }
 
+  private void showUserSettings()
+  {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    StringBuilder builder = new StringBuilder();
+
+    builder.append("\n http username: ");
+    builder.append(sharedPrefs.getString("http_username", "nic"));
+    builder.append("\n http password:" + sharedPrefs.getString("http_password", "nic"));
+    builder.append("\n app username: " + sharedPrefs.getString("app_username", "nic"));
+    builder.append("\n app password:" + sharedPrefs.getString("app_password", "nic"));
+    builder.append("\n url: " + sharedPrefs.getString("url", "nic"));
+
+    Toast.makeText(getApplicationContext(), builder, Toast.LENGTH_LONG).show();
+
+  }
 
 }

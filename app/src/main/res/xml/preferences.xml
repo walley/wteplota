@@ -9,4 +9,8 @@
     android:defaultValue="false"
     android:key="check_box_preference_1"
     android:title="Check box preference" />
+  <EditTextPreference
+    android:key="url"
+    android:summary="@string/settings_url"
+    android:title="@string/url" />
 </PreferenceScreen>

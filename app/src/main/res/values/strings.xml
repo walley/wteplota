@@ -11,4 +11,6 @@
   <string name="menu_house">House</string>
   <string name="menu_gallery">nic</string>
   <string name="menu_slideshow">nic</string>
+  <string name="settings_url">Server URL http://x.org</string>
+  <string name="url">Server url</string>
 </resources>
