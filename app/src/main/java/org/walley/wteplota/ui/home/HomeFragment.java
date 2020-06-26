@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment
 
     tv_data.setText("kokot");
 
-    homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>()
+/*    homeViewModel.observe(getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()
     {
       @Override
       public void onChanged(@Nullable String s)
@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment
         tv_data.setText(s);
       }
     });
-
+*/
     get_temp();
 
     swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainer);

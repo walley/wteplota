@@ -1,5 +1,9 @@
 package org.walley.wteplota.ui.home;
 
+import com.google.gson.JsonObject;
+
+import java.util.Hashtable;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,16 +11,16 @@ import androidx.lifecycle.ViewModel;
 public class HomeViewModel extends ViewModel
 {
 
-  private MutableLiveData<String> mText;
+  private MutableLiveData<Hashtable<String, JsonObject>> server_data;
 
   public HomeViewModel()
   {
-    mText = new MutableLiveData<>();
-    mText.setValue("This is home fragment");
+    server_data = new MutableLiveData<Hashtable<String, JsonObject>>();
+    ;
   }
 
-  public LiveData<String> getText()
+  public LiveData<Hashtable<String, JsonObject>> getText()
   {
-    return mText;
+    return server_data;
   }
 }
