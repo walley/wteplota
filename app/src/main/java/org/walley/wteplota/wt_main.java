@@ -36,7 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class MainActivity extends AppCompatActivity
+public class wt_main extends AppCompatActivity
 {
   public static final String TAG = "WT";
   Context context = this;
@@ -154,10 +154,10 @@ public class MainActivity extends AppCompatActivity
 
     builder.append("\n http username: ");
     builder.append(sharedPrefs.getString("http_username", "nic"));
-    builder.append("\n http password:" + sharedPrefs.getString("http_password", "nic"));
-    builder.append("\n app username: " + sharedPrefs.getString("app_username", "nic"));
-    builder.append("\n app password:" + sharedPrefs.getString("app_password", "nic"));
-    builder.append("\n url: " + sharedPrefs.getString("url", "nic"));
+    builder.append("\n http password:").append(sharedPrefs.getString("http_password", "nic"));
+    builder.append("\n app username: ").append(sharedPrefs.getString("app_username", "nic"));
+    builder.append("\n app password:").append(sharedPrefs.getString("app_password", "nic"));
+    builder.append("\n url: ").append(sharedPrefs.getString("url", "nic"));
 
     Toast.makeText(getApplicationContext(), builder, Toast.LENGTH_LONG).show();
 
