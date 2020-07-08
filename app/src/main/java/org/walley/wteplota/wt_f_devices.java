@@ -1,6 +1,7 @@
-package org.walley.wteplota.ui.home;
+package org.walley.wteplota;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -8,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,24 +22,20 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.walley.wteplota.MessageEvent;
-import org.walley.wteplota.R;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-public class HomeFragment extends Fragment
+public class wt_f_devices extends Fragment
 {
   public static final String TAG = "WT-H";
   TextView tv_data;
@@ -44,8 +43,8 @@ public class HomeFragment extends Fragment
   LinearLayout ll_scroll;
   Hashtable<String, JsonObject> data;
   GradientDrawable gd;
+  ArrayAdapter<String> itemsAdapter;
   private SwipeRefreshLayout swipeContainer;
-
   private HomeViewModel homeViewModel;
 
   @SuppressLint("ResourceAsColor")
@@ -54,8 +53,19 @@ public class HomeFragment extends Fragment
                           )
   {
 
-    data = new Hashtable<String, JsonObject>();
     View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+    ArrayList<w_device> devices_array = new ArrayList<>();
+    device_adapter adapter = new device_adapter(getActivity(), devices_array);
+    w_device device = new w_device("Nathan", "San Diego");
+    adapter.add(device);
+    w_device device2 = new w_device("Natxhan", "San Diexxxgo");
+    adapter.add(device2);
+
+    ListView listView = (ListView) root.findViewById(R.id.lv_home);
+    listView.setAdapter(adapter);
+
+    data = new Hashtable<String, JsonObject>();
 
     gd = new GradientDrawable();
     gd.setColor(R.color.menu);
@@ -197,6 +207,43 @@ public class HomeFragment extends Fragment
       item.setText(entry.replace("\"", ""));
       ll_scroll.addView(item);
       Log.i(TAG, "entry, " + entry);
+    }
+  }
+
+  public class w_device
+  {
+    public String name;
+    public String hometown;
+
+    public w_device(String name, String hometown)
+    {
+      this.name = name;
+      this.hometown = hometown;
+    }
+
+  }
+
+  public class device_adapter extends ArrayAdapter<w_device>
+  {
+    public device_adapter(Context context, ArrayList<w_device> devices)
+    {
+      super(context, 0, devices);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+      w_device user = getItem(position);
+
+      if (convertView == null) {
+        convertView = LayoutInflater.from(getContext()).inflate(
+                R.layout.item_device, parent, false);
+      }
+      TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
+      TextView tvHome = (TextView) convertView.findViewById(R.id.tvHome);
+      tvName.setText(user.name);
+      tvHome.setText(user.hometown);
+      return convertView;
     }
   }
 }

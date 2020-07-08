@@ -1,4 +1,4 @@
-package org.walley.wteplota.ui.home;
+package org.walley.wteplota;
 
 import com.google.gson.JsonObject;
 
@@ -16,7 +16,6 @@ public class HomeViewModel extends ViewModel
   public HomeViewModel()
   {
     server_data = new MutableLiveData<Hashtable<String, JsonObject>>();
-    ;
   }
 
   public LiveData<Hashtable<String, JsonObject>> getText()

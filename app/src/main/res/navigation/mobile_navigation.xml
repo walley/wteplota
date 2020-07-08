@@ -7,7 +7,7 @@
 
   <fragment
     android:id="@+id/nav_home"
-    android:name="org.walley.wteplota.ui.home.HomeFragment"
+    android:name="org.walley.wteplota.wt_f_devices"
     android:label="@string/menu_house"
     tools:layout="@layout/fragment_home" />
 
