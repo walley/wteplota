@@ -56,11 +56,12 @@ public class wt_f_devices extends Fragment
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
     ArrayList<w_device> devices_array = new ArrayList<>();
-    device_adapter adapter = new device_adapter(getActivity(), devices_array);
     w_device device = new w_device("Nathan", "San Diego");
-    adapter.add(device);
     w_device device2 = new w_device("Natxhan", "San Diexxxgo");
-    adapter.add(device2);
+    devices_array.add(device);
+    devices_array.add(device2);
+
+    device_adapter adapter = new device_adapter(getActivity(), devices_array);
 
     ListView listView = (ListView) root.findViewById(R.id.lv_home);
     listView.setAdapter(adapter);
