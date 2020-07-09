@@ -27,13 +27,13 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:padding="10dp"
-      android:layout_weight="0.5" />
+      android:layout_weight="0.2" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:id="@+id/swipeContainer"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_weight="0.5">
+      android:layout_weight="0.8">
 
       <TextView
         android:id="@+id/text_home"
@@ -43,14 +43,6 @@
         android:textAlignment="center"
         android:textSize="20sp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <TextView
-      android:id="@+id/text_dummy"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Placeholder"
-      android:textAlignment="center"
-      android:textSize="20sp" />
 
   </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
