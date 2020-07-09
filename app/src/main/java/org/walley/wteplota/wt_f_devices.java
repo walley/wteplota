@@ -41,11 +41,15 @@ public class wt_f_devices extends Fragment
   TextView tv_data;
   TextView item;
   LinearLayout ll_scroll;
-  Hashtable<String, JsonObject> data;
+  Hashtable<String, JsonObject> data_hash;
   GradientDrawable gd;
   ArrayAdapter<String> itemsAdapter;
   private SwipeRefreshLayout swipeContainer;
   private HomeViewModel homeViewModel;
+  ArrayList<w_device> devices_array;
+  //final
+  ArrayList<String> rooms_list;
+  device_adapter adapter;
 
   @SuppressLint("ResourceAsColor")
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,18 +59,13 @@ public class wt_f_devices extends Fragment
 
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-    ArrayList<w_device> devices_array = new ArrayList<>();
-    w_device device = new w_device("Nathan", "San Diego");
-    w_device device2 = new w_device("Natxhan", "San Diexxxgo");
-    devices_array.add(device);
-    devices_array.add(device2);
+    devices_array = new ArrayList<>();
 
-    device_adapter adapter = new device_adapter(getActivity(), devices_array);
+//    device_adapter adapter = new device_adapter(getActivity(), devices_array);
+//    ListView listView = (ListView) root.findViewById(R.id.lv_home);
+//    listView.setAdapter(adapter);
 
-    ListView listView = (ListView) root.findViewById(R.id.lv_home);
-    listView.setAdapter(adapter);
-
-    data = new Hashtable<String, JsonObject>();
+    data_hash = new Hashtable<String, JsonObject>();
 
     gd = new GradientDrawable();
     gd.setColor(R.color.menu);
@@ -92,6 +91,10 @@ public class wt_f_devices extends Fragment
     });
 */
     get_temp();
+
+    adapter = new device_adapter(getActivity(), devices_array);
+    ListView listView = (ListView) root.findViewById(R.id.lv_home);
+    listView.setAdapter(adapter);
 
     swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainer);
     swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -127,7 +130,10 @@ public class wt_f_devices extends Fragment
 
   private void get_temp()
   {
-    final ArrayList<String> rooms_list = new ArrayList<>();
+    //final ArrayList<String>
+    rooms_list = new ArrayList<>();
+    // = new w_device[1];// = new w_device("Natxhan", "San Diexxxgo");
+
     Ion.with(getActivity())
             .load("http://91.232.214.23/android/android.php")
             .asJsonArray()
@@ -137,6 +143,7 @@ public class wt_f_devices extends Fragment
               public void onCompleted(Exception exception, JsonArray result)
               {
                 String item_json;
+                w_device device;
 
                 if (result == null) {
                   Log.e(TAG, "json error");
@@ -147,7 +154,7 @@ public class wt_f_devices extends Fragment
                 Iterator it = result.iterator();
                 String temps = "";
                 rooms_list.clear();
-                data.clear();
+                data_hash.clear();
 
                 while (it.hasNext()) {
                   JsonElement element = (JsonElement) it.next();
@@ -158,11 +165,13 @@ public class wt_f_devices extends Fragment
                   for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
                     if (entry.getKey().equals("jmeno")) {
                       String room_name = entry.getValue().toString().replace("\"", "");
-                      data.put(room_name, jo);
+                      data_hash.put(room_name, jo);
                       rooms_list.add(room_name);
                       Log.i(TAG, "jmeno, " + entry.getValue().toString());
                     }
                     temps += entry.getKey() + " = " + entry.getValue() + "\n";
+                    device = new w_device(entry.getKey(), entry.getValue().toString());
+                    devices_array.add(device);
                   }
                   tv_data.setText(temps);
 //                  EventBus.getDefault().post(new MessageEvent(xs));
@@ -174,7 +183,9 @@ public class wt_f_devices extends Fragment
             });
   }
 
+  /******************************************************************************/
   private void create_rooms_menu(ArrayList<String> rooms_list)
+  /******************************************************************************/
   {
     ll_scroll.removeAllViews();
     ll_scroll.invalidate();
@@ -187,18 +198,24 @@ public class wt_f_devices extends Fragment
         {
           StringBuilder ss;
           TextView tv = (TextView) v;
-          String str = tv.getText().toString();
-          JsonObject n = data.get(str);
-          Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+          String room_name = tv.getText().toString();
+          JsonObject room_data = data_hash.get(room_name);
+          w_device device;
+
+          devices_array.clear();
+          Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
           tv_data.setText("as");
           ss = new StringBuilder();
-          if (n != null) {
-            for (Map.Entry<String, JsonElement> entry : n.entrySet()) {
+          if (room_data != null) {
+            for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
               ss.append(entry.getKey()).append(" = ");
               ss.append(entry.getValue()).append("\n");
+              device = new w_device(entry.getKey(), entry.getValue().toString());
+              devices_array.add(device);
             }
             tv_data.setText(ss.toString());
           }
+          adapter.notifyDataSetChanged();
         }
       });
       item.setClickable(true);
@@ -213,15 +230,45 @@ public class wt_f_devices extends Fragment
 
   public class w_device
   {
-    public String name;
-    public String hometown;
+    private String name;
+    private String value;
+    private String type;
 
-    public w_device(String name, String hometown)
+    public w_device(String name, String value)
     {
-      this.name = name;
-      this.hometown = hometown;
+      this.setName(name);
+      this.setValue(value);
     }
 
+    public String getName()
+    {
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public String getValue()
+    {
+      return value;
+    }
+
+    public void setValue(String value)
+    {
+      this.value = value;
+    }
+
+    public String getType()
+    {
+      return type;
+    }
+
+    public void setType(String type)
+    {
+      this.type = type;
+    }
   }
 
   public class device_adapter extends ArrayAdapter<w_device>
@@ -240,10 +287,10 @@ public class wt_f_devices extends Fragment
         convertView = LayoutInflater.from(getContext()).inflate(
                 R.layout.item_device, parent, false);
       }
-      TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-      TextView tvHome = (TextView) convertView.findViewById(R.id.tvHome);
-      tvName.setText(user.name);
-      tvHome.setText(user.hometown);
+      TextView tvName = (TextView) convertView.findViewById(R.id.tv_device_name);
+      TextView tvHome = (TextView) convertView.findViewById(R.id.tv_device_value);
+      tvName.setText(user.getName());
+      tvHome.setText(user.getValue());
       return convertView;
     }
   }
