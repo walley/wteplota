@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -30,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -44,12 +47,12 @@ public class wt_f_devices extends Fragment
   Hashtable<String, JsonObject> data_hash;
   GradientDrawable gd;
   ArrayAdapter<String> itemsAdapter;
-  private SwipeRefreshLayout swipeContainer;
-  private HomeViewModel homeViewModel;
-  ArrayList<w_device> devices_array;
+  ArrayList<wt_device> devices_array;
   //final
   ArrayList<String> rooms_list;
   device_adapter adapter;
+  private SwipeRefreshLayout swipeContainer;
+  private HomeViewModel homeViewModel;
 
   @SuppressLint("ResourceAsColor")
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,7 +60,7 @@ public class wt_f_devices extends Fragment
                           )
   {
 
-    View root = inflater.inflate(R.layout.fragment_home, container, false);
+    View root = inflater.inflate(R.layout.fragment_devices, container, false);
 
     devices_array = new ArrayList<>();
 
@@ -79,7 +82,7 @@ public class wt_f_devices extends Fragment
     tv_data.setMovementMethod(new ScrollingMovementMethod());
     tv_data.setTextSize(20);
 
-    tv_data.setText("kokot");
+    tv_data.setText("tap on room");
 
 /*    homeViewModel.observe(getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()
     {
@@ -143,7 +146,6 @@ public class wt_f_devices extends Fragment
               public void onCompleted(Exception exception, JsonArray result)
               {
                 String item_json;
-                w_device device;
 
                 if (result == null) {
                   Log.e(TAG, "json error");
@@ -170,13 +172,10 @@ public class wt_f_devices extends Fragment
                       Log.i(TAG, "jmeno, " + entry.getValue().toString());
                     }
                     temps += entry.getKey() + " = " + entry.getValue() + "\n";
-                    device = new w_device(entry.getKey(), entry.getValue().toString());
-                    devices_array.add(device);
                   }
-                  tv_data.setText(temps);
 //                  EventBus.getDefault().post(new MessageEvent(xs));
                 }
-
+                Log.i(TAG, "parsed stuff " + temps);
                 create_rooms_menu(rooms_list);
                 swipeContainer.setRefreshing(false);
               }
@@ -200,7 +199,7 @@ public class wt_f_devices extends Fragment
           TextView tv = (TextView) v;
           String room_name = tv.getText().toString();
           JsonObject room_data = data_hash.get(room_name);
-          w_device device;
+          wt_device device;
 
           devices_array.clear();
           Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
@@ -210,7 +209,7 @@ public class wt_f_devices extends Fragment
             for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
               ss.append(entry.getKey()).append(" = ");
               ss.append(entry.getValue()).append("\n");
-              device = new w_device(entry.getKey(), entry.getValue().toString());
+              device = new wt_device(entry.getKey(), entry.getValue().toString());
               devices_array.add(device);
             }
             tv_data.setText(ss.toString());
@@ -228,52 +227,9 @@ public class wt_f_devices extends Fragment
     }
   }
 
-  public class w_device
+  public class device_adapter extends ArrayAdapter<wt_device>
   {
-    private String name;
-    private String value;
-    private String type;
-
-    public w_device(String name, String value)
-    {
-      this.setName(name);
-      this.setValue(value);
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public String getValue()
-    {
-      return value;
-    }
-
-    public void setValue(String value)
-    {
-      this.value = value;
-    }
-
-    public String getType()
-    {
-      return type;
-    }
-
-    public void setType(String type)
-    {
-      this.type = type;
-    }
-  }
-
-  public class device_adapter extends ArrayAdapter<w_device>
-  {
-    public device_adapter(Context context, ArrayList<w_device> devices)
+    public device_adapter(Context context, ArrayList<wt_device> devices)
     {
       super(context, 0, devices);
     }
@@ -281,16 +237,29 @@ public class wt_f_devices extends Fragment
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-      w_device user = getItem(position);
+      wt_device device = getItem(position);
 
       if (convertView == null) {
         convertView = LayoutInflater.from(getContext()).inflate(
                 R.layout.item_device, parent, false);
       }
-      TextView tvName = (TextView) convertView.findViewById(R.id.tv_device_name);
-      TextView tvHome = (TextView) convertView.findViewById(R.id.tv_device_value);
-      tvName.setText(user.getName());
-      tvHome.setText(user.getValue());
+      TextView tv_device_name = (TextView) convertView.findViewById(R.id.tv_device_name);
+      TextView tv_device_value = (TextView) convertView.findViewById(R.id.tv_device_value);
+      ImageView iv_device_image = (ImageView) convertView.findViewById(R.id.iv_device_image);
+
+      tv_device_name.setText(device.getName());
+      tv_device_value.setText(device.getValue());
+      int temp_temp = 0;
+      try {
+        temp_temp = Integer.parseInt(device.getValue().toString().replace("\"", ""));
+      } catch (Exception e) {
+        temp_temp = 1;
+      }
+      if (temp_temp < 0) {
+        tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+      } else {
+        //nazdar
+      }
       return convertView;
     }
   }
