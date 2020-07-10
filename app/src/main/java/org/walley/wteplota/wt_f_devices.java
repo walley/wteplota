@@ -212,7 +212,7 @@ public class wt_f_devices extends Fragment
               device = new wt_device(entry.getKey(), entry.getValue().toString());
               devices_array.add(device);
             }
-            tv_data.setText(ss.toString());
+            //tv_data.setText(ss.toString());
           }
           adapter.notifyDataSetChanged();
         }
@@ -258,7 +258,7 @@ public class wt_f_devices extends Fragment
       if (temp_temp < 0) {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
       } else {
-        //nazdar
+        tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
       }
       return convertView;
     }
