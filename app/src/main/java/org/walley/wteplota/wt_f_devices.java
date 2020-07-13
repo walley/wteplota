@@ -25,6 +25,7 @@ import com.koushikdutta.ion.Ion;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -32,7 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class wt_f_devices extends Fragment
 {
-  public static final String TAG = "WT-H";
+  public static final String TAG = "WT-D";
   TextView tv_data;
   TextView item;
   LinearLayout ll_scroll;
@@ -52,7 +52,7 @@ public class wt_f_devices extends Fragment
   ArrayList<String> rooms_list;
   device_adapter adapter;
   private SwipeRefreshLayout swipeContainer;
-  private HomeViewModel homeViewModel;
+  private wt_viewmodel wtviewmodel;
 
   @SuppressLint("ResourceAsColor")
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -77,22 +77,29 @@ public class wt_f_devices extends Fragment
     gd.setStroke(3, 0x03DAC5);
 
     ll_scroll = (LinearLayout) root.findViewById(R.id.ll_scroll);
-    homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel.class);
     tv_data = root.findViewById(R.id.text_home);
     tv_data.setMovementMethod(new ScrollingMovementMethod());
     tv_data.setTextSize(20);
 
     tv_data.setText("tap on room");
-
-/*    homeViewModel.observe(getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()
-    {
-      @Override
-      public void onChanged(@Nullable String s)
-      {
-        tv_data.setText(s);
-      }
-    });
-*/
+    wtviewmodel.get_server_data().observe(
+            getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()
+            {
+              @Override
+              public void onChanged(Hashtable<String, JsonObject> result)
+              {
+                String temps = "x ";
+                for (Map.Entry<String, JsonObject> entry : result.entrySet()) {
+                  if (entry.getKey().equals("jmeno")) {
+                    String room_name = entry.getValue().toString().replace("\"", "");
+                    rooms_list.add(room_name);
+                    Log.i(TAG, "jmeno, " + entry.getValue().toString());
+                  }
+                  temps += entry.getKey() + " = " + entry.getValue() + "\n";
+                }
+              }
+            });
     get_temp();
 
     adapter = new device_adapter(getActivity(), devices_array);
@@ -255,8 +262,11 @@ public class wt_f_devices extends Fragment
       } catch (Exception e) {
         temp_temp = 1;
       }
-      if (temp_temp < 0) {
+
+      if (temp_temp < -120) {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+      } else if (-120 < temp_temp && temp_temp < 0) {
+        tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
       } else {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
       }

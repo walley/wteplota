@@ -8,14 +8,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel
+public class wt_viewmodel extends ViewModel
 {
 
   private MutableLiveData<Hashtable<String, JsonObject>> server_data;
 
-  public HomeViewModel()
+  public wt_viewmodel()
   {
     server_data = new MutableLiveData<Hashtable<String, JsonObject>>();
+  }
+
+  public MutableLiveData<Hashtable<String, JsonObject>> get_server_data()
+  {
+    return server_data;
   }
 
   public LiveData<Hashtable<String, JsonObject>> getText()
