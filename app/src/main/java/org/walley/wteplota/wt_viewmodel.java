@@ -10,6 +10,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -85,9 +87,9 @@ public class wt_viewmodel extends AndroidViewModel
                     }
                     temps += entry.getKey() + " = " + entry.getValue() + "\n";
                   }
-//                  EventBus.getDefault().post(new MessageEvent(xs));
+                  EventBus.getDefault().post(new MessageEvent("data_done"));
                 }
-                Log.i(TAG, "parsed stuff " + temps);
+                Log.d(TAG, "parsed stuff " + temps);
               }
             });
   }

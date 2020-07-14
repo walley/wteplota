@@ -31,7 +31,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -55,9 +54,7 @@ public class wt_f_devices extends Fragment
   private wt_viewmodel wtviewmodel;
 
   @SuppressLint("ResourceAsColor")
-  public View onCreateView(@NonNull LayoutInflater inflater,
-                           ViewGroup container, Bundle savedInstanceState
-                          )
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
 
     View root = inflater.inflate(R.layout.fragment_devices, container, false);
@@ -91,8 +88,8 @@ public class wt_f_devices extends Fragment
               }
             });
 
-    //get_temp();
-    wtviewmodel.get_server_data();
+    data_hash = wtviewmodel.get_server_data().getValue();
+    update_temp();
 
     adapter = new device_adapter(getActivity(), devices_array);
     ListView listView = (ListView) root.findViewById(R.id.lv_home);
@@ -106,6 +103,7 @@ public class wt_f_devices extends Fragment
       {
         data_hash = wtviewmodel.get_server_data().getValue();
         update_temp();
+        swipeContainer.setRefreshing(false);
       }
     });
     return root;
@@ -129,7 +127,13 @@ public class wt_f_devices extends Fragment
   public void onMessageEvent(MessageEvent event)
   {
     Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
+    switch (event.message) {
+      case "data_done":
+        update_temp();
+        break;
+    }
   }
+
 
   private void update_temp()
   {
@@ -142,7 +146,6 @@ public class wt_f_devices extends Fragment
       JsonElement element = (JsonElement) data_hash.get(key);
       JsonObject jo = element.getAsJsonObject();
       for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-        temps += entry.getKey().toString() + " = " + entry.getValue().toString() + "\n";
         if (entry.getKey().equals("Nazev")) {
           String room_name = entry.getValue().toString().replace("\"", "");
           rooms_list.add(room_name);
@@ -150,9 +153,7 @@ public class wt_f_devices extends Fragment
         }
       }
     }
-    Log.i(TAG, "parsed stuff " + temps);
     create_rooms_menu(rooms_list);
-    swipeContainer.setRefreshing(false);
   }
 
 
