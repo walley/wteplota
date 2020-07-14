@@ -173,33 +173,9 @@ public class wt_f_devices extends Fragment
         @Override
         public void onClick(View v)
         {
-          StringBuilder ss;
           TextView tv = (TextView) v;
           String room_name = tv.getText().toString();
-          /*JsonObject room_data = data_hash.get(room_name);
-          wt_device device;
-
-          devices_array.clear();
-          Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
-          tv_data.setText("as");
-          ss = new StringBuilder();
-          if (room_data != null) {
-            for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
-              ss.append(entry.getKey()).append(" = ");
-              if (entry.getKey().contains(".typ")) {
-
-              }
-
-              if (!entry.getKey().equals("Nazev")) {
-                ss.append(entry.getValue()).append("\n");
-                device = new wt_device(entry.getKey(), entry.getValue().toString());
-                devices_array.add(device);
-              }
-
-            }*/
           show_listview(room_name);
-          //}
-          //adapter.notifyDataSetChanged();
         }
       });
       item.setClickable(true);
