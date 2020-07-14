@@ -87,14 +87,6 @@ public class wt_f_devices extends Fragment
               {
                 String temps = "vm onchanged(): ";
                 update_temp();
-/*                for (Map.Entry<String, JsonObject> entry : result.entrySet()) {
-                  if (entry.getKey().equals("Nazev")) {
-                    String room_name = entry.getValue().toString().replace("\"", "");
-                    rooms_list.add(room_name);
-                    Log.i(TAG, "jmeno, " + entry.getValue().toString());
-                  }
-                  temps += entry.getKey() + " = " + entry.getValue() + "\n";
-                }*/
               }
             });
 
@@ -111,7 +103,6 @@ public class wt_f_devices extends Fragment
       @Override
       public void onRefresh()
       {
-        //get_temp();
         data_hash = wtviewmodel.get_server_data().getValue();
         update_temp();
       }
@@ -245,7 +236,6 @@ public class wt_f_devices extends Fragment
               device = new wt_device(entry.getKey(), entry.getValue().toString());
               devices_array.add(device);
             }
-            //tv_data.setText(ss.toString());
           }
           adapter.notifyDataSetChanged();
         }
@@ -254,9 +244,9 @@ public class wt_f_devices extends Fragment
       item.setTextSize(25);
       item.setBackground(gd);
       String entry = rooms_list.get(i);
+      Log.i(TAG, "create_rooms_menu(): creating room: " + entry);
       item.setText(entry.replace("\"", ""));
       ll_scroll.addView(item);
-      Log.i(TAG, "entry, " + entry);
     }
   }
 
