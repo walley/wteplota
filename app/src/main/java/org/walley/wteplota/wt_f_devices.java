@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,8 @@ public class wt_f_devices extends Fragment
 
     gd = new GradientDrawable();
     gd.setColor(R.color.menu);
-    gd.setCornerRadius(5);
-    gd.setSize(300, 100);
+    gd.setCornerRadius(40);
+    gd.setSize(250, 100);
     gd.setStroke(3, 0x03DAC5);
 
     ll_scroll = (LinearLayout) root.findViewById(R.id.ll_scroll);
@@ -159,59 +160,6 @@ public class wt_f_devices extends Fragment
     create_rooms_menu(rooms_list);
   }
 
-
-/*  private void xget_temp()
-  {
-    //final ArrayList<String>
-    rooms_list = new ArrayList<>();
-    // = new w_device[1];// = new w_device("Natxhan", "San Diexxxgo");
-
-    Ion.with(getActivity())
-            .load("http://91.232.214.23/android/android.php")
-            .asJsonArray()
-            .setCallback(new FutureCallback<JsonArray>()
-            {
-              @Override
-              public void onCompleted(Exception exception, JsonArray result)
-              {
-                String item_json;
-
-                if (result == null) {
-                  Log.e(TAG, "json error");
-                  return;
-                }
-                // do stuff with the result or error
-
-                Iterator it = result.iterator();
-                String temps = "";
-                rooms_list.clear();
-                data_hash.clear();
-
-                while (it.hasNext()) {
-                  JsonElement element = (JsonElement) it.next();
-                  Log.i(TAG, "element " + element.getAsJsonObject().toString());
-                  String xs = element.getAsJsonObject().toString();
-                  JsonObject jo = element.getAsJsonObject();
-                  temps += "--------\n";
-                  for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-                    if (entry.getKey().equals("Nazev")) {
-                      String room_name = entry.getValue().toString().replace("\"", "");
-                      data_hash.put(room_name, jo);
-                      rooms_list.add(room_name);
-                      Log.i(TAG, "jmeno, " + entry.getValue().toString());
-                    }
-                    temps += entry.getKey() + " = " + entry.getValue() + "\n";
-                  }
-//                  EventBus.getDefault().post(new MessageEvent(xs));
-                }
-                Log.i(TAG, "parsed stuff " + temps);
-                create_rooms_menu(rooms_list);
-                swipeContainer.setRefreshing(false);
-              }
-            });
-  }
-*/
-
   /******************************************************************************/
   private void create_rooms_menu(ArrayList<String> rooms_list)
   /******************************************************************************/
@@ -250,6 +198,7 @@ public class wt_f_devices extends Fragment
       });
       item.setClickable(true);
       item.setTextSize(25);
+      item.setGravity(Gravity.CENTER);
       item.setBackground(gd);
       String entry = rooms_list.get(i);
       Log.i(TAG, "create_rooms_menu(): creating room: " + entry);
@@ -276,7 +225,6 @@ public class wt_f_devices extends Fragment
     }
     adapter.notifyDataSetChanged();
   }
-
 
   public class device_adapter extends ArrayAdapter<wt_device>
   {
