@@ -16,11 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +25,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 import androidx.core.content.ContextCompat;
@@ -50,6 +46,7 @@ public class wt_f_devices extends Fragment
   //final
   ArrayList<String> rooms_list;
   device_adapter adapter;
+  Boolean first_run = true;
   private SwipeRefreshLayout swipeContainer;
   private wt_viewmodel wtviewmodel;
 
@@ -89,7 +86,6 @@ public class wt_f_devices extends Fragment
             });
 
     data_hash = wtviewmodel.get_server_data().getValue();
-    update_temp();
 
     adapter = new device_adapter(getActivity(), devices_array);
     ListView listView = (ListView) root.findViewById(R.id.lv_home);
@@ -130,6 +126,13 @@ public class wt_f_devices extends Fragment
     switch (event.message) {
       case "data_done":
         update_temp();
+
+        if (first_run) {
+          show_listview("Uvod");
+        } else {
+          first_run = false;
+        }
+
         break;
     }
   }
@@ -157,7 +160,7 @@ public class wt_f_devices extends Fragment
   }
 
 
-  private void xget_temp()
+/*  private void xget_temp()
   {
     //final ArrayList<String>
     rooms_list = new ArrayList<>();
@@ -207,6 +210,7 @@ public class wt_f_devices extends Fragment
               }
             });
   }
+*/
 
   /******************************************************************************/
   private void create_rooms_menu(ArrayList<String> rooms_list)
@@ -234,9 +238,11 @@ public class wt_f_devices extends Fragment
           if (room_data != null) {
             for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
               ss.append(entry.getKey()).append(" = ");
-              ss.append(entry.getValue()).append("\n");
-              device = new wt_device(entry.getKey(), entry.getValue().toString());
-              devices_array.add(device);
+              if (!entry.getKey().equals("Nazev")) {
+                ss.append(entry.getValue()).append("\n");
+                device = new wt_device(entry.getKey(), entry.getValue().toString());
+                devices_array.add(device);
+              }
             }
           }
           adapter.notifyDataSetChanged();
@@ -251,6 +257,26 @@ public class wt_f_devices extends Fragment
       ll_scroll.addView(item);
     }
   }
+
+  private void show_listview(String room_name)
+  {
+    JsonObject room_data = data_hash.get(room_name);
+    wt_device device;
+
+    devices_array.clear();
+    Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
+    tv_data.setText("as");
+    if (room_data != null) {
+      for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
+        if (!entry.getKey().equals("Nazev")) {
+          device = new wt_device(entry.getKey(), entry.getValue().toString());
+          devices_array.add(device);
+        }
+      }
+    }
+    adapter.notifyDataSetChanged();
+  }
+
 
   public class device_adapter extends ArrayAdapter<wt_device>
   {
