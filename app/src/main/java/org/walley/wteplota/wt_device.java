@@ -12,6 +12,13 @@ public class wt_device
     this.setValue(value);
   }
 
+  public wt_device(String name, String value, String type)
+  {
+    this.setName(name);
+    this.setValue(value);
+    this.setType(type);
+  }
+
   public String getName()
   {
     return name;

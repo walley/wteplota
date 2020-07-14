@@ -176,7 +176,7 @@ public class wt_f_devices extends Fragment
           StringBuilder ss;
           TextView tv = (TextView) v;
           String room_name = tv.getText().toString();
-          JsonObject room_data = data_hash.get(room_name);
+          /*JsonObject room_data = data_hash.get(room_name);
           wt_device device;
 
           devices_array.clear();
@@ -186,14 +186,20 @@ public class wt_f_devices extends Fragment
           if (room_data != null) {
             for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
               ss.append(entry.getKey()).append(" = ");
+              if (entry.getKey().contains(".typ")) {
+
+              }
+
               if (!entry.getKey().equals("Nazev")) {
                 ss.append(entry.getValue()).append("\n");
                 device = new wt_device(entry.getKey(), entry.getValue().toString());
                 devices_array.add(device);
               }
-            }
-          }
-          adapter.notifyDataSetChanged();
+
+            }*/
+          show_listview(room_name);
+          //}
+          //adapter.notifyDataSetChanged();
         }
       });
       item.setClickable(true);
@@ -207,19 +213,86 @@ public class wt_f_devices extends Fragment
     }
   }
 
+  private void add_to_devices_list(String name, String value)
+  {
+    String device_name;
+    String device_type;
+    String device_value;
+    int device_index = 0;
+
+    Boolean has_name = false;
+    Boolean has_type = false;
+    Boolean has_value = false;
+
+
+    if (name.contains(".typ")) {
+      device_name = name.substring(0, name.length() - 4).replace("\"", "");
+      device_type = value.replace("\"", "");
+      ;
+      device_value = "";
+    } else {
+      device_name = name.replace("\"", "");
+      ;
+      device_type = "";
+      device_value = value.replace("\"", "");
+      ;
+    }
+
+    for (int i = 0; i < devices_array.size(); i++) {
+      wt_device x = devices_array.get(i);
+      if (x.getName().equals(device_name)) {
+        has_name = true;
+        device_index = i;
+        if (x.getType() != null && !x.getType().isEmpty()) {
+          has_type = true;
+        }
+        if (x.getValue() != null && !x.getValue().isEmpty()) {
+          has_value = true;
+        }
+        break;
+      }
+    }
+
+    Log.i(
+            TAG,
+            "a_t_d_l(" + name + "," + value + "): has_value:" + has_value + ", has_type:" + has_type
+         );
+
+    if (has_name) {
+      Log.i(
+              TAG,
+              "a_t_d_l(" + name + "," + value + "): existing :" + device_name + "," + device_value + "," + device_type
+           );
+      devices_array.get(device_index).setName(device_name);
+      if (!has_type) {
+        devices_array.get(device_index).setType(device_type);
+      }
+      if (!has_value) {
+        devices_array.get(device_index).setValue(device_value);
+      }
+    } else {
+      Log.i(
+              TAG,
+              "a_t_d_l(" + name + "," + value + "): new :" + device_name + "," + device_value + "," + device_type
+           );
+      wt_device x = new wt_device(device_name, device_value, device_type);
+      devices_array.add(x);
+    }
+  }
+
   private void show_listview(String room_name)
   {
     JsonObject room_data = data_hash.get(room_name);
     wt_device device;
 
     devices_array.clear();
-    Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
-    tv_data.setText("as");
+//    Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
     if (room_data != null) {
       for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
         if (!entry.getKey().equals("Nazev")) {
           device = new wt_device(entry.getKey(), entry.getValue().toString());
-          devices_array.add(device);
+//          devices_array.add(device);
+          add_to_devices_list(entry.getKey(), entry.getValue().toString());
         }
       }
     }
@@ -237,6 +310,11 @@ public class wt_f_devices extends Fragment
     public View getView(int position, View convertView, ViewGroup parent)
     {
       wt_device device = getItem(position);
+
+      Log.i(
+              TAG,
+              "getView(): device:" + device.getName() + "," + device.getValue() + "," + device.getType()
+           );
 
       if (convertView == null) {
         convertView = LayoutInflater.from(getContext()).inflate(
@@ -262,6 +340,11 @@ public class wt_f_devices extends Fragment
       } else {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
       }
+
+      if (device.getType().equals("teplomer")) {
+        iv_device_image.setImageResource(R.drawable.ic_cat_24);
+      }
+
       return convertView;
     }
   }
