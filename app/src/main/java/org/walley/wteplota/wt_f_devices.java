@@ -63,11 +63,6 @@ public class wt_f_devices extends Fragment
     View root = inflater.inflate(R.layout.fragment_devices, container, false);
 
     devices_array = new ArrayList<>();
-
-//    device_adapter adapter = new device_adapter(getActivity(), devices_array);
-//    ListView listView = (ListView) root.findViewById(R.id.lv_home);
-//    listView.setAdapter(adapter);
-
     data_hash = new Hashtable<String, JsonObject>();
 
     gd = new GradientDrawable();
@@ -83,24 +78,28 @@ public class wt_f_devices extends Fragment
     tv_data.setTextSize(20);
 
     tv_data.setText("tap on room");
+
     wtviewmodel.get_server_data().observe(
             getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()
             {
               @Override
               public void onChanged(Hashtable<String, JsonObject> result)
               {
-                String temps = "x ";
-                for (Map.Entry<String, JsonObject> entry : result.entrySet()) {
-                  if (entry.getKey().equals("jmeno")) {
+                String temps = "vm onchanged(): ";
+                update_temp();
+/*                for (Map.Entry<String, JsonObject> entry : result.entrySet()) {
+                  if (entry.getKey().equals("Nazev")) {
                     String room_name = entry.getValue().toString().replace("\"", "");
                     rooms_list.add(room_name);
                     Log.i(TAG, "jmeno, " + entry.getValue().toString());
                   }
                   temps += entry.getKey() + " = " + entry.getValue() + "\n";
-                }
+                }*/
               }
             });
+
     get_temp();
+    wtviewmodel.get_server_data();
 
     adapter = new device_adapter(getActivity(), devices_array);
     ListView listView = (ListView) root.findViewById(R.id.lv_home);
@@ -112,7 +111,9 @@ public class wt_f_devices extends Fragment
       @Override
       public void onRefresh()
       {
-        get_temp();
+        //get_temp();
+        data_hash = wtviewmodel.get_server_data().getValue();
+        update_temp();
       }
     });
     return root;
@@ -138,6 +139,31 @@ public class wt_f_devices extends Fragment
     Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
   }
 
+  private void update_temp()
+  {
+    String temps = "";
+    rooms_list.clear();
+
+    Log.i(TAG, "update_temp() start.");
+
+    for (String key : data_hash.keySet()) {
+      JsonElement element = (JsonElement) data_hash.get(key);
+      JsonObject jo = element.getAsJsonObject();
+      for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+        temps += entry.getKey().toString() + " = " + entry.getValue().toString() + "\n";
+        if (entry.getKey().equals("Nazev")) {
+          String room_name = entry.getValue().toString().replace("\"", "");
+          rooms_list.add(room_name);
+          Log.i(TAG, "update_temp() name: " + entry.getValue().toString());
+        }
+      }
+    }
+    Log.i(TAG, "parsed stuff " + temps);
+    create_rooms_menu(rooms_list);
+    swipeContainer.setRefreshing(false);
+  }
+
+
   private void get_temp()
   {
     //final ArrayList<String>
@@ -159,7 +185,7 @@ public class wt_f_devices extends Fragment
                   return;
                 }
                 // do stuff with the result or error
-                Log.i(TAG, "json loaded" + result);
+
                 Iterator it = result.iterator();
                 String temps = "";
                 rooms_list.clear();
@@ -172,7 +198,7 @@ public class wt_f_devices extends Fragment
                   JsonObject jo = element.getAsJsonObject();
                   temps += "--------\n";
                   for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-                    if (entry.getKey().equals("jmeno")) {
+                    if (entry.getKey().equals("Nazev")) {
                       String room_name = entry.getValue().toString().replace("\"", "");
                       data_hash.put(room_name, jo);
                       rooms_list.add(room_name);

@@ -22,8 +22,7 @@ import androidx.lifecycle.MutableLiveData;
 public class wt_viewmodel extends AndroidViewModel
 {
   public static final String TAG = "WT-VM";
-  Hashtable<String, JsonObject> data_hash;
-
+  private Hashtable<String, JsonObject> data_hash;
   private MutableLiveData<Hashtable<String, JsonObject>> server_data;
 
   public wt_viewmodel(Application app)
@@ -36,10 +35,13 @@ public class wt_viewmodel extends AndroidViewModel
   public MutableLiveData<Hashtable<String, JsonObject>> xget_server_data()
   {
     return server_data;
+
   }
 
   public LiveData<Hashtable<String, JsonObject>> get_server_data()
   {
+    get_temp();
+    server_data.setValue(data_hash);
     return server_data;
   }
 
@@ -58,11 +60,10 @@ public class wt_viewmodel extends AndroidViewModel
                 String item_json;
 
                 if (result == null) {
-                  Log.e(TAG, "json error");
+                  Log.e(TAG, "get_temp(): json error");
                   return;
                 }
                 // do stuff with the result or error
-                Log.i(TAG, "json loaded" + result);
                 Iterator it = result.iterator();
                 String temps = "";
                 data_hash.clear();
@@ -74,10 +75,13 @@ public class wt_viewmodel extends AndroidViewModel
                   JsonObject jo = element.getAsJsonObject();
                   temps += "--------\n";
                   for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-                    if (entry.getKey().equals("jmeno")) {
+                    if (entry.getKey().equals("Nazev")) {
                       String room_name = entry.getValue().toString().replace("\"", "");
                       data_hash.put(room_name, jo);
-                      Log.i(TAG, "jmeno, " + entry.getValue().toString());
+                      Log.i(
+                              TAG,
+                              "get_temp(), selected name entry:, " + entry.getValue().toString()
+                           );
                     }
                     temps += entry.getKey() + " = " + entry.getValue() + "\n";
                   }
