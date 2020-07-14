@@ -22,13 +22,6 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -37,6 +30,13 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class wt_f_devices extends Fragment
 {
@@ -64,6 +64,7 @@ public class wt_f_devices extends Fragment
 
     devices_array = new ArrayList<>();
     data_hash = new Hashtable<String, JsonObject>();
+    rooms_list = new ArrayList<>();
 
     gd = new GradientDrawable();
     gd.setColor(R.color.menu);
@@ -90,7 +91,7 @@ public class wt_f_devices extends Fragment
               }
             });
 
-    get_temp();
+    //get_temp();
     wtviewmodel.get_server_data();
 
     adapter = new device_adapter(getActivity(), devices_array);
@@ -155,7 +156,7 @@ public class wt_f_devices extends Fragment
   }
 
 
-  private void get_temp()
+  private void xget_temp()
   {
     //final ArrayList<String>
     rooms_list = new ArrayList<>();
