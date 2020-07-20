@@ -2,6 +2,9 @@ package org.walley.wteplota;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -27,7 +30,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -275,6 +280,19 @@ public class wt_f_devices extends Fragment
     adapter.notifyDataSetChanged();
   }
 
+  private boolean is_dark_theme()
+  {
+    switch (
+            getResources().
+                    getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+      case Configuration.UI_MODE_NIGHT_YES:
+        return true;
+      case Configuration.UI_MODE_NIGHT_NO:
+        return false;
+    }
+    return true;
+  }
+
   public class device_adapter extends ArrayAdapter<wt_device>
   {
     public device_adapter(Context context, ArrayList<wt_device> devices)
@@ -298,6 +316,7 @@ public class wt_f_devices extends Fragment
       }
       TextView tv_device_name = (TextView) convertView.findViewById(R.id.tv_device_name);
       TextView tv_device_value = (TextView) convertView.findViewById(R.id.tv_device_value);
+
       ImageView iv_device_image = (ImageView) convertView.findViewById(R.id.iv_device_image);
 
       tv_device_name.setText(device.getName());
@@ -317,8 +336,20 @@ public class wt_f_devices extends Fragment
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
       }
 
+      Drawable unwrappedDrawable = AppCompatResources.getDrawable(
+              getContext(), R.drawable.ic_cat_24);
+      Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+      if (is_dark_theme()) {
+        DrawableCompat.setTint(wrappedDrawable, Color.WHITE);
+        Log.i(TAG, "Dark Theme");
+      } else {
+        Log.i(TAG, "Shit Theme");
+        DrawableCompat.setTint(wrappedDrawable, Color.BLACK);
+      }
+
       if (device.getType().equals("teplomer")) {
-        iv_device_image.setImageResource(R.drawable.ic_cat_24);
+//        iv_device_image.setImageResource(R.drawable.ic_cat_24);
+        iv_device_image.setImageDrawable(wrappedDrawable);
       }
 
       return convertView;
