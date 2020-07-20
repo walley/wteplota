@@ -328,12 +328,20 @@ public class wt_f_devices extends Fragment
         temp_temp = 1;
       }
 
+      Color negative;
+      int positive;
+      if (is_dark_theme()) {
+        positive = ContextCompat.getColor(getContext(), R.color.light_green);
+      } else {
+        positive = ContextCompat.getColor(getContext(), R.color.dark_green);
+      }
+
       if (temp_temp < -120) {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
       } else if (-120 < temp_temp && temp_temp < 0) {
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
       } else {
-        tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
+        tv_device_value.setTextColor(positive);
       }
 
       Drawable unwrappedDrawable;
@@ -348,11 +356,11 @@ public class wt_f_devices extends Fragment
           break;
         case "motor":
           unwrappedDrawable = AppCompatResources.getDrawable(
-                  getContext(), R.drawable.ic_dragon_24);
+                  getContext(), R.drawable.ic_fan_24);
           break;
         case "voda":
           unwrappedDrawable = AppCompatResources.getDrawable(
-                  getContext(), R.drawable.ic_menu_manage);
+                  getContext(), R.drawable.ic_faucet_24);
           break;
 
         default:
