@@ -307,7 +307,7 @@ public class wt_f_devices extends Fragment
 
       Log.i(
               TAG,
-              "getView(): device:" + device.getName() + "," + device.getValue() + "," + device.getType()
+              "getView(): device:" + device.getName() + "," + device.getValue() + "," + device.getType() + "."
            );
 
       if (convertView == null) {
@@ -336,8 +336,29 @@ public class wt_f_devices extends Fragment
         tv_device_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_green));
       }
 
-      Drawable unwrappedDrawable = AppCompatResources.getDrawable(
-              getContext(), R.drawable.ic_cat_24);
+      Drawable unwrappedDrawable;
+      switch (device.getType()) {
+        case "dvere":
+          unwrappedDrawable = AppCompatResources.getDrawable(
+                  getContext(), R.drawable.ic_door_open_24);
+          break;
+        case "teplomer":
+          unwrappedDrawable = AppCompatResources.getDrawable(
+                  getContext(), R.drawable.ic_thermometer_empty_24);
+          break;
+        case "motor":
+          unwrappedDrawable = AppCompatResources.getDrawable(
+                  getContext(), R.drawable.ic_dragon_24);
+          break;
+        case "voda":
+          unwrappedDrawable = AppCompatResources.getDrawable(
+                  getContext(), R.drawable.ic_menu_manage);
+          break;
+
+        default:
+          unwrappedDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.ic_cat_24);
+      }
+
       Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
       if (is_dark_theme()) {
         DrawableCompat.setTint(wrappedDrawable, Color.WHITE);
@@ -347,10 +368,8 @@ public class wt_f_devices extends Fragment
         DrawableCompat.setTint(wrappedDrawable, Color.BLACK);
       }
 
-      if (device.getType().equals("teplomer")) {
 //        iv_device_image.setImageResource(R.drawable.ic_cat_24);
-        iv_device_image.setImageDrawable(wrappedDrawable);
-      }
+      iv_device_image.setImageDrawable(wrappedDrawable);
 
       return convertView;
     }
