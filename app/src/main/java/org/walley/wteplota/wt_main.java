@@ -14,15 +14,11 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-//import com.google.gson.JsonArray;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.util.Iterator;
-import java.util.Map;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,9 +28,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+//import com.google.gson.JsonArray;
 
 public class wt_main extends AppCompatActivity
 {
@@ -143,7 +137,7 @@ public class wt_main extends AppCompatActivity
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(MessageEvent event)
   {
-    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show();
+    Log.i(TAG, event.message);
   }
 
   private void showUserSettings()

@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -81,7 +80,7 @@ public class wt_f_devices extends Fragment
               @Override
               public void onChanged(Hashtable<String, JsonObject> result)
               {
-                String temps = "vm onchanged(): ";
+                Log.i(TAG, "vm observer onchanged()");
                 update_temp();
               }
             });
@@ -123,7 +122,8 @@ public class wt_f_devices extends Fragment
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(MessageEvent event)
   {
-    Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
+    Log.i(TAG, event.message);
     switch (event.message) {
       case "data_done":
         update_temp();
