@@ -12,10 +12,10 @@
     tools:layout="@layout/fragment_devices" />
 
   <fragment
-    android:id="@+id/nav_gallery"
-    android:name="org.walley.wteplota.GalleryFragment"
-    android:label="@string/menu_gallery"
-    tools:layout="@layout/fragment_gallery" />
+    android:id="@+id/nav_start"
+    android:name="org.walley.wteplota.wt_f_start"
+    android:label="@string/menu_start"
+    tools:layout="@layout/fragment_start" />
 
   <fragment
     android:id="@+id/nav_slideshow"
