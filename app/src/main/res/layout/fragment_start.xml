@@ -7,6 +7,12 @@
   android:layout_height="match_parent"
   tools:context=".wt_f_start">
 
+  <androidx.recyclerview.widget.RecyclerView
+    android:layout_width="296dp"
+    android:layout_height="195dp"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="394dp"
+    android:id="@+id/rv_start" />
 
   <androidx.cardview.widget.CardView
     android:id="@+id/card_view"
@@ -41,4 +47,5 @@
       android:layout_height="wrap_content"
       android:text="TextView" />
   </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
