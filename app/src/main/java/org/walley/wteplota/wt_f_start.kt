@@ -9,22 +9,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_start.view.*
 
-class wt_f_start : Fragment(), MyRecyclerViewAdapter.ItemClickListener {
-  private lateinit var adapter: MyRecyclerViewAdapter
-  private val data: Array<String> = arrayOf("1", "2", "3")
+class wt_f_start : Fragment(), adapter_RecyclerView.ItemClickListener {
+  private lateinit var adapter: adapter_RecyclerView
+  private val data: Array<String> = arrayOf("1", "2", "3", "wr4r")
+  private val numberOfColumns: Int = 3
 
-  override fun onCreateView(inflater: LayoutInflater,
-                            container: ViewGroup?, savedInstanceState: Bundle?
-  ): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val root = inflater.inflate(R.layout.fragment_start, container, false)
-//    val textView = root.findViewById<TextView>(R.id.);
 
-    val numberOfColumns: Int = 6
     val recyclerView: RecyclerView
 
     root.rv_start.layoutManager = GridLayoutManager(context, numberOfColumns)
 
-    val adapter = MyRecyclerViewAdapter(context = context, data = data)
+    val adapter = adapter_RecyclerView(context = context, data = data)
     adapter.setClickListener(this)
 
     root.rv_start.adapter = adapter

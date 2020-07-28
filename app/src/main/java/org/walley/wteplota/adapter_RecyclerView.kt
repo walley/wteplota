@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRecyclerViewAdapter internal constructor(context: Context?, data: Array<String>) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder?>() {
+class adapter_RecyclerView internal constructor(context: Context?, data: Array<String>) : RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?>() {
   private val mData: Array<String> = data
   private val mInflater: LayoutInflater = LayoutInflater.from(context)
   private var mClickListener: ItemClickListener? = null;
