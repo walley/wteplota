@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_start.view.*
 
 class wt_f_start : Fragment(), adapter_RecyclerView.ItemClickListener {
+
   private lateinit var adapter: adapter_RecyclerView
-  private val data: Array<String> = arrayOf("1", "2", "3", "wr4r")
+  private val data: Array<String> = arrayOf("1", "2", "3", "wr4r", "a", "::")
   private val numberOfColumns: Int = 3
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
     val root = inflater.inflate(R.layout.fragment_start, container, false)
 
     val recyclerView: RecyclerView
