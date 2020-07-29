@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 
-class adapter_RecyclerView internal constructor(context: Context?, data: Array<String>) : RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?>() {
+class adapter_RecyclerView internal constructor(context: Context?, data: java.util.ArrayList<wt_device>) : RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?>() {
 
-  private val mData: Array<String> = data
+  private val mData: ArrayList<wt_device> = data
+    get() = field
   private val mInflater: LayoutInflater = LayoutInflater.from(context)
   private var mClickListener: ItemClickListener? = null;
 
@@ -21,7 +22,7 @@ class adapter_RecyclerView internal constructor(context: Context?, data: Array<S
 
   // binds the data to the TextView in each cell
   override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
-    holder.myTextView.setText(mData[position])
+    holder.myTextView.setText(mData[position].name)
   }
 
   // stores and recycles views as they are scrolled off screen
@@ -38,7 +39,7 @@ class adapter_RecyclerView internal constructor(context: Context?, data: Array<S
   }
 
   // convenience method for getting data at click position
-  fun getItem(id: Int): String {
+  fun getItem(id: Int): wt_device {
     return mData[id]
   }
 

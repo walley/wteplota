@@ -209,14 +209,11 @@ public class wt_f_devices extends Fragment
     if (name.contains(".typ")) {
       device_name = name.substring(0, name.length() - 4).replace("\"", "");
       device_type = value.replace("\"", "");
-      ;
       device_value = "";
     } else {
       device_name = name.replace("\"", "");
-      ;
       device_type = "";
       device_value = value.replace("\"", "");
-      ;
     }
 
     for (int i = 0; i < devices_array.size(); i++) {
