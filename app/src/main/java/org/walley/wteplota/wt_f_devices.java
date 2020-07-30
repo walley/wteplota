@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -264,12 +265,10 @@ public class wt_f_devices extends Fragment
     wt_device device;
 
     devices_array.clear();
-//    Toast.makeText(getActivity(), room_name, Toast.LENGTH_SHORT).show();
     if (room_data != null) {
       for (Map.Entry<String, JsonElement> entry : room_data.entrySet()) {
         if (!entry.getKey().equals("Nazev")) {
           device = new wt_device(entry.getKey(), entry.getValue().toString());
-//          devices_array.add(device);
           add_to_devices_list(entry.getKey(), entry.getValue().toString());
         }
       }
@@ -297,6 +296,7 @@ public class wt_f_devices extends Fragment
       super(context, 0, devices);
     }
 
+    @NotNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
