@@ -3,6 +3,7 @@ package org.walley.wteplota;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -155,6 +156,19 @@ public class wt_main extends AppCompatActivity
 
     Toast.makeText(getApplicationContext(), builder, Toast.LENGTH_LONG).show();
 
+  }
+
+  public boolean is_dark_theme()
+  {
+    switch (
+            getResources().
+                    getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+      case Configuration.UI_MODE_NIGHT_YES:
+        return true;
+      case Configuration.UI_MODE_NIGHT_NO:
+        return false;
+    }
+    return true;
   }
 
 }

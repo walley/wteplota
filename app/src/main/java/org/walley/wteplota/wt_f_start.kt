@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,7 +17,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
-class wt_f_start : Fragment(), adapter_RecyclerView.ItemClickListener {
+class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   private val TAG = "WT-S"
   private var adapter: adapter_RecyclerView? = null
@@ -40,11 +39,7 @@ class wt_f_start : Fragment(), adapter_RecyclerView.ItemClickListener {
 
     data_hash = wtviewmodel!!._server_data.value
 
-    val x: wt_device = wt_device("a", "b", "c");
-    devices_array.add(x);
-
     adapter = adapter_RecyclerView(context = context, data = devices_array)
-//   adapter = adapter_RecyclerView(context, this.devices_array)
     adapter!!.setClickListener(this)
 
     root.rv_start.layoutManager = GridLayoutManager(context, number_of_columns)

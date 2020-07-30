@@ -373,7 +373,6 @@ public class wt_f_devices extends Fragment
         DrawableCompat.setTint(wrappedDrawable, Color.BLACK);
       }
 
-//        iv_device_image.setImageResource(R.drawable.ic_cat_24);
       iv_device_image.setImageDrawable(wrappedDrawable);
 
       return convertView;
