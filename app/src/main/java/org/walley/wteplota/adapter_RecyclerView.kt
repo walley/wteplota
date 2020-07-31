@@ -2,13 +2,17 @@ package org.walley.wteplota;
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?> {
@@ -28,7 +32,6 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view: View = mInflater.inflate(R.layout.item_recyclerview, parent, false)
-
     return ViewHolder(view)
   }
 
@@ -66,6 +69,25 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
       holder.tv_value.setTextColor(positive)
     }
 
+    val unwrappedDrawable: Drawable?
+    unwrappedDrawable = when (mData[position].type) {
+      "dvere" -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
+      "teplomer" -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
+      "motor" -> AppCompatResources.getDrawable(context, R.drawable.ic_fan_24)
+      "voda" -> AppCompatResources.getDrawable(context, R.drawable.ic_faucet_24)
+      else -> AppCompatResources.getDrawable(context, R.drawable.ic_cat_24)
+    }
+
+    val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+    if (is_dark_theme()) {
+      DrawableCompat.setTint(wrappedDrawable, Color.WHITE)
+      Log.i(wt_f_devices.TAG, "Dark Theme")
+    } else {
+      Log.i(wt_f_devices.TAG, "Shit Theme")
+      DrawableCompat.setTint(wrappedDrawable, Color.BLACK)
+    }
+
+    //   holder.is_image.setImageDrawable(wrappedDrawable)
     Log.i(TAG, "name: " + mData[position].name)
   }
 
