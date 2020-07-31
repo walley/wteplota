@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.appcompat.content.res.AppCompatResources
@@ -87,7 +88,7 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
       DrawableCompat.setTint(wrappedDrawable, Color.BLACK)
     }
 
-    //   holder.is_image.setImageDrawable(wrappedDrawable)
+    holder.is_image.setImageDrawable(wrappedDrawable)
     Log.i(TAG, "name: " + mData[position].name)
   }
 
@@ -96,14 +97,16 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
     var tv_name: TextView
     var tv_value: TextView
     var tv_type: TextView
+    var is_image: ImageView
     override fun onClick(view: View?) {
       if (mClickListener != null) mClickListener!!.onItemClick(view, getAdapterPosition())
     }
 
     init {
-      tv_name = itemView.findViewById(R.id.tv_name)
+      tv_name = itemView.findViewById(R.id.is_name)
       tv_value = itemView.findViewById(R.id.tv_value)
       tv_type = itemView.findViewById(R.id.tv_type)
+      is_image = itemView.findViewById(R.id.is_image)
       itemView.setOnClickListener(this)
     }
   }

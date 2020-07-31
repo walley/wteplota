@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -46,10 +45,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     root.rv_start.adapter = adapter
 
     root.rv_button.setOnClickListener {
-      // your code to perform when the user clicks on the button
-      Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
-      val xx: wt_device = wt_device("jouda", "b", "c");
-      devices_array.add(xx);
+      data_hash = wtviewmodel!!._server_data.value
       show_listview("Uvod");
       dump_devices_array()
     }
@@ -73,7 +69,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onMessageEvent(event: MessageEvent) {
-    Toast.makeText(getActivity(), TAG + " got " + event.message, Toast.LENGTH_SHORT).show();
+//    Toast.makeText(getActivity(), TAG + " got " + event.message, Toast.LENGTH_SHORT).show();
     Log.i(TAG, event.message)
     when (event.message) {
       "data_done" -> {
