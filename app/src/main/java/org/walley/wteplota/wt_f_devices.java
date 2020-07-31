@@ -87,7 +87,7 @@ public class wt_f_devices extends Fragment
               public void onChanged(Hashtable<String, JsonObject> result)
               {
                 Log.i(TAG, "vm observer onchanged()");
-                update_temp();
+                update_rooms_list();
               }
             });
 
@@ -104,7 +104,7 @@ public class wt_f_devices extends Fragment
       public void onRefresh()
       {
         data_hash = wtviewmodel.get_server_data().getValue();
-        update_temp();
+        update_rooms_list();
         swipeContainer.setRefreshing(false);
       }
     });
@@ -132,7 +132,7 @@ public class wt_f_devices extends Fragment
     Log.i(TAG, event.message);
     switch (event.message) {
       case "data_done":
-        update_temp();
+        update_rooms_list();
 
         if (first_run) {
           show_listview("Uvod");
@@ -145,12 +145,12 @@ public class wt_f_devices extends Fragment
   }
 
 
-  private void update_temp()
+  private void update_rooms_list()
   {
     String temps = "";
     rooms_list.clear();
 
-    Log.i(TAG, "update_temp() start.");
+    Log.i(TAG, "update_rooms_list() start.");
 
     for (String key : data_hash.keySet()) {
       JsonElement element = (JsonElement) data_hash.get(key);
@@ -159,7 +159,7 @@ public class wt_f_devices extends Fragment
         if (entry.getKey().equals("Nazev")) {
           String room_name = entry.getValue().toString().replace("\"", "");
           rooms_list.add(room_name);
-          Log.i(TAG, "update_temp() name: " + entry.getValue().toString());
+          Log.i(TAG, "update_rooms_list() name: " + entry.getValue().toString());
         }
       }
     }
