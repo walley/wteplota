@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.gson.JsonElement
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_start.view.*
 import org.greenrobot.eventbus.EventBus
@@ -25,6 +26,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   private var wtviewmodel: wt_viewmodel? = null
   var data_hash: Hashtable<String, JsonObject>? = Hashtable()
   var devices_array: java.util.ArrayList<wt_device> = java.util.ArrayList()
+  private var swipeContainer: SwipeRefreshLayout? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -32,8 +34,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
 
     wtviewmodel!!._server_data.observe(viewLifecycleOwner, Observer {
-      Log.i(TAG, "vm observer onchanged()")
-      update_temp()
+      Log.i(TAG, "viewmodel observer onchanged()")
     })
 
     data_hash = wtviewmodel!!._server_data.value
@@ -44,11 +45,16 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     root.rv_start.layoutManager = GridLayoutManager(context, number_of_columns)
     root.rv_start.adapter = adapter
 
-    root.rv_button.setOnClickListener {
+/*    root.rv_button.setOnClickListener {
       data_hash = wtviewmodel!!._server_data.value
       show_listview("Uvod");
       dump_devices_array()
     }
+*/
+    root.s_swipeContainer!!.setOnRefreshListener(OnRefreshListener {
+      data_hash = wtviewmodel!!._server_data.value
+      root.s_swipeContainer.setRefreshing(false)
+    })
 
     return root
   }
@@ -75,21 +81,6 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
       "data_done" -> {
 //        update_temp()
         show_listview("Uvod")
-      }
-    }
-  }
-
-  private fun update_temp() {
-    val temps = ""
-    Log.i(TAG, "update_temp() start.")
-    for (key in data_hash!!.keys) {
-      val element = data_hash!![key] as JsonElement?
-      val jo = element!!.asJsonObject
-      for ((key1, value) in jo.entrySet()) {
-        if (key1 == "Nazev") {
-          val room_name = value.toString().replace("\"", "")
-          Log.i(TAG, "update_temp() name: $value")
-        }
       }
     }
   }
