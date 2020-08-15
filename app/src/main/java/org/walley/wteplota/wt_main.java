@@ -23,7 +23,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -60,8 +63,8 @@ public class wt_main extends AppCompatActivity
     // Passing each menu ID as a set of Ids because each
     // menu should be considered as top level destinations.
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-            R.id.nav_start, R.id.nav_home)
-            .setDrawerLayout(drawer)
+            R.id.nav_start, R.id.nav_home, R.id.nav_about)
+            .setOpenableLayout(drawer)
             .build();
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -90,6 +93,7 @@ public class wt_main extends AppCompatActivity
   {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.main, menu);
+    MenuCompat.setGroupDividerEnabled(menu, true);
     return true;
   }
 
@@ -123,11 +127,18 @@ public class wt_main extends AppCompatActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       Intent i_preferences = new Intent();
       i_preferences.setClass(context, wt_preferences.class);
       startActivityForResult(i_preferences, RESULT_SETTINGS);
+    }
+
+    if (id == R.id.action_about) {
+      Fragment x = new wt_f_about();
+      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.nav_host_fragment, x);
+      ft.commit();
+      ft.show(x);
     }
 
     return super.onOptionsItemSelected(item);

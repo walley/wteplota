@@ -128,8 +128,8 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
       device_type = ""
       device_value = value.replace("\"", "")
     }
-    for (i in devices_array!!.indices) {
-      val x = devices_array!![i]
+    for (i in devices_array.indices) {
+      val x = devices_array[i]
       if (x.name == device_name) {
         has_name = true
         device_index = i

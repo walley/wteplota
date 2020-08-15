@@ -2,4 +2,6 @@
 <resources>
   <string name="app_name">wteplota</string>
   <string name="action_settings">Nastavení</string>
+  <string name="menu_about">O programu</string>
+  <string name="menu_start">Hlavni stranka</string>
 </resources>
