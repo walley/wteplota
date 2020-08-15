@@ -16,6 +16,7 @@
       android:title="@string/menu_house" />
   </group>
 
+
   <group
     android:id="@+id/group_action"
     android:checkableBehavior="single">
