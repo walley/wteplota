@@ -63,7 +63,7 @@ public class wt_main extends AppCompatActivity
     // Passing each menu ID as a set of Ids because each
     // menu should be considered as top level destinations.
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-            R.id.nav_start, R.id.nav_home, R.id.nav_about)
+            R.id.nav_start, R.id.nav_home, R.id.nav_about, R.id.nav_prefs)
             .setOpenableLayout(drawer)
             .build();
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

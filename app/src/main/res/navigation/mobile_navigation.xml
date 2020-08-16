@@ -23,4 +23,10 @@
     android:label="@string/menu_about"
     tools:layout="@layout/fragment_about" />
 
+  <fragment
+    android:id="@+id/nav_prefs"
+    android:name="org.walley.wteplota.wt_f_prefs"
+    android:label="@string/menu_pref"
+    tools:layout="@layout/fragment_prefs" />
+
 </navigation>

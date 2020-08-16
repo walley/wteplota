@@ -15,4 +15,5 @@
   <string name="menu_slideshow">nic</string>
   <string name="settings_url">Server URL http://x.org</string>
   <string name="url">Server url</string>
+  <string name="menu_pref">Preferences</string>
 </resources>
