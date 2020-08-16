@@ -35,10 +35,8 @@ import androidx.navigation.ui.NavigationUI;
 public class wt_main extends AppCompatActivity
 {
   public static final String TAG = "WT";
-  Context context = this;
-
   private static final int RESULT_SETTINGS = 2;
-
+  Context context = this;
   private AppBarConfiguration mAppBarConfiguration;
 
   @Override
@@ -60,12 +58,12 @@ public class wt_main extends AppCompatActivity
     });
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     NavigationView navigationView = findViewById(R.id.nav_view);
-    // Passing each menu ID as a set of Ids because each
-    // menu should be considered as top level destinations.
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-            R.id.nav_start, R.id.nav_home, R.id.nav_about, R.id.nav_prefs)
-            .setOpenableLayout(drawer)
-            .build();
+            R.id.nav_start,
+            R.id.nav_home,
+            R.id.nav_about,
+            R.id.nav_prefs
+    ).setOpenableLayout(drawer).build();
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
     NavigationUI.setupWithNavController(navigationView, navController);
