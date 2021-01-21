@@ -21,6 +21,21 @@
       </intent-filter>
     </activity>
     <activity android:name="wt_preferences" />
+    <activity android:name="wt_login" />
+
+    <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:scheme="https"
+          android:host="appauth.grezl.eu"
+          android:path="/oauth2redirect" />
+      </intent-filter>
+    </activity>
   </application>
 
 </manifest>

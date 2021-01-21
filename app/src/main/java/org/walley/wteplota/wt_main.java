@@ -61,6 +61,7 @@ public class wt_main extends AppCompatActivity
     mAppBarConfiguration = new AppBarConfiguration.Builder(
             R.id.nav_start,
             R.id.nav_home,
+            R.id.nav_login,
             R.id.nav_about,
             R.id.nav_prefs
     ).setOpenableLayout(drawer).build();
@@ -137,6 +138,12 @@ public class wt_main extends AppCompatActivity
       ft.replace(R.id.nav_host_fragment, x);
       ft.commit();
       ft.show(x);
+    }
+
+    if (id == R.id.action_login) {
+      Intent i_login = new Intent();
+      i_login.setClass(context, wt_login.class);
+      startActivityForResult(i_login, RESULT_SETTINGS);
     }
 
     return super.onOptionsItemSelected(item);

@@ -1,0 +1,12 @@
+{
+  "client_id": "r1t5q2R87A0t3kYaQ0uSAPdnO5DsK1J8qTbGQ3xLlPFniI2j8Savpo3vyElQpzEk",
+  //"redirect_uri": "net.openid.appauthdemo:/oauth2redirect",
+  "redirect_uri": "https://appauth.grezl.eu/oauth2redirect",
+  "authorization_scope": "openid email profile",
+  "discovery_uri": "",
+  "authorization_endpoint_uri": "https://cloud.grezl.eu/index.php/apps/oauth2/authorize",
+  "token_endpoint_uri": "https://cloud.grezl.eu/index.php/apps/oauth2/api/v1/token",
+  "registration_endpoint_uri": "https://cloud.grezl.eu/index.php/apps/oauth2/api/v1/registration",
+  "user_info_endpoint_uri": "https://cloud.grezl.eu/index.php/apps/oauth2/api/v1/userinfo",
+  "https_required": true
+}

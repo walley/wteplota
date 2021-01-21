@@ -55,19 +55,23 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
       ContextCompat.getColor(context, R.color.dark_green)
     }
 
-    var temp_temp = 0
+    var temp_temp: Float = 0F
+    Log.i(wt_f_devices.TAG, "converting:" + mData[position].value)
     temp_temp = try {
-      holder.tv_value.toString().replace("\"", "").toInt()
+//      holder.tv_value.toString().replace("\"", "").toInt()
+      mData[position].value.replace("\"", "").toFloat()
     } catch (e: Exception) {
-      1
+      1F
     }
 
-    if (temp_temp < -120) {
+    if (temp_temp <= -120) {
       holder.tv_value.setTextColor(ContextCompat.getColor(context, R.color.red))
-    } else if (-120 < temp_temp && temp_temp < 0) {
+    } else if (-120F < temp_temp && temp_temp < 0F) {
       holder.tv_value.setTextColor(ContextCompat.getColor(context, R.color.blue))
+      Log.i(wt_f_devices.TAG, "value $temp_temp is negative")
     } else {
       holder.tv_value.setTextColor(positive)
+      Log.i(wt_f_devices.TAG, "value $temp_temp is positive")
     }
 
     val unwrappedDrawable: Drawable?
