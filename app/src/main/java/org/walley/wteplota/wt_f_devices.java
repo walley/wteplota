@@ -78,7 +78,7 @@ public class wt_f_devices extends Fragment
     tv_data.setMovementMethod(new ScrollingMovementMethod());
     tv_data.setTextSize(20);
 
-    tv_data.setText("tap on room");
+    tv_data.setText(R.string.tap_on_room);
 
     wtviewmodel.get_server_data().observe(
             getViewLifecycleOwner(), new Observer<Hashtable<String, JsonObject>>()

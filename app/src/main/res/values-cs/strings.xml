@@ -6,4 +6,11 @@
   <string name="menu_start">Hlavní stranka</string>
   <string name="menu_pref">Preferences</string>
   <string name="menu_login">Login</string>
+  <string name="tap_on_room">Vyber si místnost</string>
+  <string name="action_about">O programu</string>
+  <string name="menu_home">Domů</string>
+  <string name="menu_house">Budova</string>
+  <string name="navigation_drawer_open">Otevři navigační šuplátko</string>
+  <string name="navigation_drawer_close">Zavři navigační šuplátko</string>
+  <string name="nav_header_subtitle">Tvůj IoT a tak</string>
 </resources>

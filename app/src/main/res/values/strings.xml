@@ -48,5 +48,6 @@
   <string name="auth_settings">Authorization settings in use:</string>
   <string name="use_pending_intents">Use PendingIntent\'s for completion</string>
   <string name="action_login">Login</string>
+  <string name="tap_on_room">tap on room</string>
 
 </resources>
