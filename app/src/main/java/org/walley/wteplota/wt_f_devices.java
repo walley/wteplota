@@ -318,9 +318,9 @@ public class wt_f_devices extends Fragment
 
       tv_device_name.setText(device.getName());
       tv_device_value.setText(device.getValue());
-      int temp_temp = 0;
+      float temp_temp = 0;
       try {
-        temp_temp = Integer.parseInt(device.getValue().toString().replace("\"", ""));
+        temp_temp = Float.parseFloat(device.getValue().toString().replace("\"", ""));
       } catch (Exception e) {
         temp_temp = 1;
       }
