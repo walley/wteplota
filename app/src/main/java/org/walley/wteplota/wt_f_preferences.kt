@@ -11,8 +11,5 @@ class wt_f_preferences : PreferenceFragmentCompat() {
     rootKey: String?,
                                   ) {
     setPreferencesFromResource(R.xml.preferences, rootKey)
-//    setPreferencesFromResource(R.xml.preferences, "PreferenceScreen")
   }
-
-  //https://developer.android.com/guide/topics/ui/settings.html
 }

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <SwitchPreference
-    android:defaultValue="false"
-    android:key="switch_preference_1"
-    android:title="Switch preference" />
-  <CheckBoxPreference
-    android:defaultValue="false"
-    android:key="check_box_preference_1"
-    android:title="Check box preference" />
+  <ListPreference
+    android:key="apiapi"
+    android:title="@string/select_api_type"
+    android:defaultValue="x"
+    android:entries="@array/api_types_k"
+    android:entryValues="@array/api_types_v"
+    android:summary="@string/select_api_type_summary"
+    android:icon="@drawable/ic_cat" />
   <EditTextPreference
-    android:key="url"
+    android:key="api_type"
+    android:summary="@string/settings_api_type"
+    android:title="@string/api_type" />
+  <EditTextPreference
+    android:key="server_url"
     android:summary="@string/settings_url"
     android:title="@string/url" />
 </PreferenceScreen>

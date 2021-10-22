@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="apy_types">x</string-array>
+  <string-array name="api_types_k">x</string-array>
+  <string-array name="api_types_v">v</string-array>
+</resources>

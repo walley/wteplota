@@ -13,4 +13,8 @@
   <string name="navigation_drawer_open">Otevři navigační šuplátko</string>
   <string name="navigation_drawer_close">Zavři navigační šuplátko</string>
   <string name="nav_header_subtitle">Tvůj IoT a tak</string>
+  <string name="settings_api_type">api type</string>
+  <string name="api_type">api</string>
+  <string name="select_api_type">select api type</string>
+  <string name="select_api_type_summary">aelect api type and vendor a tak nejak</string>
 </resources>

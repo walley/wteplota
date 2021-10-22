@@ -2,6 +2,7 @@ package org.walley.wteplota;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
@@ -19,11 +20,14 @@ import java.util.Map;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 
 public class wt_viewmodel extends AndroidViewModel
 {
   public static final String TAG = "WT-VM";
+  String url;
+  SharedPreferences prefs;
   private Hashtable<String, JsonObject> data_hash;
   private MutableLiveData<Hashtable<String, JsonObject>> server_data;
 
@@ -32,6 +36,11 @@ public class wt_viewmodel extends AndroidViewModel
     super(app);
     server_data = new MutableLiveData<Hashtable<String, JsonObject>>();
     data_hash = new Hashtable<String, JsonObject>();
+
+    prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+    //getApplication().getSharedPreference("",0);
+    url = prefs.getString("server_url", "https://localhost");
+    Log.d(TAG, "wt_viewmodel() url:" + url);
   }
 
   public MutableLiveData<Hashtable<String, JsonObject>> xget_server_data()
@@ -51,8 +60,9 @@ public class wt_viewmodel extends AndroidViewModel
   {
 
     Context context = getApplication().getApplicationContext();
+//            .load("http://91.232.214.23/android/android.php")
     Ion.with(context)
-            .load("http://91.232.214.23/android/android.php")
+            .load(url)
             .asJsonArray()
             .setCallback(new FutureCallback<JsonArray>()
             {

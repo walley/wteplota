@@ -49,5 +49,9 @@
   <string name="use_pending_intents">Use PendingIntent\'s for completion</string>
   <string name="action_login">Login</string>
   <string name="tap_on_room">tap on room</string>
+  <string name="settings_api_type">api type</string>
+  <string name="api_type">api</string>
+  <string name="select_api_type">select api type</string>
+  <string name="select_api_type_summary">aelect api type and vendor a tak nejak</string>
 
 </resources>
