@@ -26,13 +26,14 @@
   <fragment
     android:id="@+id/nav_login"
     android:name="org.walley.wteplota.wt_f_login"
-    android:label="@string/menu_about"
-    tools:layout="@layout/fragment_about" />
+    android:label="@string/menu_login"
+    tools:layout="@layout/fragment_login" />
 
   <fragment
     android:id="@+id/nav_prefs"
     android:name="org.walley.wteplota.wt_f_prefs"
-    android:label="@string/menu_pref" />
+    android:label="test"
+    tools:layout="@layout/fragment_prefs" />
 
   <fragment
     android:id="@+id/nav_preferences"

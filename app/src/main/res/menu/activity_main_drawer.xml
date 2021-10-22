@@ -31,7 +31,7 @@
     <item
       android:id="@+id/nav_prefs"
       android:icon="@drawable/ic_menu_manage"
-      android:title="@string/menu_pref" />
+      android:title="test" />
     <item
       android:id="@+id/nav_preferences"
       android:icon="@drawable/ic_menu_manage"
