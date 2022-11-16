@@ -62,6 +62,7 @@ public class wt_main extends AppCompatActivity
             R.id.nav_start,
             R.id.nav_home,
             R.id.nav_login,
+            R.id.nav_sms,
             R.id.nav_about,
             R.id.nav_prefs
     ).setOpenableLayout(drawer).build();

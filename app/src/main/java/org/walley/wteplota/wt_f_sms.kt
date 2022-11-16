@@ -1,10 +1,21 @@
 package org.walley.wteplota
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.koushikdutta.async.future.FutureCallback
+import com.koushikdutta.ion.Ion
+import kotlinx.android.synthetic.main.fragment_sms.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +28,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class wt_f_sms : Fragment() {
+  private val TAG = "WT_SMS"
+  var url: String? = null
+  var prefs: SharedPreferences? = null
+
+  private lateinit var viewmodel: wt_viewmodelsms
+
   // TODO: Rename and change types of parameters
   private var param1: String? = null
   private var param2: String? = null
@@ -32,8 +49,63 @@ class wt_f_sms : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
                            ): View? {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_sms, container, false)
+    val root = inflater.inflate(org.walley.wteplota.R.layout.fragment_sms, container, false)
+    return root
+  }
+
+  private lateinit var button: Button
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+//    url = this.prefs?.getString("server_url", "https://localhost")
+    url = "http://mn-servispc.eu/android/"
+    url += "sms.php"
+
+    bt_sms_send?.setOnClickListener {
+      Log.d(TAG, "klyk sms")
+      Toast.makeText(activity, "You sms clicked me. $url", Toast.LENGTH_SHORT).show()
+      get_temp()
+//      sms_send()
+    }
+  }
+
+  fun sms_send() {
+    val intent = Intent(Intent.ACTION_SEND)
+    val shareBody = "Here is the share content body"
+    intent.type = "text/plain"
+    intent.putExtra("address", "smsto:9839098390")
+    intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+    startActivity(Intent.createChooser(intent, "nazdar"))
+  }
+
+  private fun get_temp() {
+//    val context: Context = container.getContext();
+    Log.i(TAG, "sms_send: $url")
+
+    Ion.with(getContext()).load(url).asJsonObject()
+      .setCallback(FutureCallback<JsonObject?> { exception, result ->
+        var item_json: String
+        if (result == null) {
+          Log.e(wt_viewmodel.TAG, "get_temp(): json error")
+          return@FutureCallback
+        }
+
+        var temps = ""
+
+        val keys: Set<String> = result.keySet()
+        for (element in keys) {
+          Log.i(TAG, "key stuff $element")
+          val j: JsonArray = result.get(element).asJsonArray
+          println(element)
+          for (sms_text in j) {
+            Log.i(TAG, "val stuff $sms_text")
+          }
+        }
+//          EventBus.getDefault().post(MessageEvent("data_done"))
+
+        Log.d(TAG, "parsed stuff $temps")
+      })
   }
 
   companion object {
@@ -54,4 +126,6 @@ class wt_f_sms : Fragment() {
       }
     }
   }
+
+
 }

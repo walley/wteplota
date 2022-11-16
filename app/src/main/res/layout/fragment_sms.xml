@@ -5,10 +5,20 @@
   android:layout_height="match_parent"
   tools:context=".wt_f_sms">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment" />
+    android:orientation="vertical">
 
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/sms_intro" />
+
+    <Button
+      android:id="@+id/bt_sms_send"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/sms_send" />
+  </LinearLayout>
 </FrameLayout>

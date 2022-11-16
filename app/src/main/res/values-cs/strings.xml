@@ -17,4 +17,7 @@
   <string name="api_type">api</string>
   <string name="select_api_type">select api type</string>
   <string name="select_api_type_summary">aelect api type and vendor a tak nejak</string>
+  <string name="menu_sms">SMS</string>
+  <string name="sms_send">Posli SMS</string>
+  <string name="sms_intro">SMS posilaci centrum</string>
 </resources>

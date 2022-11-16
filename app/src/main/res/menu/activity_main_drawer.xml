@@ -25,6 +25,10 @@
       android:icon="@drawable/ic_dragon"
       android:title="@string/menu_login" />
     <item
+      android:id="@+id/nav_sms"
+      android:icon="@drawable/ic_dragon"
+      android:title="@string/menu_sms" />
+    <item
       android:id="@+id/nav_about"
       android:icon="@drawable/ic_menu_house"
       android:title="@string/menu_about" />

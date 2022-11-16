@@ -55,5 +55,8 @@
   <string name="select_api_type_summary">aelect api type and vendor a tak nejak</string>
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="menu_sms">SMS</string>
+  <string name="sms_send">Send SMS</string>
+  <string name="sms_intro">SMS stuff</string>
 
 </resources>

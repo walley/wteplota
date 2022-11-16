@@ -38,7 +38,6 @@ public class wt_viewmodel extends AndroidViewModel
     data_hash = new Hashtable<String, JsonObject>();
 
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-    //getApplication().getSharedPreference("",0);
     url = prefs.getString("server_url", "https://localhost");
     Log.d(TAG, "wt_viewmodel() url:" + url);
   }
@@ -46,7 +45,6 @@ public class wt_viewmodel extends AndroidViewModel
   public MutableLiveData<Hashtable<String, JsonObject>> xget_server_data()
   {
     return server_data;
-
   }
 
   public LiveData<Hashtable<String, JsonObject>> get_server_data()
@@ -60,7 +58,6 @@ public class wt_viewmodel extends AndroidViewModel
   {
 
     Context context = getApplication().getApplicationContext();
-//            .load("http://91.232.214.23/android/android.php")
     Ion.with(context)
             .load(url)
             .asJsonArray()
@@ -76,7 +73,7 @@ public class wt_viewmodel extends AndroidViewModel
                   return;
                 }
                 // do stuff with the result or error
-                Iterator it = result.iterator();
+                Iterator<JsonElement> it = result.iterator();
                 String temps = "";
                 data_hash.clear();
 

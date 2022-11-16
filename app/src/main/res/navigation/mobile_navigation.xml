@@ -30,6 +30,12 @@
     tools:layout="@layout/fragment_login" />
 
   <fragment
+    android:id="@+id/nav_sms"
+    android:name="org.walley.wteplota.wt_f_sms"
+    android:label="SMS"
+    tools:layout="@layout/fragment_sms" />
+
+  <fragment
     android:id="@+id/nav_prefs"
     android:name="org.walley.wteplota.wt_f_prefs"
     android:label="test"
