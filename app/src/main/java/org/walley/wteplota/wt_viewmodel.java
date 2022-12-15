@@ -42,11 +42,6 @@ public class wt_viewmodel extends AndroidViewModel
     Log.d(TAG, "wt_viewmodel() url:" + url);
   }
 
-  public MutableLiveData<Hashtable<String, JsonObject>> xget_server_data()
-  {
-    return server_data;
-  }
-
   public LiveData<Hashtable<String, JsonObject>> get_server_data()
   {
     get_temp();

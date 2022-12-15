@@ -31,6 +31,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
     val root = inflater.inflate(R.layout.fragment_start, container, false)
+
     wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
 
     wtviewmodel!!._server_data.observe(viewLifecycleOwner, Observer {

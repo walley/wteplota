@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
@@ -31,8 +33,11 @@ class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
+  var sms_list: List<String>? = null
 
-  private lateinit var viewmodel: wt_viewmodelsms
+  //private var wtviewmodel: wt_viewmodelsms? = null
+  //private lateinit var viewmodel: wt_viewmodelsms
+  private val wtviewmodel: wt_viewmodelsms by viewModels()
 
   // TODO: Rename and change types of parameters
   private var param1: String? = null
@@ -50,6 +55,21 @@ class wt_f_sms : Fragment() {
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
                            ): View? {
     val root = inflater.inflate(org.walley.wteplota.R.layout.fragment_sms, container, false)
+
+    // wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodelsms)
+
+    Log.i(TAG, "oncreateview")
+
+    wtviewmodel.get_sms_data()?.observe(viewLifecycleOwner, Observer {
+      Log.i(TAG, "viewmodel observer onchanged()")
+    })
+
+    sms_list = wtviewmodel.get_sms_data()?.value
+
+    sms_list?.forEach {
+      val len = it.length
+      Log.i(TAG, it)
+    }
     return root
   }
 
@@ -68,6 +88,8 @@ class wt_f_sms : Fragment() {
       get_temp()
 //      sms_send()
     }
+
+
   }
 
   fun sms_send() {
