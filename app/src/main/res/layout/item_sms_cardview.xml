@@ -28,5 +28,12 @@
       android:textSize="20sp"
       android:textStyle="bold" />
 
+    <TextView
+      android:id="@+id/textView2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="!!! Item !!!!!!!!!!!!!!!!"
+      android:textSize="20sp"
+      android:textStyle="bold" />
   </LinearLayout>
 </androidx.cardview.widget.CardView>

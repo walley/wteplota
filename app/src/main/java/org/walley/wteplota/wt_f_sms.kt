@@ -17,10 +17,8 @@ import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.fragment_sms.*
+import kotlinx.android.synthetic.main.fragment_sms.view.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -28,11 +26,11 @@ class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
-  var sms_list: List<String>? = null
+  var sms_list: List<String> = listOf("nazdar", "bazar", "x", "y")
+  private var adapter: adapter_sms? = null
 
-  private val wtviewmodel: wt_viewmodelsms by viewModels()
+  private val vm: wt_viewmodelsms by viewModels()
 
-  // TODO: Rename and change types of parameters
   private var param1: String? = null
   private var param2: String? = null
 
@@ -45,22 +43,31 @@ class wt_f_sms : Fragment() {
   }
 
   override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
                            ): View? {
-    val root = inflater.inflate(org.walley.wteplota.R.layout.fragment_sms, container, false)
 
+    val root = inflater.inflate(R.layout.fragment_sms, container, false)
     Log.i(TAG, "oncreateview")
 
-    wtviewmodel.get_sms_data()?.observe(viewLifecycleOwner, Observer {
+    vm.get_sms_data()?.observe(viewLifecycleOwner, Observer {
       Log.i(TAG, "viewmodel observer onchanged()")
     })
 
-    sms_list = wtviewmodel.get_sms_data()?.value
+//    sms_list = vm.get_sms_data()?.value!!
 
-    sms_list?.forEach {
+    sms_list.forEach {
       val len = it.length
       Log.i(TAG, it)
     }
+
+//    root.rv_sms.layoutManager = GridLayoutManager(context, 1)
+
+    //   adapter = adapter_RecyclerView(context = context, data = devices_array)
+    adapter = adapter_sms(context, sms_list)
+    root.rv_sms.adapter = adapter
+
     return root
   }
 

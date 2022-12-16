@@ -1,47 +1,50 @@
 package org.walley.wteplota;
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomAdapter(private val mList: List<String>) :
-  RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class adapter_sms(
+  private val context: Context?, private val mList: List<String>
+                 ) : RecyclerView.Adapter<adapter_sms.ViewHolder>() {
 
-  // create new views
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-// inflates the card_view_design view
-// that is used to hold list item
-    val view =
-      LayoutInflater.from(parent.context).inflate(R.layout.item_sms_cardview, parent, false)
+    val view = LayoutInflater.from(context).inflate(R.layout.item_sms_cardview, parent, false)
     val recyclerview = parent.findViewById<RecyclerView>(R.id.rv_sms)
-
+    recyclerview.layoutManager = LinearLayoutManager(context)
     return ViewHolder(view)
   }
 
-  // binds the list items to a view
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
     val ItemsViewModel = mList[position]
-
-// sets the image to the imageview from our itemHolder class
-// holder.imageView.setImageResource(ItemsViewModel.image)
-
-// sets the text to the textview from our itemHolder class
-    holder.textView.text = "buzumbura"
-
+    holder.imageView.setImageResource(R.drawable.ic_cat_24)
+    holder.textView.text = mList[position]
   }
 
-  // return the number of the items in the list
   override fun getItemCount(): Int {
     return mList.size
   }
 
-  // Holds the views for adding it to image and text
-  class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+
+  // stores and recycles views as they are scrolled off screen
+  inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView),
+                                                                View.OnClickListener {
+
     val imageView: ImageView = itemView.findViewById(R.id.imageview)
     val textView: TextView = itemView.findViewById(R.id.textView)
+
+    override fun onClick(view: View?) {
+//      if (mClickListener != null) mClickListener!!.onItemClick(view, getAdapterPosition())
+    }
+
+    init {
+      itemView.setOnClickListener(this)
+    }
   }
+
 }
