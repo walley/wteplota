@@ -27,6 +27,7 @@ public class wt_viewmodel extends AndroidViewModel
 {
   public static final String TAG = "WT-VM";
   String url;
+  String api;
   SharedPreferences prefs;
   private Hashtable<String, JsonObject> data_hash;
   private MutableLiveData<Hashtable<String, JsonObject>> server_data;
@@ -40,6 +41,11 @@ public class wt_viewmodel extends AndroidViewModel
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
     url = prefs.getString("server_url", "https://localhost");
     Log.d(TAG, "wt_viewmodel() url:" + url);
+    api = prefs.getString("api", "marek");
+    Log.d(TAG, "wt_viewmodel() api:" + api);
+    if (api.equals("marek")) {
+      url += "android.php";
+    }
   }
 
   public LiveData<Hashtable<String, JsonObject>> get_server_data()

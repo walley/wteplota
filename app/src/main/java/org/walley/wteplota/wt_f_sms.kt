@@ -24,19 +24,12 @@ import kotlinx.android.synthetic.main.fragment_sms.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [wt_f_sms.newInstance] factory method to
- * create an instance of this fragment.
- */
 class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
   var sms_list: List<String>? = null
 
-  //private var wtviewmodel: wt_viewmodelsms? = null
-  //private lateinit var viewmodel: wt_viewmodelsms
   private val wtviewmodel: wt_viewmodelsms by viewModels()
 
   // TODO: Rename and change types of parameters
@@ -55,8 +48,6 @@ class wt_f_sms : Fragment() {
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
                            ): View? {
     val root = inflater.inflate(org.walley.wteplota.R.layout.fragment_sms, container, false)
-
-    // wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodelsms)
 
     Log.i(TAG, "oncreateview")
 
