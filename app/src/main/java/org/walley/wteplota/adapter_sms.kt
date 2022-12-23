@@ -1,33 +1,34 @@
 package org.walley.wteplota;
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class adapter_sms(
-  private val context: Context?, private val mList: List<String>
+  private val context: Context?, private val sms_list: MutableList<String>
                  ) : RecyclerView.Adapter<adapter_sms.ViewHolder>() {
+
+  var TAG = "WT-ASMS"
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view = LayoutInflater.from(context).inflate(R.layout.item_sms_cardview, parent, false)
     val recyclerview = parent.findViewById<RecyclerView>(R.id.rv_sms)
-    recyclerview.layoutManager = LinearLayoutManager(context)
     return ViewHolder(view)
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    val ItemsViewModel = mList[position]
+    Log.i(TAG, "onBindViewHolder(): $position")
     holder.imageView.setImageResource(R.drawable.ic_cat_24)
-    holder.textView.text = mList[position]
+    holder.textView.text = sms_list[position]
   }
 
   override fun getItemCount(): Int {
-    return mList.size
+    return sms_list.size
   }
 
 
@@ -47,4 +48,10 @@ class adapter_sms(
     }
   }
 
+  public fun dump_data() {
+    sms_list.forEach {
+      val len = it.length
+      Log.i(TAG, "adapter list content: $it")
+    }
+  }
 }

@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.koushikdutta.async.future.FutureCallback
-import com.koushikdutta.ion.Ion
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_sms.*
 import kotlinx.android.synthetic.main.fragment_sms.view.*
 
@@ -26,7 +23,7 @@ class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
-  var sms_list: List<String> = listOf("nazdar", "bazar", "x", "y")
+  var sms_list: MutableList<String> = ArrayList()
   private var adapter: adapter_sms? = null
 
   private val vm: wt_viewmodelsms by viewModels()
@@ -43,32 +40,42 @@ class wt_f_sms : Fragment() {
   }
 
   override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
+    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
                            ): View? {
 
     val root = inflater.inflate(R.layout.fragment_sms, container, false)
-    Log.i(TAG, "oncreateview")
+    Log.i(TAG, "wt_f_sms oncreateview()")
 
-    vm.get_sms_data()?.observe(viewLifecycleOwner, Observer {
-      Log.i(TAG, "viewmodel observer onchanged()")
-    })
+    sms_list.add("a")
 
-//    sms_list = vm.get_sms_data()?.value!!
-
-    sms_list.forEach {
-      val len = it.length
-      Log.i(TAG, it)
-    }
-
-//    root.rv_sms.layoutManager = GridLayoutManager(context, 1)
-
-    //   adapter = adapter_RecyclerView(context = context, data = devices_array)
     adapter = adapter_sms(context, sms_list)
+
+    root.rv_sms.layoutManager = LinearLayoutManager(context)
     root.rv_sms.adapter = adapter
 
+    vm.sms_data.observe(viewLifecycleOwner, Observer {
+      Log.i(TAG, "viewmodelsms observer onchanged()")
+      sms_list.clear()
+//      sms_list = vm.sms_data.value!!
+      vm.sms_data.value!!.forEach {
+        Log.i(TAG, "wt_f_sms list content: $it")
+        sms_list.add(it)
+      }
+
+      sms_list.add("b")
+      dump_sms_list()
+      show_listview()
+    })
+
     return root
+  }
+
+  override fun onStart() {
+    super.onStart()
+  }
+
+  override fun onStop() {
+    super.onStop()
   }
 
   private lateinit var button: Button
@@ -76,15 +83,10 @@ class wt_f_sms : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-//    url = this.prefs?.getString("server_url", "https://localhost")
-    url = "http://mn-servispc.eu/android/"
-    url += "sms.php"
-
     bt_sms_send?.setOnClickListener {
       Log.d(TAG, "klyk sms")
       Toast.makeText(activity, "You sms clicked me. $url", Toast.LENGTH_SHORT).show()
-      get_temp()
-//      sms_send()
+//     sms_send()
     }
 
 
@@ -99,33 +101,17 @@ class wt_f_sms : Fragment() {
     startActivity(Intent.createChooser(intent, "nazdar"))
   }
 
-  private fun get_temp() {
-//    val context: Context = container.getContext();
-    Log.i(TAG, "sms_send: $url")
+  private fun dump_sms_list() {
+    sms_list!!.forEach {
+      val len = it.length
+      Log.i(TAG, "wt_f_sms list content: $it")
+    }
+  }
 
-    Ion.with(getContext()).load(url).asJsonObject()
-      .setCallback(FutureCallback<JsonObject?> { exception, result ->
-        var item_json: String
-        if (result == null) {
-          Log.e(wt_viewmodel.TAG, "get_temp(): json error")
-          return@FutureCallback
-        }
-
-        var temps = ""
-
-        val keys: Set<String> = result.keySet()
-        for (element in keys) {
-          Log.i(TAG, "key stuff $element")
-          val j: JsonArray = result.get(element).asJsonArray
-          println(element)
-          for (sms_text in j) {
-            Log.i(TAG, "val stuff $sms_text")
-          }
-        }
-//          EventBus.getDefault().post(MessageEvent("data_done"))
-
-        Log.d(TAG, "parsed stuff $temps")
-      })
+  private fun show_listview() {
+    dump_sms_list()
+    adapter?.notifyDataSetChanged()
+    adapter?.dump_data()
   }
 
   companion object {

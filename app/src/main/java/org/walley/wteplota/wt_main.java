@@ -34,7 +34,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class wt_main extends AppCompatActivity
 {
-  public static final String TAG = "WT";
+  public static final String TAG = "WT-MAIN";
   private static final int RESULT_SETTINGS = 2;
   Context context = this;
   private AppBarConfiguration mAppBarConfiguration;
@@ -155,6 +155,7 @@ public class wt_main extends AppCompatActivity
   {
     Log.i(TAG, event.message);
   }
+
 
   private void showUserSettings()
   {

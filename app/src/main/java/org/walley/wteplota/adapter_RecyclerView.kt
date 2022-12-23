@@ -25,7 +25,7 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
     dump_data()
   }
 
-  var TAG = "WT-RV"
+  var TAG = "WT-ARV"
   val context: Context
   private val mData: java.util.ArrayList<wt_device>
   private val mInflater: LayoutInflater
@@ -58,7 +58,6 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
     var temp_temp: Float = 0F
     Log.i(wt_f_devices.TAG, "converting:" + mData[position].value)
     temp_temp = try {
-//      holder.tv_value.toString().replace("\"", "").toInt()
       mData[position].value.replace("\"", "").toFloat()
     } catch (e: Exception) {
       1F
