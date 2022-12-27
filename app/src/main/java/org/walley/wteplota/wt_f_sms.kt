@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_sms.view.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class wt_f_sms : Fragment() {
+class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
@@ -131,6 +131,10 @@ class wt_f_sms : Fragment() {
         putString(ARG_PARAM2, param2)
       }
     }
+  }
+
+  override fun onItemClick(view: View?, position: Int) {
+    Log.i(TAG, "Not yet implemented")
   }
 
 
