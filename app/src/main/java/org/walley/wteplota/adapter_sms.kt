@@ -10,11 +10,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class adapter_sms(
-  private val context: Context?, private val sms_list: MutableList<String>
+  private val context: Context?,
+  private val sms_list: MutableList<String>,
+  private val listener: (i: Int) -> Unit
                  ) : RecyclerView.Adapter<adapter_sms.ViewHolder>() {
 
   var TAG = "WT-ASMS"
-  private var mClickListener: adapter_sms.ItemClickListener? = null;
+//  private var mClickListener: adapter_sms.ItemClickListener? = null;
+
+  // parent activity will implement this method to respond to click events
+//  interface ItemClickListener {
+//    fun onItemClick(view: View?, position: Int)
+//  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view = LayoutInflater.from(context).inflate(R.layout.item_sms_cardview, parent, false)
@@ -39,7 +46,8 @@ class adapter_sms(
 
     holder.textView.text = sms_number
     holder.textView2.text = sms_text
-
+////
+    holder.itemView.setOnClickListener { listener(position) }
   }
 
   override fun getItemCount(): Int {
@@ -55,13 +63,19 @@ class adapter_sms(
     val textView: TextView = itemView.findViewById(R.id.textView)
     val textView2: TextView = itemView.findViewById(R.id.textView2)
 
-    override fun onClick(view: View?) {
-      if (mClickListener != null) mClickListener!!.onItemClick(view, getAdapterPosition())
-      Log.i(TAG, "adapter onclick")
-    }
-
     init {
       itemView.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View?) {
+      Log.i(TAG, "adapter onclick")
+/*      if (mClickListener != null) {
+        Log.i(TAG, "listener on  $bindingAdapterPosition")
+//        mClickListener!!.onItemClick(view, getAdapterPosition())
+        mClickListener!!.onItemClick(view, bindingAdapterPosition)
+      } else {
+        Log.i(TAG, "listener null")
+      }*/
     }
   }
 
@@ -70,15 +84,14 @@ class adapter_sms(
     return sms_list[id]
   }
 
-  // allows clicks events to be caught
+  /*
+  allows clicks events to be caught
   fun setClickListener(itemClickListener: ItemClickListener?) {
-    this.mClickListener = itemClickListener
+  this.mClickListener = itemClickListener
+  Log.i(TAG, "setClickListener() set")
   }
+  */
 
-  // parent activity will implement this method to respond to click events
-  interface ItemClickListener {
-    fun onItemClick(view: View?, position: Int)
-  }
 
   public fun dump_data() {
     sms_list.forEach {

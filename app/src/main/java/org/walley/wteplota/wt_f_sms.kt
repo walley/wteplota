@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.fragment_sms.view.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
+//class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
+class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
@@ -46,9 +47,11 @@ class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
     val root = inflater.inflate(R.layout.fragment_sms, container, false)
     Log.i(TAG, "wt_f_sms oncreateview()")
 
-    sms_list.add("a")
+    sms_list.add("a\"x\"")
 
-    adapter = adapter_sms(context, sms_list)
+    adapter = adapter_sms(context, sms_list) { position: Int ->
+      Log.e(TAG, "Clicked on $position")
+    }
 
     root.rv_sms.layoutManager = LinearLayoutManager(context)
     root.rv_sms.adapter = adapter
@@ -56,13 +59,11 @@ class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
     vm.sms_data.observe(viewLifecycleOwner, Observer {
       Log.i(TAG, "viewmodelsms observer onchanged()")
       sms_list.clear()
-//      sms_list = vm.sms_data.value!!
       vm.sms_data.value!!.forEach {
         Log.i(TAG, "wt_f_sms list content: $it")
         sms_list.add(it)
       }
 
-      sms_list.add("b")
       dump_sms_list()
       show_listview()
     })
@@ -133,9 +134,9 @@ class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
     }
   }
 
-  override fun onItemClick(view: View?, position: Int) {
-    Log.i(TAG, "Not yet implemented")
-  }
+  // override fun onItemClick(view: View?, position: Int) {
+  //   Log.i(TAG, "Not yet implemented")
+  // }
 
 
 }
