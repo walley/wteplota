@@ -10,7 +10,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_sms"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
     <TextView
+      android:id="@+id/tv_sms"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/sms_intro" />
@@ -20,16 +26,6 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/sms_send" />
-
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/rv_sms"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-
-    <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="end" />
 
   </LinearLayout>
 </FrameLayout>

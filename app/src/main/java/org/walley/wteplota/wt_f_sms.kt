@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -24,11 +24,12 @@ class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
   var url: String? = null
   var prefs: SharedPreferences? = null
+  private lateinit var tv_sms: TextView
   var sms_list: MutableList<String> = ArrayList()
   private var adapter: adapter_sms? = null
-
+  private var selected_item = 0
   private val vm: wt_viewmodelsms by viewModels()
-
+  private lateinit var button: Button
   private var param1: String? = null
   private var param2: String? = null
 
@@ -46,11 +47,11 @@ class wt_f_sms : Fragment() {
 
     val root = inflater.inflate(R.layout.fragment_sms, container, false)
     Log.i(TAG, "wt_f_sms oncreateview()")
-
+    tv_sms = root.findViewById(R.id.tv_sms)
     sms_list.add("a\"x\"")
 
     adapter = adapter_sms(context, sms_list) { position: Int ->
-      Log.e(TAG, "Clicked on $position")
+      select_item(position)
     }
 
     root.rv_sms.layoutManager = LinearLayoutManager(context)
@@ -79,32 +80,48 @@ class wt_f_sms : Fragment() {
     super.onStop()
   }
 
-  private lateinit var button: Button
-
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
     bt_sms_send?.setOnClickListener {
-      Log.d(TAG, "klyk sms")
-      Toast.makeText(activity, "You sms clicked me. $url", Toast.LENGTH_SHORT).show()
-//     sms_send()
+      sms_send()
     }
 
 
   }
 
+  fun select_item(position: Int) {
+    Log.d(TAG, "Clicked on $position")
+    tv_sms.text = "selected: " + sms_list.get(position)
+    selected_item = position
+  }
+
   fun sms_send() {
     val intent = Intent(Intent.ACTION_SEND)
-    val shareBody = "Here is the share content body"
+    val sms_text: String
+    val sms_number: String
+    var sms_data: String
+
+    sms_data = "Here is the share content body"
+    sms_data = sms_list.get(selected_item)
+
+    if (sms_data.contains('"')) {
+      sms_number = sms_data.split('"')[0]
+      sms_text = sms_data.split('"')[1]
+    } else {
+      sms_number = sms_data
+      sms_text = "nic"
+    }
+
+
     intent.type = "text/plain"
-    intent.putExtra("address", "smsto:9839098390")
-    intent.putExtra(Intent.EXTRA_TEXT, shareBody)
-    startActivity(Intent.createChooser(intent, "nazdar"))
+    intent.putExtra("address", "smsto:$sms_number")
+    intent.putExtra(Intent.EXTRA_TEXT, sms_text)
+    startActivity(Intent.createChooser(intent, "select sms app"))
   }
 
   private fun dump_sms_list() {
-    sms_list!!.forEach {
-      val len = it.length
+    sms_list.forEach {
       Log.i(TAG, "wt_f_sms list content: $it")
     }
   }
@@ -133,10 +150,4 @@ class wt_f_sms : Fragment() {
       }
     }
   }
-
-  // override fun onItemClick(view: View?, position: Int) {
-  //   Log.i(TAG, "Not yet implemented")
-  // }
-
-
 }

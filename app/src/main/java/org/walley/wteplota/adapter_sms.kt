@@ -1,4 +1,4 @@
-package org.walley.wteplota;
+package org.walley.wteplota
 
 import android.content.Context
 import android.util.Log
@@ -16,16 +16,9 @@ class adapter_sms(
                  ) : RecyclerView.Adapter<adapter_sms.ViewHolder>() {
 
   var TAG = "WT-ASMS"
-//  private var mClickListener: adapter_sms.ItemClickListener? = null;
-
-  // parent activity will implement this method to respond to click events
-//  interface ItemClickListener {
-//    fun onItemClick(view: View?, position: Int)
-//  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view = LayoutInflater.from(context).inflate(R.layout.item_sms_cardview, parent, false)
-    val recyclerview = parent.findViewById<RecyclerView>(R.id.rv_sms)
     return ViewHolder(view)
   }
 
@@ -46,7 +39,6 @@ class adapter_sms(
 
     holder.textView.text = sms_number
     holder.textView2.text = sms_text
-////
     holder.itemView.setOnClickListener { listener(position) }
   }
 
@@ -54,8 +46,17 @@ class adapter_sms(
     return sms_list.size
   }
 
+  fun getItem(id: Int): String {
+    return sms_list[id]
+  }
 
-  // stores and recycles views as they are scrolled off screen
+  fun dump_data() {
+    sms_list.forEach {
+      Log.i(TAG, "adapter list content: $it")
+    }
+  }
+
+  /****** stores and recycles views as they are scrolled off screen ******/
   inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView),
                                                                 View.OnClickListener {
 
@@ -69,34 +70,7 @@ class adapter_sms(
 
     override fun onClick(view: View?) {
       Log.i(TAG, "adapter onclick")
-/*      if (mClickListener != null) {
-        Log.i(TAG, "listener on  $bindingAdapterPosition")
-//        mClickListener!!.onItemClick(view, getAdapterPosition())
-        mClickListener!!.onItemClick(view, bindingAdapterPosition)
-      } else {
-        Log.i(TAG, "listener null")
-      }*/
-    }
-  }
-
-  // convenience method for getting data at click position
-  fun getItem(id: Int): String {
-    return sms_list[id]
-  }
-
-  /*
-  allows clicks events to be caught
-  fun setClickListener(itemClickListener: ItemClickListener?) {
-  this.mClickListener = itemClickListener
-  Log.i(TAG, "setClickListener() set")
-  }
-  */
-
-
-  public fun dump_data() {
-    sms_list.forEach {
-      val len = it.length
-      Log.i(TAG, "adapter list content: $it")
+      Log.i(TAG, "listener on  $bindingAdapterPosition")
     }
   }
 }
