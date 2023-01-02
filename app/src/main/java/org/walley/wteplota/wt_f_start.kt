@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.fragment_start.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.walley.wteplota.databinding.FragmentStartBinding
 import java.util.*
 
 class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
+
+  private var _binding: FragmentStartBinding? = null
+  private val binding get() = _binding!!
 
   private val TAG = "WT-S"
   private var adapter: adapter_RecyclerView? = null
@@ -30,7 +33,9 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-    val root = inflater.inflate(R.layout.fragment_start, container, false)
+//    val root = inflater.inflate(R.layout.fragment_start, container, false)
+    _binding = FragmentStartBinding.inflate(inflater, container, false)
+    val root = binding.root
 
     wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
 
@@ -43,18 +48,12 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     adapter = adapter_RecyclerView(context = context, data = devices_array)
     adapter!!.setClickListener(this)
 
-    root.rv_start.layoutManager = GridLayoutManager(context, number_of_columns)
-    root.rv_start.adapter = adapter
+    binding.rvStart.layoutManager = GridLayoutManager(context, number_of_columns)
+    binding.rvStart.adapter = adapter
 
-/*    root.rv_button.setOnClickListener {
+    binding.sSwipeContainer!!.setOnRefreshListener(OnRefreshListener {
       data_hash = wtviewmodel!!._server_data.value
-      show_listview("Uvod");
-      dump_devices_array()
-    }
-*/
-    root.s_swipeContainer!!.setOnRefreshListener(OnRefreshListener {
-      data_hash = wtviewmodel!!._server_data.value
-      root.s_swipeContainer.setRefreshing(false)
+      binding.sSwipeContainer.setRefreshing(false)
     })
 
     return root

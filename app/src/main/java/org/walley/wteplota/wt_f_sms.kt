@@ -13,8 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_sms.*
-import kotlinx.android.synthetic.main.fragment_sms.view.*
+import androidx.recyclerview.widget.RecyclerView
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -30,6 +29,8 @@ class wt_f_sms : Fragment() {
   private var selected_item = 0
   private val vm: wt_viewmodelsms by viewModels()
   private lateinit var button: Button
+  private lateinit var rv_sms: RecyclerView
+  private lateinit var bt_sms_send: Button
   private var param1: String? = null
   private var param2: String? = null
 
@@ -48,14 +49,16 @@ class wt_f_sms : Fragment() {
     val root = inflater.inflate(R.layout.fragment_sms, container, false)
     Log.i(TAG, "wt_f_sms oncreateview()")
     tv_sms = root.findViewById(R.id.tv_sms)
+    rv_sms = root.findViewById(R.id.rv_sms)
+    bt_sms_send = root.findViewById(R.id.bt_sms_send)
     sms_list.add("a\"x\"")
 
     adapter = adapter_sms(context, sms_list) { position: Int ->
       select_item(position)
     }
 
-    root.rv_sms.layoutManager = LinearLayoutManager(context)
-    root.rv_sms.adapter = adapter
+    rv_sms.layoutManager = LinearLayoutManager(context)
+    rv_sms.adapter = adapter
 
     vm.sms_data.observe(viewLifecycleOwner, Observer {
       Log.i(TAG, "viewmodelsms observer onchanged()")

@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_login.*
 
 class wt_f_login : Fragment() {
   val TAG = "WT-L"
 
-  private lateinit var button: Button
+  private lateinit var button_login: Button
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -29,6 +28,7 @@ class wt_f_login : Fragment() {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     Log.d(TAG, "onCreateView(): start")
     val root = inflater.inflate(R.layout.fragment_login, container, false)
+    button_login = root.findViewById(R.id.button_login)
     return root
   }
 }
