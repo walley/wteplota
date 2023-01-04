@@ -17,7 +17,7 @@ class wt_f_login : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    button_login?.setOnClickListener {
+    button_login.setOnClickListener {
       Log.d(TAG, "klyk")
       Toast.makeText(activity, "You clicked me.", Toast.LENGTH_SHORT).show()
     }

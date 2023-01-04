@@ -1,7 +1,6 @@
 package org.walley.wteplota
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,17 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-//class wt_f_sms : Fragment(), adapter_sms.ItemClickListener {
 class wt_f_sms : Fragment() {
   private val TAG = "WT_SMS"
-  var url: String? = null
-  var prefs: SharedPreferences? = null
   private lateinit var tv_sms: TextView
   var sms_list: MutableList<String> = ArrayList()
   private var adapter: adapter_sms? = null
   private var selected_item = 0
   private val vm: wt_viewmodelsms by viewModels()
-  private lateinit var button: Button
   private lateinit var rv_sms: RecyclerView
   private lateinit var bt_sms_send: Button
   private var param1: String? = null
@@ -106,7 +101,7 @@ class wt_f_sms : Fragment() {
     var sms_data: String
 
     sms_data = "Here is the share content body"
-    sms_data = sms_list.get(selected_item)
+    sms_data = sms_list[selected_item]
 
     if (sms_data.contains('"')) {
       sms_number = sms_data.split('"')[0]
