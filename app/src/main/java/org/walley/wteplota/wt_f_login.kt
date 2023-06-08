@@ -13,6 +13,7 @@ class wt_f_login : Fragment() {
   val TAG = "WT-L"
 
   private lateinit var button_login: Button
+  private lateinit var button_nextcloud: Button
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -21,7 +22,10 @@ class wt_f_login : Fragment() {
       Log.d(TAG, "klyk")
       Toast.makeText(activity, "You clicked me.", Toast.LENGTH_SHORT).show()
     }
-
+    button_nextcloud.setOnClickListener {
+      Log.d(TAG, "klyk")
+      Toast.makeText(activity, "nextcloud.", Toast.LENGTH_SHORT).show()
+    }
   }
 
 
@@ -33,6 +37,7 @@ class wt_f_login : Fragment() {
     Log.d(TAG, "onCreateView(): start")
     val root = inflater.inflate(R.layout.fragment_login, container, false)
     button_login = root.findViewById(R.id.button_login)
+    button_nextcloud = root.findViewById(R.id.button_nextcloud)
     return root
   }
 
