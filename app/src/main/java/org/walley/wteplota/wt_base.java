@@ -7,6 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class wt_base extends AppCompatActivity
 {
 
+  /*
+   * TUYA:
+   * AppKey: phkpm85jvrrhndp88yxf
+   * AppSecret: drkxrw9skw77extwsf58uu7p7qd93u4k Copy
+   *
+   */
+
   public boolean is_dark_theme()
   {
     switch (

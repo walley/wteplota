@@ -11,4 +11,10 @@
       <solid android:color="@android:color/transparent" />
     </shape>
   </item>
+
+  <item android:state_selected="true">
+    <shape>
+      <solid android:color="@color/red" />
+    </shape>
+  </item>
 </selector>

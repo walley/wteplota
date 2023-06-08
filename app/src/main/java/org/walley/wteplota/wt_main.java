@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.koushikdutta.ion.Ion;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,10 +44,19 @@ public class wt_main extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    String t_appkey = "agayut8g5hm4xagxh3u9";
+    String t_appsecret = "qav7rhpdcf77t7whf45pyvr5snndpujv";
+    TuyaHomeSdk.init(getApplication(), t_appkey, t_appsecret);
+    TuyaHomeSdk.setDebugMode(true);
+    TuyaHomeSdk.getRequestInstance();
+
+//ryRoomList(callback: ITuyaGetRoomListCallback)
+
     setContentView(R.layout.activity_main);
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     FloatingActionButton fab = findViewById(R.id.fab);
+
     fab.setOnClickListener(new View.OnClickListener()
     {
       @Override
@@ -56,6 +66,7 @@ public class wt_main extends AppCompatActivity
                 .setAction("Action", null).show();
       }
     });
+
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     NavigationView navigationView = findViewById(R.id.nav_view);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -78,13 +89,16 @@ public class wt_main extends AppCompatActivity
   public void onStart()
   {
     super.onStart();
-    EventBus.getDefault().register(this);
+    org.greenrobot.eventbus.EventBus.getDefault().register(this);
   }
 
   @Override
   public void onStop()
   {
     EventBus.getDefault().unregister(this);
+    //TUYA
+    TuyaHomeSdk.onDestroy();
+
     super.onStop();
   }
 
