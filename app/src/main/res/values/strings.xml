@@ -58,5 +58,9 @@
   <string name="menu_sms">SMS</string>
   <string name="sms_send">Send SMS</string>
   <string name="sms_intro">SMS stuff</string>
+  <string name="settings_login">login name</string>
+  <string name="settings_password">password</string>
+  <string name="title_login">login</string>
+  <string name="title_password">password</string>
 
 </resources>

@@ -17,4 +17,13 @@
     android:key="server_url"
     android:summary="@string/settings_url"
     android:title="@string/url" />
+  <EditTextPreference
+    android:key="login"
+    android:summary="@string/settings_login"
+    android:title="@string/title_login"
+    android:icon="@drawable/ic_menu_manage" />
+  <EditTextPreference
+    android:key="password"
+    android:summary="@string/settings_password"
+    android:title="@string/title_password" />
 </PreferenceScreen>

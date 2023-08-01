@@ -1,6 +1,7 @@
 package org.walley.wteplota
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.async.http.Headers
 import com.koushikdutta.ion.Ion
@@ -21,12 +23,16 @@ class wt_f_login : Fragment() {
   private lateinit var button_login: Button
   private lateinit var button2_login: Button
   private lateinit var button_nextcloud: Button
+  lateinit var prefs: SharedPreferences
+  lateinit var api: String
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     var url: String
 
     super.onViewCreated(view, savedInstanceState)
+
+    stuff()
 
     button_login.setOnClickListener {
       Log.d(TAG, "klyk 1")
@@ -135,5 +141,13 @@ class wt_f_login : Fragment() {
         Log.d(TAG, "Klyk2: " + result.toString())
       })
 */
+  }
+
+  fun stuff() {
+    prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    api = prefs.getString("api_type", "default_api").toString()
+    android.util.Log.d(TAG, "stuff() api:" + api)
+    if ((api == "walley")) {
+    }
   }
 }

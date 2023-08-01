@@ -41,7 +41,7 @@ public class wt_viewmodel extends AndroidViewModel
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
     url = prefs.getString("server_url", "https://localhost");
     Log.d(TAG, "wt_viewmodel() url:" + url);
-    api = prefs.getString("api", "marek");
+    api = prefs.getString("api_type", "default_api");
     Log.d(TAG, "wt_viewmodel() api:" + api);
     if (api.equals("marek")) {
       url += "android.php";
