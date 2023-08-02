@@ -59,7 +59,8 @@ public class wt_viewmodel extends AndroidViewModel
   {
 
     Context context = getApplication().getApplicationContext();
-    Ion.with(context)
+    Ion
+            .with(context)
             .load(url)
             .asJsonArray()
             .setCallback(new FutureCallback<JsonArray>()
