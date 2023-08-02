@@ -6,11 +6,31 @@
   tools:context=".wt_f_login">
 
   <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingEnd="5dp"
-    android:paddingStart="5dp">
+
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal">
+
+      <TextView
+        android:id="@+id/tv_username_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username_label"
+        android:textSize="24sp" />
+
+      <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:text="username unknown" />
+    </LinearLayout>
 
     <Button
       android:id="@+id/button_login"
@@ -30,7 +50,7 @@
       android:id="@+id/button_nextcloud"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="nextcloud" />
+      android:text="@string/nextcloud" />
   </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

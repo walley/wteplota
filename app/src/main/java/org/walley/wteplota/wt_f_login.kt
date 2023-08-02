@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -25,6 +26,8 @@ class wt_f_login : Fragment() {
   private lateinit var button_nextcloud: Button
   lateinit var prefs: SharedPreferences
   lateinit var api: String
+  lateinit var login: String
+  lateinit var tv_username: TextView
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -107,6 +110,7 @@ class wt_f_login : Fragment() {
     button_login = root.findViewById(R.id.button_login)
     button2_login = root.findViewById(R.id.button2_login)
     button_nextcloud = root.findViewById(R.id.button_nextcloud)
+    tv_username = root.findViewById(R.id.tv_username)
     return root
   }
 
@@ -146,8 +150,20 @@ class wt_f_login : Fragment() {
   fun stuff() {
     prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
     api = prefs.getString("api_type", "default_api").toString()
-    android.util.Log.d(TAG, "stuff() api:" + api)
-    if ((api == "walley")) {
+    Log.d(TAG, "stuff() api:" + api)
+
+    when (api) {
+      "marek" -> {
+        login = prefs.getString("login", "default_api").toString()
+        tv_username.setText(login)
+      }
+
+      "walley" -> {
+        tv_username.setText(get_username())
+      }
+
+      else -> {}
     }
   }
+
 }

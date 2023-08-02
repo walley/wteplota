@@ -5,12 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 
-class wt_f_about : Fragment() {
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+class wt_f_about : wt_f_base() {
+
+  lateinit var tv_about: TextView
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+                           ): View? {
     val root = inflater.inflate(R.layout.fragment_about, container, false)
-    val textView = root.findViewById<TextView>(R.id.text_slideshow)
+    tv_about = root.findViewById<TextView>(R.id.tv_about)
     return root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    tv_about.setText("nazdar bazar")
   }
 }

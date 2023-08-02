@@ -7,7 +7,7 @@
   tools:context=".wt_f_about">
 
   <TextView
-    android:id="@+id/text_slideshow"
+    android:id="@+id/tv_about"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"

@@ -22,15 +22,15 @@
     android:checkableBehavior="single">
     <item
       android:id="@+id/nav_login"
-      android:icon="@drawable/ic_dragon"
+      android:icon="@drawable/baseline_login_24"
       android:title="@string/menu_login" />
     <item
       android:id="@+id/nav_sms"
-      android:icon="@drawable/ic_dragon"
+      android:icon="@drawable/baseline_sms_24"
       android:title="@string/menu_sms" />
     <item
       android:id="@+id/nav_about"
-      android:icon="@drawable/ic_menu_house"
+      android:icon="@drawable/baseline_info_24"
       android:title="@string/menu_about" />
     <item
       android:id="@+id/nav_prefs"

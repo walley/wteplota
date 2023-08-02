@@ -62,5 +62,7 @@
   <string name="settings_password">password</string>
   <string name="title_login">login</string>
   <string name="title_password">password</string>
+  <string name="username_label">Username:</string>
+  <string name="nextcloud">Login via Nextcloud</string>
 
 </resources>

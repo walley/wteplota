@@ -22,4 +22,6 @@
   <string name="sms_intro">SMS posilaci centrum</string>
   <string name="settings_login">login name</string>
   <string name="settings_password">password</string>
+  <string name="username_label">Username:</string>
+  <string name="nextcloud">Login via Nextcloud</string>
 </resources>
