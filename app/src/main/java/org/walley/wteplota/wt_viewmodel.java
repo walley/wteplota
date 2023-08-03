@@ -43,6 +43,7 @@ public class wt_viewmodel extends AndroidViewModel
     Log.d(TAG, "wt_viewmodel() url:" + url);
     api = prefs.getString("api_type", "default_api");
     Log.d(TAG, "wt_viewmodel() api:" + api);
+
     if (api.equals("marek")) {
       url += "android.php";
     }
@@ -53,6 +54,35 @@ public class wt_viewmodel extends AndroidViewModel
     get_temp();
     server_data.setValue(data_hash);
     return server_data;
+  }
+
+  private void parse_result(JsonArray result)
+  {
+    // do stuff with the result or error
+    Iterator<JsonElement> it = result.iterator();
+    String temps = "";
+    data_hash.clear();
+
+    while (it.hasNext()) {
+      JsonElement element = (JsonElement) it.next();
+      Log.i(TAG, "element " + element.getAsJsonObject().toString());
+      String xs = element.getAsJsonObject().toString();
+      JsonObject jo = element.getAsJsonObject();
+      temps += "--------\n";
+      for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+        if (entry.getKey().equals("Nazev")) {
+          String room_name = entry.getValue().toString().replace("\"", "");
+          data_hash.put(room_name, jo);
+          Log.i(
+                  TAG,
+                  "get_temp(), selected name entry:, " + entry.getValue().toString()
+               );
+        }
+        temps += entry.getKey() + " = " + entry.getValue() + "\n";
+      }
+      EventBus.getDefault().post(new MessageEvent("data_done"));
+    }
+    Log.d(TAG, "parsed stuff " + temps);
   }
 
   private void get_temp()
@@ -68,13 +98,16 @@ public class wt_viewmodel extends AndroidViewModel
               @Override
               public void onCompleted(Exception exception, JsonArray result)
               {
-                String item_json;
+                // String item_json;
 
                 if (result == null) {
                   Log.e(TAG, "get_temp(): json error");
                   return;
                 }
-                // do stuff with the result or error
+
+                parse_result(result);
+
+/*                // do stuff with the result or error
                 Iterator<JsonElement> it = result.iterator();
                 String temps = "";
                 data_hash.clear();
@@ -99,7 +132,10 @@ public class wt_viewmodel extends AndroidViewModel
                   EventBus.getDefault().post(new MessageEvent("data_done"));
                 }
                 Log.d(TAG, "parsed stuff " + temps);
+*/
               }
+
+
             });
   }
 
