@@ -40,13 +40,14 @@ public class wt_viewmodel extends AndroidViewModel
 
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
     url = prefs.getString("server_url", "https://localhost");
-    Log.d(TAG, "wt_viewmodel() url:" + url);
     api = prefs.getString("api_type", "default_api");
-    Log.d(TAG, "wt_viewmodel() api:" + api);
 
     if (api.equals("marek")) {
       url += "android.php";
     }
+
+    Log.d(TAG, "wt_viewmodel() url:" + url);
+    Log.d(TAG, "wt_viewmodel() api:" + api);
   }
 
   public LiveData<Hashtable<String, JsonObject>> get_server_data()
@@ -99,40 +100,19 @@ public class wt_viewmodel extends AndroidViewModel
               public void onCompleted(Exception exception, JsonArray result)
               {
                 // String item_json;
-
                 if (result == null) {
                   Log.e(TAG, "get_temp(): json error");
                   return;
                 }
 
-                parse_result(result);
-
-/*                // do stuff with the result or error
-                Iterator<JsonElement> it = result.iterator();
-                String temps = "";
-                data_hash.clear();
-
-                while (it.hasNext()) {
-                  JsonElement element = (JsonElement) it.next();
-                  Log.i(TAG, "element " + element.getAsJsonObject().toString());
-                  String xs = element.getAsJsonObject().toString();
-                  JsonObject jo = element.getAsJsonObject();
-                  temps += "--------\n";
-                  for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-                    if (entry.getKey().equals("Nazev")) {
-                      String room_name = entry.getValue().toString().replace("\"", "");
-                      data_hash.put(room_name, jo);
-                      Log.i(
-                              TAG,
-                              "get_temp(), selected name entry:, " + entry.getValue().toString()
-                           );
-                    }
-                    temps += entry.getKey() + " = " + entry.getValue() + "\n";
-                  }
-                  EventBus.getDefault().post(new MessageEvent("data_done"));
+                switch (api) {
+                  case "marek":
+                    parse_result(result);
+                    break;
+                  case "walley":
+                    Log.d(TAG, "get_temp(): walley");
+                    break;
                 }
-                Log.d(TAG, "parsed stuff " + temps);
-*/
               }
 
 

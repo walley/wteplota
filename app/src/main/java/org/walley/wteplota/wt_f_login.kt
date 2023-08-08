@@ -12,14 +12,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.async.http.Headers
 import com.koushikdutta.ion.Ion
+import org.greenrobot.eventbus.EventBus
 import java.net.URI
+import java.util.Hashtable
 
 
 class wt_f_login : Fragment() {
   val TAG = "WT-F-L"
+
+  //  private Hashtable<String, JsonObject> data_hash;
+  val data_hash = Hashtable<String, JsonObject>()
 
   private lateinit var button_login: Button
   private lateinit var button2_login: Button
@@ -42,6 +50,8 @@ class wt_f_login : Fragment() {
       Toast.makeText(activity, "You clicked one.", Toast.LENGTH_SHORT).show()
       val x = get_username()
       Log.d(TAG, "klik1: $x")
+
+      create_form();
     }
 
     button2_login.setOnClickListener {
@@ -49,18 +59,6 @@ class wt_f_login : Fragment() {
       Toast.makeText(activity, "dvojka two.", Toast.LENGTH_SHORT).show()
 
       url = "https://wiot.cz/wiot/v1/username"
-
-      /*    val cookie_manager = java.net.CookieManager()
-          java.net.CookieHandler.setDefault(cookie_manager);
-          cookie_manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-          val cookie = HttpCookie( "oauth2sessid","1N3XvssvvConH-1690877509")
-          cookie.domain = "https://wiot.cz"
-          cookie.path = "/"
-          cookie.version = 0
-          cookie_manager.getCookieStore().add(URI(url), cookie)
-
-          Log.d(TAG,"cookies: "+ cookie_manager.cookieStore.cookies.toString())
-    */
 
       val cookies: String = android.webkit.CookieManager.getInstance().getCookie(url)
       Log.d(TAG, "Klyk2: webkit cookies:" + cookies)
@@ -164,6 +162,48 @@ class wt_f_login : Fragment() {
 
       else -> {}
     }
+  }
+
+
+  private fun create_form() {
+
+    val url: String = "https://wiot.cz/wiot/v1/form/thermostat0?output=json"
+
+    Ion.with(context).load(url).asJsonArray()
+      .setCallback(FutureCallback<JsonArray?> { exception, result ->
+        if (result == null) {
+          Log.e(TAG, "klyk2: error")
+          return@FutureCallback
+        }
+        parse_result(result)
+        Log.d(TAG, "Klyk2: " + result.toString())
+      })
+    parse_result()
+  }
+
+  private fun parse_result(result: JsonArray) {
+    val it: Iterator<JsonElement> = result.iterator()
+    var temps = ""
+    data_hash.clear()
+    while (it.hasNext()) {
+      val element = it.next()
+      Log.i(wt_viewmodel.TAG, "element " + element.asJsonObject.toString())
+      val xs = element.asJsonObject.toString()
+      val jo = element.asJsonObject
+      temps += "--------\n"
+      for ((key, value): Map.Entry<String, JsonElement> in jo.entrySet()) {
+        if (key == "Nazev") {
+          val room_name = value.toString().replace("\"", "")
+          data_hash.put(room_name, jo)
+          Log.i(
+            wt_viewmodel.TAG, "get_temp(), selected name entry:, " + value.toString()
+               )
+        }
+        temps += key + " = " + value + "\n"
+      }
+      EventBus.getDefault().post(MessageEvent("data_done"))
+    }
+    Log.d(wt_viewmodel.TAG, "parsed stuff $temps")
   }
 
 }
