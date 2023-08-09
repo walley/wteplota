@@ -18,7 +18,6 @@ import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.async.http.Headers
 import com.koushikdutta.ion.Ion
-import org.greenrobot.eventbus.EventBus
 import java.net.URI
 import java.util.Hashtable
 
@@ -92,10 +91,8 @@ class wt_f_login : Fragment() {
 
       val i = Intent(activity, wt_webview::class.java)
       i.putExtra("message", "x");
-//      Log.d("WC",class_name + "onitemclick: view id " + view_id);
 
       startActivity(i)
-
     }
   }
 
@@ -131,7 +128,9 @@ class wt_f_login : Fragment() {
     val data = Ion.with(context).load(url).setLogging(TAG, Log.INFO).asString().get()
     Log.d(TAG, "get_username(): returned data: $data")
 
-    return data/*    Ion.with(context)
+    return data
+
+    /*    Ion.with(context)
       .load(url)
       .asString()
       .setCallback(FutureCallback<String?> { exception, result ->
@@ -172,13 +171,12 @@ class wt_f_login : Fragment() {
     Ion.with(context).load(url).asJsonArray()
       .setCallback(FutureCallback<JsonArray?> { exception, result ->
         if (result == null) {
-          Log.e(TAG, "klyk2: error")
+          Log.e(TAG, "create_form(): error")
           return@FutureCallback
         }
+        Log.d(TAG, "create_form(): " + result.toString())
         parse_result(result)
-        Log.d(TAG, "Klyk2: " + result.toString())
       })
-    parse_result()
   }
 
   private fun parse_result(result: JsonArray) {
@@ -187,22 +185,17 @@ class wt_f_login : Fragment() {
     data_hash.clear()
     while (it.hasNext()) {
       val element = it.next()
-      Log.i(wt_viewmodel.TAG, "element " + element.asJsonObject.toString())
+      Log.i(TAG, "element " + element.asJsonObject.toString())
       val xs = element.asJsonObject.toString()
       val jo = element.asJsonObject
       temps += "--------\n"
-      for ((key, value): Map.Entry<String, JsonElement> in jo.entrySet()) {
-        if (key == "Nazev") {
-          val room_name = value.toString().replace("\"", "")
-          data_hash.put(room_name, jo)
-          Log.i(
-            wt_viewmodel.TAG, "get_temp(), selected name entry:, " + value.toString()
-               )
-        }
+
+      for ((key, value) in jo.asMap()) {
         temps += key + " = " + value + "\n"
       }
-      EventBus.getDefault().post(MessageEvent("data_done"))
+      // EventBus.getDefault().post(MessageEvent("data_done"))
     }
+
     Log.d(wt_viewmodel.TAG, "parsed stuff $temps")
   }
 
