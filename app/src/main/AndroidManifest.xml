@@ -12,6 +12,11 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:replace="android:allowBackup, android:supportsRtl">
+    <activity
+      android:name=".wt_deviceform"
+      android:exported="false"
+      android:label="@string/title_activity_wt_deviceform"
+      android:theme="@style/AppTheme" />
 
     <meta-data
       android:name="TUYA_SMART_APPKEY"
@@ -26,12 +31,12 @@
       android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
+
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name="wt_preferences" />
-    <activity android:name="wt_login" />
-
+    <activity android:name=".wt_preferences" />
+    <activity android:name=".wt_login" />
     <activity
       android:name="net.openid.appauth.RedirectUriReceiverActivity"
       android:exported="true">
@@ -42,12 +47,12 @@
         <category android:name="android.intent.category.BROWSABLE" />
 
         <data
-          android:scheme="https"
           android:host="appauth.grezl.eu"
-          android:path="/oauth2redirect" />
+          android:path="/oauth2redirect"
+          android:scheme="https" />
       </intent-filter>
     </activity>
-    <activity android:name="wt_webview" />
+    <activity android:name=".wt_webview" />
   </application>
 
 </manifest>

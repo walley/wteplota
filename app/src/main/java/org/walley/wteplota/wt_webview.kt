@@ -30,17 +30,16 @@ class wt_webview : AppCompatActivity() {
 
       override fun onPageFinished(view: WebView, url: String) {
         Log.d(TAG, "onPageFinished(): done ");
-        val cookies: String = CookieManager.getInstance().getCookie(url)
-        Log.d(TAG, "onPageFinished(): " + cookies)
+        val cookies: String? = CookieManager.getInstance()?.getCookie(url)
+        Log.d(TAG, "onPageFinished(): cookies:" + cookies)
       }
     }
 
-    var bundle: Bundle? = intent.extras
+    val bundle: Bundle? = intent.extras
     var message = bundle!!.getString("message")
     Log.d(TAG, "wt_webview onCreate(): bundle " + message);
 
     //var client_id = getConfigString("client_id")
-    //var client_id = "Jjd2YSV1KK9zktD9gaDbHInooLN8QsdvwwKilvwKf4DNcRpc4HeWrsbYg1al8hw7"
     val client_id = "q19BJMSducGS6Msosga9reb5r3BaWL1DOdaT116hwtEYTAMYolpsOsSFyDRvzBZn"
 
     var uri_redirect: String

@@ -114,8 +114,15 @@ class wt_f_login : Fragment() {
     url = "https://wiot.cz/wiot/v1/username"
     Log.d(TAG, "get_username(): start")
 
-    val cookies: String = android.webkit.CookieManager.getInstance().getCookie(url)
-    Log.d(TAG, "get_username(): webkit cookies:" + cookies)
+    lateinit var cookies: String
+
+    cookies = android.webkit.CookieManager.getInstance()?.getCookie(url).toString()
+
+    if (cookies == "null") {
+      Log.d(TAG, "get_username(): webkit no cookies, login .....")
+    } else {
+      Log.d(TAG, "get_username(): webkit cookies:" + cookies)
+    }
 
     val middleware = Ion.getDefault(context).cookieMiddleware
     val ion = Ion.getDefault(context)
@@ -176,27 +183,41 @@ class wt_f_login : Fragment() {
         }
         Log.d(TAG, "create_form(): " + result.toString())
         parse_result(result)
+
+        val i = Intent(activity, wt_deviceform::class.java)
+        i.putExtra("message", "x");
+
+        startActivity(i)
+
       })
   }
 
   private fun parse_result(result: JsonArray) {
     val it: Iterator<JsonElement> = result.iterator()
-    var temps = ""
+    var run = true;
     data_hash.clear()
     while (it.hasNext()) {
+      var temps = ""
       val element = it.next()
-      Log.i(TAG, "element " + element.asJsonObject.toString())
-      val xs = element.asJsonObject.toString()
+      Log.d(TAG, "element " + element.asJsonObject.toString())
       val jo = element.asJsonObject
-      temps += "--------\n"
 
       for ((key, value) in jo.asMap()) {
         temps += key + " = " + value + "\n"
       }
-      // EventBus.getDefault().post(MessageEvent("data_done"))
+
+      Log.d(TAG, "parsed stuff $run \n $temps")
+      if (run) {
+        run = !run
+        Log.d(TAG, "building view")
+        //build view
+      } else {
+        //set values
+        Log.d(TAG, "setting values")
+      }
     }
 
-    Log.d(wt_viewmodel.TAG, "parsed stuff $temps")
+    // EventBus.getDefault().post(MessageEvent("data_done"))
   }
 
 }

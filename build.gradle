@@ -1,6 +1,6 @@
 // Top-level build file blah blah
 buildscript {
-    ext.kotlin_version = '1.8.0'
+    ext.kotlin_version = '1.8.10'
     ext.androidXCore = "1.5.0"
 
     repositories {
@@ -8,7 +8,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.0'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
