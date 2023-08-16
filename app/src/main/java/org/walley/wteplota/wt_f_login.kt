@@ -12,15 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.async.http.Headers
 import com.koushikdutta.ion.Ion
 import java.net.URI
 import java.util.Hashtable
-
 
 class wt_f_login : Fragment() {
   val TAG = "WT-F-L"
@@ -173,51 +170,9 @@ class wt_f_login : Fragment() {
 
   private fun create_form() {
 
-    val url: String = "https://wiot.cz/wiot/v1/form/thermostat0?output=json"
+    val i = Intent(activity, wt_deviceform::class.java)
+    i.putExtra("device_name", "thermostat0");
+    startActivity(i)
 
-    Ion.with(context).load(url).asJsonArray()
-      .setCallback(FutureCallback<JsonArray?> { exception, result ->
-        if (result == null) {
-          Log.e(TAG, "create_form(): error")
-          return@FutureCallback
-        }
-        Log.d(TAG, "create_form(): " + result.toString())
-        parse_result(result)
-
-        val i = Intent(activity, wt_deviceform::class.java)
-        i.putExtra("message", "x");
-
-        startActivity(i)
-
-      })
   }
-
-  private fun parse_result(result: JsonArray) {
-    val it: Iterator<JsonElement> = result.iterator()
-    var run = true;
-    data_hash.clear()
-    while (it.hasNext()) {
-      var temps = ""
-      val element = it.next()
-      Log.d(TAG, "element " + element.asJsonObject.toString())
-      val jo = element.asJsonObject
-
-      for ((key, value) in jo.asMap()) {
-        temps += key + " = " + value + "\n"
-      }
-
-      Log.d(TAG, "parsed stuff $run \n $temps")
-      if (run) {
-        run = !run
-        Log.d(TAG, "building view")
-        //build view
-      } else {
-        //set values
-        Log.d(TAG, "setting values")
-      }
-    }
-
-    // EventBus.getDefault().post(MessageEvent("data_done"))
-  }
-
 }
