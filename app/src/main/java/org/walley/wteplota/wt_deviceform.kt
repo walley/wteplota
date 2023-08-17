@@ -1,9 +1,12 @@
 package org.walley.wteplota
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -29,6 +32,7 @@ class wt_deviceform : AppCompatActivity() {
   private lateinit var layout: LinearLayout
   private lateinit var layout_row: LinearLayout
   private lateinit var label_row: TextView
+  private lateinit var device_title: TextView
   lateinit var item_values: Hashtable<String, Int>
   lateinit var device_name: String
 
@@ -49,6 +53,9 @@ class wt_deviceform : AppCompatActivity() {
 
 
     setContentView(R.layout.activity_deviceform);
+
+    device_title = findViewById<TextView>(R.id.tv_device_title)
+    device_title.setText(device_name)
 
     layout = findViewById<LinearLayout>(R.id.form_layout)
     val btnTag = Button(this)
@@ -117,15 +124,25 @@ class wt_deviceform : AppCompatActivity() {
           layout_row.setOrientation(LinearLayout.HORIZONTAL);
 
           label_row = TextView(this)
-          label_row.text = "$key = ${value.asString}"
+          label_row.text = "$key"
           label_row.id = generateViewId()
+          label_row.setTextColor(Color.RED);
+
+          //label_row.setTextSize(TypedValue.COMPLEX_UNIT_PX, 24F)
+          label_row.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32F)
+
           layout_row.addView(label_row)
 
           when (value.asString) {
             "int" -> {
               val item_row = EditText(this)
+              item_row.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32F)
               item_row.id = generateViewId()
               item_values.put(key, item_row.id)
+              item_row.setInputType(InputType.TYPE_CLASS_NUMBER)
+              //item_row.layoutParams = LayoutParams(200,100)
+              item_row.layoutParams =
+                LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
               layout_row.addView(item_row)
             }
 
