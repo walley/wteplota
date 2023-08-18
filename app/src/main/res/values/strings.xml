@@ -52,7 +52,7 @@
   <string name="settings_api_type">api type</string>
   <string name="api_type">api</string>
   <string name="select_api_type">select api type</string>
-  <string name="select_api_type_summary">aelect api type and vendor a tak nejak</string>
+  <string name="select_api_type_summary">select api vendor and type</string>
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="menu_sms">SMS</string>
   <string name="sms_send">Send SMS</string>
@@ -64,5 +64,6 @@
   <string name="username_label">Username:</string>
   <string name="nextcloud">Login via Nextcloud</string>
   <string name="title_activity_wt_deviceform">Device Form</string>
+  <string name="update_device_parameters">Submit and Update device parameters</string>
 
 </resources>

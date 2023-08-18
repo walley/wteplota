@@ -1,6 +1,7 @@
 package org.walley.wteplota
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -17,11 +18,13 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
 import androidx.appcompat.widget.LinearLayoutCompat.generateViewId
+import androidx.preference.PreferenceManager
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.ion.Ion
+import java.util.Arrays
 import java.util.Hashtable
 
 class wt_deviceform : AppCompatActivity() {
@@ -33,11 +36,21 @@ class wt_deviceform : AppCompatActivity() {
   private lateinit var layout_row: LinearLayout
   private lateinit var label_row: TextView
   private lateinit var device_title: TextView
+  private lateinit var button_submit: Button
   lateinit var item_values: Hashtable<String, Int>
   lateinit var device_name: String
+  lateinit var base_url: String
+  lateinit var api: String
+  lateinit var prefs: SharedPreferences
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    prefs = PreferenceManager.getDefaultSharedPreferences(this)
+    api = prefs.getString("api_type", "default_api").toString()
+    base_url = prefs.getString("server_url", "localhost").toString()
+    Log.d(TAG, "oncreate() api:" + api)
+    Log.d(TAG, "oncreate() urli:" + base_url)
 
     item_values = Hashtable(1)
 
@@ -58,14 +71,6 @@ class wt_deviceform : AppCompatActivity() {
     device_title.setText(device_name)
 
     layout = findViewById<LinearLayout>(R.id.form_layout)
-    val btnTag = Button(this)
-    btnTag.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-    btnTag.text = "Button"
-    btnTag.setOnClickListener() {
-      Toast.makeText(this, "buzumbura", Toast.LENGTH_LONG).show()
-    }
-
-    layout.addView(btnTag)
 
     create_form()
 
@@ -80,6 +85,44 @@ class wt_deviceform : AppCompatActivity() {
     return super.onCreateView(parent, name, context, attrs)
   }
 
+  private fun create_submit() {
+
+    val url: String = "$base_url/wiot/v1/data/$device_name"
+    button_submit = Button(this)
+    button_submit.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+    button_submit.text = getString(R.string.update_device_parameters)
+    button_submit.setOnClickListener() {
+      Toast.makeText(this, "buzumbura $url", Toast.LENGTH_LONG).show()
+
+      val params = HashMap<String, List<String>>();
+
+      for ((key, value) in item_values) {
+        val v: View = findViewById(value)
+        if (v is EditText) {
+          params.put(key, Arrays.asList(v.text.toString()));
+          Log.d(TAG, "post data: $key," + v.text.toString())
+        } else if (v is ToggleButton) {
+          Log.d(TAG, "$key is togglebutton")
+        } else {
+          Log.d(TAG, "$key is unknown")
+        }
+
+      }
+
+      Ion.with(this).load(url).setBodyParameters(params).asString()
+        .setCallback(FutureCallback<String?> { exception, result ->
+          if (result == null) {
+            Log.e(TAG, "create_form(): error")
+            return@FutureCallback
+          }
+          Log.d(TAG, "create_form(): " + result)
+        })
+
+    }
+    layout.addView(button_submit)
+
+  }
+
   private fun create_form() {
 
     val url: String = "https://wiot.cz/wiot/v1/form/$device_name?output=json"
@@ -92,7 +135,7 @@ class wt_deviceform : AppCompatActivity() {
         }
         Log.d(TAG, "create_form(): " + result.toString())
         parse_result(result)
-//add submit
+        create_submit()
       })
   }
 
