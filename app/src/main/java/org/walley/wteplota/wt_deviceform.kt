@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
 import androidx.appcompat.widget.LinearLayoutCompat.generateViewId
 import androidx.preference.PreferenceManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -29,6 +31,8 @@ import java.util.Hashtable
 
 class wt_deviceform : AppCompatActivity() {
   private val TAG = "WT-DF"
+
+  lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
   //  private val context = applicationContext
   val data_hash = Hashtable<String, JsonObject>()
@@ -42,6 +46,8 @@ class wt_deviceform : AppCompatActivity() {
   lateinit var base_url: String
   lateinit var api: String
   lateinit var prefs: SharedPreferences
+
+  fun onRefresh() {}
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -66,6 +72,16 @@ class wt_deviceform : AppCompatActivity() {
 
 
     setContentView(R.layout.activity_deviceform);
+
+    swipeRefreshLayout = findViewById(R.id.swipe_container)
+
+    swipeRefreshLayout.setOnRefreshListener {
+      Handler().postDelayed(Runnable {
+        Log.d(TAG, "onCreate(): swipe")
+        swipeRefreshLayout.isRefreshing = false
+      }, 4000)
+    }
+
 
     device_title = findViewById<TextView>(R.id.tv_device_title)
     device_title.setText(device_name)
@@ -171,7 +187,6 @@ class wt_deviceform : AppCompatActivity() {
           label_row.id = generateViewId()
           label_row.setTextColor(Color.RED);
 
-          //label_row.setTextSize(TypedValue.COMPLEX_UNIT_PX, 24F)
           label_row.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32F)
 
           layout_row.addView(label_row)
@@ -183,10 +198,23 @@ class wt_deviceform : AppCompatActivity() {
               item_row.id = generateViewId()
               item_values.put(key, item_row.id)
               item_row.setInputType(InputType.TYPE_CLASS_NUMBER)
-              //item_row.layoutParams = LayoutParams(200,100)
               item_row.layoutParams =
                 LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
               layout_row.addView(item_row)
+              val button_plus = Button(this)
+              button_plus.text = "+"
+              button_plus.setOnClickListener() {
+                val x: String = item_row.text.toString()
+                item_row.setText((x.toInt() + 1).toString())
+              }
+              layout_row.addView(button_plus)
+              val button_minus = Button(this)
+              button_minus.text = "-"
+              button_minus.setOnClickListener() {
+                item_row.setText((item_row.text.toString().toInt() - 1).toString())
+              }
+              layout_row.addView(button_minus)
+
             }
 
             "bool" -> {
@@ -207,7 +235,7 @@ class wt_deviceform : AppCompatActivity() {
         for ((key, value) in jo.asMap()) {
           var id: Int = 0;
           id = item_values.get(key)!!
-          var v: View = findViewById(id)
+          val v: View = findViewById(id)
           if (v is EditText) {
             Log.d(TAG, "$key is edittext")
             v.setText(value.toString())
