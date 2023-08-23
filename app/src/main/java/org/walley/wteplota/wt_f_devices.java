@@ -126,7 +126,7 @@ public class wt_f_devices extends Fragment
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(MessageEvent event)
+  public void onMessageEvent(message_event event)
   {
     //Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
     Log.i(TAG, event.message);

@@ -81,7 +81,7 @@ public class wt_viewmodel extends AndroidViewModel
         }
         temps += entry.getKey() + " = " + entry.getValue() + "\n";
       }
-      EventBus.getDefault().post(new MessageEvent("data_done"));
+      EventBus.getDefault().post(new message_event("data_done"));
     }
     Log.d(TAG, "parsed stuff " + temps);
   }

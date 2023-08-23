@@ -1,21 +1,21 @@
 package org.walley.wteplota;
 
 /******************************************************************************/
-public class MessageEvent
+public class message_event
 /******************************************************************************/
 {
   public final String message;
   public int param_i;
 
   /******************************************************************************/
-  public MessageEvent(String message)
+  public message_event(String message)
   /******************************************************************************/
   {
     this.message = message;
   }
 
   /******************************************************************************/
-  public MessageEvent(String message, int i)
+  public message_event(String message, int i)
   /******************************************************************************/
   {
     this.message = message;

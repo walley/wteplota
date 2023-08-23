@@ -3,7 +3,6 @@ package org.walley.wteplota;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,7 +21,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,7 +31,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class wt_main extends AppCompatActivity
+public class wt_main extends wt_base
 {
   public static final String TAG = "WT-MAIN";
   private static final int RESULT_SETTINGS = 2;
@@ -165,7 +163,7 @@ public class wt_main extends AppCompatActivity
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(MessageEvent event)
+  public void onMessageEvent(message_event event)
   {
     Log.i(TAG, event.message);
   }
@@ -186,19 +184,6 @@ public class wt_main extends AppCompatActivity
 
     Toast.makeText(getApplicationContext(), builder, Toast.LENGTH_LONG).show();
 
-  }
-
-  public boolean is_dark_theme()
-  {
-    switch (
-            getResources().
-                    getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-      case Configuration.UI_MODE_NIGHT_YES:
-        return true;
-      case Configuration.UI_MODE_NIGHT_NO:
-        return false;
-    }
-    return true;
   }
 
 }

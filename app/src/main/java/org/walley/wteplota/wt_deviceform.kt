@@ -271,7 +271,7 @@ class wt_deviceform : AppCompatActivity() {
       }
     }
 
-    EventBus.getDefault().post(MessageEvent("device_data_done"))
+    EventBus.getDefault().post(message_event("device_data_done"))
   }
 
   private fun reload_all() {
@@ -280,7 +280,7 @@ class wt_deviceform : AppCompatActivity() {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public fun onEventMainThread(event: MessageEvent) {
+  public fun onEventMainThread(event: message_event) {
     Log.i("WC", "onEventMainThread(): got message " + event.message);
     swipeRefreshLayout.isRefreshing = false
   }

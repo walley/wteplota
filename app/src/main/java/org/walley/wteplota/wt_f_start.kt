@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.walley.wteplota.databinding.FragmentStartBinding
-import java.util.*
+import java.util.Hashtable
 
 class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
@@ -74,7 +74,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  fun onMessageEvent(event: MessageEvent) {
+  fun onMessageEvent(event: message_event) {
 //    Toast.makeText(getActivity(), TAG + " got " + event.message, Toast.LENGTH_SHORT).show();
     Log.i(TAG, event.message)
     when (event.message) {
