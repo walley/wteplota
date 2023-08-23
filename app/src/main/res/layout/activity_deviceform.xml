@@ -11,7 +11,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-      android:id="@+id/form_layout"
+      android:id="@+id/main_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical">
@@ -20,11 +20,17 @@
         android:id="@+id/tv_device_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="TextView top"
         android:textAlignment="center"
-        android:gravity="center"
         android:textSize="48sp"
         android:textStyle="bold" />
+
+      <LinearLayout
+        android:id="@+id/form_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
     </LinearLayout>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

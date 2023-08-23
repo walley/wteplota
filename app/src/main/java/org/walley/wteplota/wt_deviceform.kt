@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
@@ -26,6 +25,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.ion.Ion
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.Arrays
 import java.util.Hashtable
 
@@ -49,8 +51,22 @@ class wt_deviceform : AppCompatActivity() {
 
   fun onRefresh() {}
 
+  override fun onStop() {
+    super.onStop()
+    Log.d(TAG, "onStop() called")
+    EventBus.getDefault().unregister(this)
+  }
+
+  override fun onStart() {
+    super.onStart()
+    Log.d(TAG, "onStart() called")
+    EventBus.getDefault().register(this)
+    create_form()
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
 
     prefs = PreferenceManager.getDefaultSharedPreferences(this)
     api = prefs.getString("api_type", "default_api").toString()
@@ -76,10 +92,7 @@ class wt_deviceform : AppCompatActivity() {
     swipeRefreshLayout = findViewById(R.id.swipe_container)
 
     swipeRefreshLayout.setOnRefreshListener {
-      Handler().postDelayed(Runnable {
-        Log.d(TAG, "onCreate(): swipe")
-        swipeRefreshLayout.isRefreshing = false
-      }, 4000)
+      reload_all()
     }
 
 
@@ -88,9 +101,7 @@ class wt_deviceform : AppCompatActivity() {
 
     layout = findViewById<LinearLayout>(R.id.form_layout)
 
-    create_form()
 
-//    actionBar?.setDisplayHomeAsUpEnabled(true);
   }
 
   override fun onCreateView(
@@ -250,7 +261,7 @@ class wt_deviceform : AppCompatActivity() {
     }
 
     for ((key, value) in item_values) {
-      var v: View = findViewById(value)
+      val v: View = findViewById(value)
       if (v is EditText) {
         Log.d(TAG, "$key is edittext")
       } else if (v is ToggleButton) {
@@ -260,9 +271,17 @@ class wt_deviceform : AppCompatActivity() {
       }
     }
 
-    // EventBus.getDefault().post(MessageEvent("data_done"))
+    EventBus.getDefault().post(MessageEvent("device_data_done"))
   }
 
+  private fun reload_all() {
+    layout.removeAllViews()
+    create_form()
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public fun onEventMainThread(event: MessageEvent) {
+    Log.i("WC", "onEventMainThread(): got message " + event.message);
+    swipeRefreshLayout.isRefreshing = false
+  }
 }
-
-

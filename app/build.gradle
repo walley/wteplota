@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 def kpFile = rootProject.file("local.properties")
 def kp = new Properties()
@@ -42,6 +43,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+//            useProguard false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+//            useProguard false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -69,7 +77,7 @@ android {
         jvmTarget = '1.8'
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.1'
     }
 }
 
@@ -129,4 +137,10 @@ repositories {
 
 kotlin {
     jvmToolchain(8)
+}
+
+kapt {
+    arguments {
+        arg('eventBusIndex', 'com.example.eventbuskotlin.MyEventBusIndex')
+    }
 }

@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+-keepattributes Annotation
+-keepclassmembers class ** {
+ @org.greenrobot.eventbus.Subscribe ;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *;
+
