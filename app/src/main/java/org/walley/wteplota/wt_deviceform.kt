@@ -139,7 +139,7 @@ class wt_deviceform : AppCompatActivity() {
       Ion.with(this).load(url).setBodyParameters(params).asString()
         .setCallback(FutureCallback<String?> { exception, result ->
           if (result == null) {
-            Log.e(TAG, "create_form(): error")
+            Log.e(TAG, "create_form(): error $exception")
             return@FutureCallback
           }
           Log.d(TAG, "create_form(): " + result)
@@ -157,7 +157,7 @@ class wt_deviceform : AppCompatActivity() {
     Ion.with(applicationContext).load(url).asJsonArray()
       .setCallback(FutureCallback<JsonArray?> { exception, result ->
         if (result == null) {
-          Log.e(TAG, "create_form(): error")
+          Log.e(TAG, "create_form(): error $exception")
           return@FutureCallback
         }
         Log.d(TAG, "create_form(): " + result.toString())
@@ -244,7 +244,7 @@ class wt_deviceform : AppCompatActivity() {
         //set values
         Log.d(TAG, "setting values")
         for ((key, value) in jo.asMap()) {
-          var id: Int = 0;
+          var id: Int;
           id = item_values.get(key)!!
           val v: View = findViewById(id)
           if (v is EditText) {

@@ -154,6 +154,7 @@ public class wt_f_devices extends Fragment
 
     for (String key : data_hash.keySet()) {
       JsonElement element = (JsonElement) data_hash.get(key);
+      assert element != null;
       JsonObject jo = element.getAsJsonObject();
       for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
         if (entry.getKey().equals("Nazev")) {
@@ -202,9 +203,9 @@ public class wt_f_devices extends Fragment
     String device_value;
     int device_index = 0;
 
-    Boolean has_name = false;
-    Boolean has_type = false;
-    Boolean has_value = false;
+    boolean has_name = false;
+    boolean has_type = false;
+    boolean has_value = false;
 
 
     if (name.contains(".typ")) {
@@ -320,7 +321,7 @@ public class wt_f_devices extends Fragment
       tv_device_value.setText(device.getValue());
       float temp_temp = 0;
       try {
-        temp_temp = Float.parseFloat(device.getValue().toString().replace("\"", ""));
+        temp_temp = Float.parseFloat(device.getValue().replace("\"", ""));
       } catch (Exception e) {
         temp_temp = 1;
       }

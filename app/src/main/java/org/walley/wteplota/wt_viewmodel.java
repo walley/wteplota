@@ -46,6 +46,10 @@ public class wt_viewmodel extends AndroidViewModel
       url += "android.php";
     }
 
+    if (api.equals("walley")) {
+      url += "wiot/v1/devices?output=json";
+    }
+
     Log.d(TAG, "wt_viewmodel() url:" + url);
     Log.d(TAG, "wt_viewmodel() api:" + api);
   }
@@ -90,18 +94,16 @@ public class wt_viewmodel extends AndroidViewModel
   {
 
     Context context = getApplication().getApplicationContext();
-    Ion
-            .with(context)
+    Ion.with(context)
             .load(url)
             .asJsonArray()
             .setCallback(new FutureCallback<JsonArray>()
             {
               @Override
-              public void onCompleted(Exception exception, JsonArray result)
+              public void onCompleted(Exception e, JsonArray result)
               {
-                // String item_json;
                 if (result == null) {
-                  Log.e(TAG, "get_temp(): json error");
+                  Log.e(TAG, "get_temp(): json error " + e.toString());
                   return;
                 }
 

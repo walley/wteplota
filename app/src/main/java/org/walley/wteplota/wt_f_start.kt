@@ -33,7 +33,6 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-//    val root = inflater.inflate(R.layout.fragment_start, container, false)
     _binding = FragmentStartBinding.inflate(inflater, container, false)
     val root = binding.root
 
@@ -75,7 +74,6 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onMessageEvent(event: message_event) {
-//    Toast.makeText(getActivity(), TAG + " got " + event.message, Toast.LENGTH_SHORT).show();
     Log.i(TAG, event.message)
     when (event.message) {
       "data_done" -> {

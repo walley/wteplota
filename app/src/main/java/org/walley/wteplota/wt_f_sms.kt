@@ -81,7 +81,7 @@ class wt_f_sms : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    bt_sms_send?.setOnClickListener {
+    bt_sms_send.setOnClickListener {
       sms_send()
     }
 
@@ -90,7 +90,7 @@ class wt_f_sms : Fragment() {
 
   fun select_item(position: Int) {
     Log.d(TAG, "Clicked on $position")
-    tv_sms.text = "selected: " + sms_list.get(position)
+    tv_sms.text = "selected: ${sms_list.get(position)}"
     selected_item = position
   }
 
@@ -98,9 +98,8 @@ class wt_f_sms : Fragment() {
     val intent = Intent(Intent.ACTION_SEND)
     val sms_text: String
     val sms_number: String
-    var sms_data: String
+    val sms_data: String
 
-    sms_data = "Here is the share content body"
     sms_data = sms_list[selected_item]
 
     if (sms_data.contains('"')) {
