@@ -10,24 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?> {
-
-  internal constructor(context: Context?, data: java.util.ArrayList<wt_device>) : super() {
-    this.mData = data
-    this.mInflater = LayoutInflater.from(context)
-    this.context = context!!
-    dump_data()
-  }
+class adapter_RecyclerView internal constructor(
+  context: Context?, data: java.util.ArrayList<wt_device>
+                                               ) :
+  RecyclerView.Adapter<adapter_RecyclerView.ViewHolder?>() {
 
   var TAG = "WT-ARV"
   val context: Context
-  private val mData: java.util.ArrayList<wt_device>
+  private val mData: java.util.ArrayList<wt_device> = data
   private val mInflater: LayoutInflater
   private var mClickListener: ItemClickListener? = null;
 
@@ -37,13 +32,14 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
   }
 
   public fun dump_data() {
+    Log.i(TAG, "Data dump:")
     for (device in mData) {
       Log.i(TAG, "devices: (" + device.name + "," + device.value + "," + device.type + ")")
     }
   }
 
   // binds the data to the TextView in each cell
-  override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.tv_name.setText(mData[position].name)
     holder.tv_type.setText(mData[position].type)
     holder.tv_value.setText(mData[position].value)
@@ -135,11 +131,17 @@ class adapter_RecyclerView : RecyclerView.Adapter<adapter_RecyclerView.ViewHolde
   }
 
   fun is_dark_theme(): Boolean {
-    when (context?.getResources()?.getConfiguration()?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+    when (context.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
       Configuration.UI_MODE_NIGHT_YES -> return true
       Configuration.UI_MODE_NIGHT_NO -> return false
     }
     return true
+  }
+
+  init {
+    this.mInflater = LayoutInflater.from(context)
+    this.context = context!!
+    dump_data()
   }
 
 }

@@ -1,5 +1,7 @@
 package org.walley.wteplota
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -30,14 +33,21 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   var data_hash: Hashtable<String, JsonObject>? = Hashtable()
   var devices_array: java.util.ArrayList<wt_device> = java.util.ArrayList()
   private var swipeContainer: SwipeRefreshLayout? = null
+  lateinit var api: String
+  lateinit var prefs: SharedPreferences
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+                           ): View {
 
     _binding = FragmentStartBinding.inflate(inflater, container, false)
     val root = binding.root
 
-    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
+    val c: Context = requireContext()
+    prefs = PreferenceManager.getDefaultSharedPreferences(c)
+    api = prefs.getString("api_type", "default_api").toString()
 
+    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
     wtviewmodel!!._server_data.observe(viewLifecycleOwner, Observer {
       Log.i(TAG, "viewmodel observer onchanged()")
     })
@@ -77,8 +87,11 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     Log.i(TAG, event.message)
     when (event.message) {
       "data_done" -> {
-//        update_temp()
-        show_listview("Uvod")
+        if (api == "marek") {
+          show_listview("Uvod")
+        } else {
+          show_listview("1")
+        }
       }
     }
   }
@@ -92,7 +105,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   private fun show_listview(room_name: String) {
     val room_data = data_hash!![room_name]
     var device: wt_device
-//    devices_array?.clear()
+
     if (room_data != null) {
       for ((key, value) in room_data.entrySet()) {
         if (key != "Nazev") {
