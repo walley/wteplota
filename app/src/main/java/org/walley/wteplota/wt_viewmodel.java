@@ -92,37 +92,13 @@ public class wt_viewmodel extends AndroidViewModel
     Log.d(TAG, "parsed array stuff\n" + temps);
   }
 
-  public JsonObject deep_merge(JsonObject source, JsonObject target) throws Exception
+  public JsonObject deep_merge(String name, JsonObject source, JsonObject target)
   {
     JsonObject x = new JsonObject();
-    x.add(source.get("name").getAsString(), source);
-    x.add(source.get("name").getAsString(), target);
+    x.add(name + "1", source);
+    x.add(name + "2", target);
+    Log.d(TAG, "jo x: " + x.toString());
     return x;
-
-/*
-    for (Map.Entry<String, JsonElement> sourceEntry : source.entrySet()) {
-      String key = sourceEntry.getKey();
-      JsonElement value = sourceEntry.getValue();
-      if (!target.has(key)) {
-        //target does not have the same key, so perhaps it should be added to target
-        if (!value.isJsonNull()) //well, only add if the source value is not null
-          target.add(key, value);
-      } else {
-        if (!value.isJsonNull()) {
-          if (value.isJsonObject()) {
-            //source value is json object, start deep merge
-            deep_merge(value.getAsJsonObject(), target.get(key).getAsJsonObject());
-          } else {
-            target.add(key, value);
-          }
-        } else {
-          target.remove(key);
-        }
-      }
-    }
-    return target;
-
- */
   }
 
   private String get_room_id(JsonObject jo)
@@ -131,22 +107,6 @@ public class wt_viewmodel extends AndroidViewModel
       if (entry.getKey().equals("room")) {
         String room_name = entry.getValue().toString().replace("\"", "");
         return room_name;
-
-/*      JsonObject temp = data_hash.get(room_name);
-      if (temp != null) {
-        try {
-          Log.d(TAG, room_name + "merged: " + deep_merge(temp,jo).toString());
-
-          data_hash.put(room_name, deep_merge(temp,jo));
-        } catch (Exception e) {
-          throw new RuntimeException(e);
-        }
-
-      } else {
-        data_hash.put(room_name, jo);
-      }
-
- */
       }
     }
 
@@ -170,11 +130,7 @@ public class wt_viewmodel extends AndroidViewModel
       String room_name = get_room_id(jo);
       JsonObject temp = data_hash.get(room_name);
       if (temp != null) {
-        try {
-          data_hash.put(room_name, deep_merge(temp, jo));
-        } catch (Exception e) {
-          throw new RuntimeException(e);
-        }
+        data_hash.put(room_name, deep_merge(room_name, temp, jo));
       } else {
         data_hash.put(room_name, jo);
       }

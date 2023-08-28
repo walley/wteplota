@@ -85,6 +85,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onMessageEvent(event: message_event) {
     Log.i(TAG, event.message)
+    Log.i(TAG, "DATA_HASH:" + data_hash.toString())
     when (event.message) {
       "data_done" -> {
         if (api == "marek") {
