@@ -71,11 +71,13 @@ class adapter_RecyclerView internal constructor(
 
     val unwrappedDrawable: Drawable?
     unwrappedDrawable = when (mData[position].type) {
-      "dvere" -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
-      "teplomer" -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
-      "motor" -> AppCompatResources.getDrawable(context, R.drawable.ic_fan_24)
-      "voda" -> AppCompatResources.getDrawable(context, R.drawable.ic_faucet_24)
-      else -> AppCompatResources.getDrawable(context, R.drawable.ic_cat_24)
+      "dvere"      -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
+      "door"       -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
+      "teplomer"   -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
+      "thermostat" -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
+      "motor"      -> AppCompatResources.getDrawable(context, R.drawable.ic_fan_24)
+      "voda"       -> AppCompatResources.getDrawable(context, R.drawable.ic_faucet_24)
+      else         -> AppCompatResources.getDrawable(context, R.drawable.ic_cat_24)
     }
 
     val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)

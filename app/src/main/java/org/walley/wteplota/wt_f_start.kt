@@ -1,6 +1,7 @@
 package org.walley.wteplota
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -68,7 +69,11 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
   }
 
   override fun onItemClick(view: View?, position: Int) {
-    Log.i(TAG, "onItemClick($position)")
+    Log.i(TAG, "onItemClick($position) " + devices_array[position].name)
+    val i = Intent(activity, wt_deviceform::class.java)
+    i.putExtra("device_name", devices_array[position].name.replace("\"", ""));
+    startActivity(i)
+
   }
 
   override fun onStart() {
