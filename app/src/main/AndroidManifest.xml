@@ -36,7 +36,6 @@
       </intent-filter>
     </activity>
     <activity android:name=".wt_preferences" />
-    <activity android:name=".wt_login" />
     <activity
       android:name="net.openid.appauth.RedirectUriReceiverActivity"
       android:exported="true">

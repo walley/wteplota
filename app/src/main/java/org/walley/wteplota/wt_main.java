@@ -154,9 +154,6 @@ public class wt_main extends wt_base
     }
 
     if (id == R.id.action_login) {
-      Intent i_login = new Intent();
-      i_login.setClass(context, wt_login.class);
-      startActivityForResult(i_login, RESULT_SETTINGS);
     }
 
     return super.onOptionsItemSelected(item);

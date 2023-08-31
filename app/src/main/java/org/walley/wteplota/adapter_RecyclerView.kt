@@ -52,7 +52,7 @@ class adapter_RecyclerView internal constructor(
     }
 
     var temp_temp: Float = 0F
-    Log.i(wt_f_devices.TAG, "converting:" + mData[position].value)
+    Log.i(TAG, "converting:" + mData[position].value)
     temp_temp = try {
       mData[position].value.replace("\"", "").toFloat()
     } catch (e: Exception) {
