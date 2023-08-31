@@ -47,7 +47,6 @@ public class wt_f_devices extends wt_f_base
   GradientDrawable gd;
   ArrayAdapter<String> itemsAdapter;
   ArrayList<wt_device> devices_array;
-  //final
   ArrayList<String> rooms_list;
   device_adapter adapter;
   Boolean first_run = true;
@@ -274,20 +273,6 @@ public class wt_f_devices extends wt_f_base
     }
     adapter.notifyDataSetChanged();
   }
-
-/*  private boolean is_dark_theme()
-  {
-    switch (
-            getResources().
-                    getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-      case Configuration.UI_MODE_NIGHT_YES:
-        return true;
-      case Configuration.UI_MODE_NIGHT_NO:
-        return false;
-    }
-    return true;
-  }
-*/
 
   public class device_adapter extends ArrayAdapter<wt_device>
   {
