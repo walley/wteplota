@@ -13,11 +13,10 @@ import com.koushikdutta.ion.Ion;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.Random;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -92,11 +91,16 @@ public class wt_viewmodel extends AndroidViewModel
     Log.d(TAG, "parsed array stuff\n" + temps);
   }
 
-  public JsonObject deep_merge(String name, JsonObject source, JsonObject target)
+  public JsonObject deep_merge(String name, JsonObject one, JsonObject two)
   {
     JsonObject x = new JsonObject();
-    x.add(name + "1", source);
-    x.add(name + "2", target);
+
+    Log.d(TAG, "deep_merge(): one" + one.toString());
+    Log.d(TAG, "deep_merge(): two" + two.toString());
+
+
+    x.add(name + Math.random() * 1000, one);
+    x.add(name + Math.random() * 1000, two);
     Log.d(TAG, "jo x: " + x.toString());
     return x;
   }
@@ -115,30 +119,45 @@ public class wt_viewmodel extends AndroidViewModel
 
   private void parse_result(JsonObject result)
   {
-    Map<String, Object> attributes = new HashMap<String, Object>();
-    Set<Map.Entry<String, JsonElement>> entrySet = result.entrySet();
+//    Map<String, Object> attributes = new HashMap<String, Object>();
+//    Set<Map.Entry<String, JsonElement>> entrySet = result.entrySet();
+
     String temps = "";
+    Log.d(
+            TAG,
+            "parse_result(OBJECT): result: " + result.toString() + "size" + result.entrySet().size()
+         );
 
     data_hash.clear();
 
-    for (Map.Entry<String, JsonElement> main_entry : entrySet) {
-      Log.d(TAG, "entry key: " + main_entry.getKey());
-      JsonElement element = (JsonElement) main_entry.getValue();
-      Log.d(TAG, "entry value (element): " + element.getAsJsonObject().toString());
-      JsonObject jo = element.getAsJsonObject();
-      Log.d(TAG, "room id: " + get_room_id(jo));
+    for (Map.Entry<String, JsonElement> main_entry : result.entrySet()) {
+      String entryset_key = main_entry.getKey();
+      JsonElement entryset_value = (JsonElement) main_entry.getValue();
+      JsonObject jo = entryset_value.getAsJsonObject();
       String room_name = get_room_id(jo);
+
+      Log.d(TAG, "parse_result(OBJECT): entry key: " + entryset_key);
+      Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value.toString());
+      Log.d(TAG, "parse_result(OBJECT): room: " + room_name);
+
       JsonObject temp = data_hash.get(room_name);
+
+      Random random = new Random();
+      int rand = random.nextInt(1000);
+
       if (temp != null) {
-        data_hash.put(room_name, deep_merge(room_name, temp, jo));
+        temp.add("kokot" + rand, jo);
+        data_hash.put(room_name, temp);
       } else {
-        data_hash.put(room_name, jo);
+        JsonObject final_temp = new JsonObject();
+        final_temp.add("kokot" + rand, jo);
+        data_hash.put(room_name, final_temp);
       }
 
-      Log.d(TAG, "data_hash: " + data_hash.toString());
+      Log.d(TAG, "parse_result(OBJECT): data_hash: " + data_hash.toString());
 
-      EventBus.getDefault().post(new message_event("data_done"));
     }
+    EventBus.getDefault().post(new message_event("data_done"));
   }
 
   private void get_as_array()

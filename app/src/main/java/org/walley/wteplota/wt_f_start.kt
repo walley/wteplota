@@ -113,7 +113,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
     devices_array.clear()
 
-    Log.i(TAG, "show_listview($room_name): room_data> $room_data")
+    Log.d(TAG, "show_listview($room_name): room_data> $room_data")
 
     if (room_data != null) {
       if (api == "walley") {
@@ -134,6 +134,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
               "type" -> {
                 device_type = entry_value.toString()
+                  .replace("\"", "")
                 Log.d(TAG, "show_listview($room_name): device type $device_type")
               }
 
