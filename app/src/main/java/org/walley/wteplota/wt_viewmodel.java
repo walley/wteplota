@@ -119,9 +119,6 @@ public class wt_viewmodel extends AndroidViewModel
 
   private void parse_result(JsonObject result)
   {
-//    Map<String, Object> attributes = new HashMap<String, Object>();
-//    Set<Map.Entry<String, JsonElement>> entrySet = result.entrySet();
-
     String temps = "";
     Log.d(
             TAG,

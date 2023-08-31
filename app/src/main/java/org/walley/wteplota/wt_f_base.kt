@@ -4,10 +4,10 @@ import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 
 open class wt_f_base : Fragment() {
-  private fun is_dark_theme(): Boolean {
+  public fun is_dark_theme(): Boolean {
     when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
       Configuration.UI_MODE_NIGHT_YES -> return true
-      Configuration.UI_MODE_NIGHT_NO -> return false
+      Configuration.UI_MODE_NIGHT_NO  -> return false
     }
     return true
   }

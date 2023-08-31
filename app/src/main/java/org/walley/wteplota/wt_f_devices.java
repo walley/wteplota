@@ -2,7 +2,6 @@ package org.walley.wteplota;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -34,12 +33,11 @@ import java.util.Map;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class wt_f_devices extends Fragment
+public class wt_f_devices extends wt_f_base
 {
   public static final String TAG = "WT-D";
   TextView tv_data;
@@ -277,7 +275,7 @@ public class wt_f_devices extends Fragment
     adapter.notifyDataSetChanged();
   }
 
-  private boolean is_dark_theme()
+/*  private boolean is_dark_theme()
   {
     switch (
             getResources().
@@ -289,6 +287,7 @@ public class wt_f_devices extends Fragment
     }
     return true;
   }
+*/
 
   public class device_adapter extends ArrayAdapter<wt_device>
   {
@@ -328,6 +327,7 @@ public class wt_f_devices extends Fragment
 
       Color negative;
       int positive;
+
       if (is_dark_theme()) {
         positive = ContextCompat.getColor(getContext(), R.color.light_green);
       } else {
