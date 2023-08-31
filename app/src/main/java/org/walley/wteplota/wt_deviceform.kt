@@ -67,7 +67,6 @@ class wt_deviceform : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-
     prefs = PreferenceManager.getDefaultSharedPreferences(this)
     api = prefs.getString("api_type", "default_api").toString()
     base_url = prefs.getString("server_url", "localhost").toString()
@@ -86,29 +85,23 @@ class wt_deviceform : AppCompatActivity() {
 
     Log.d(TAG, "onCreate(): device name: $device_name")
 
-
     setContentView(R.layout.activity_deviceform);
 
     swipeRefreshLayout = findViewById(R.id.swipe_container)
-
     swipeRefreshLayout.setOnRefreshListener {
       reload_all()
     }
-
 
     device_title = findViewById<TextView>(R.id.tv_device_title)
     device_title.setText(device_name)
 
     layout = findViewById<LinearLayout>(R.id.form_layout)
-
-
   }
 
   override fun onCreateView(
     parent: View?, name: String, context: Context, attrs: AttributeSet
                            ): View? {
     Log.d(TAG, "onCreateView() $name")
-
     return super.onCreateView(parent, name, context, attrs)
   }
 
@@ -133,7 +126,6 @@ class wt_deviceform : AppCompatActivity() {
         } else {
           Log.d(TAG, "$key is unknown")
         }
-
       }
 
       Ion.with(this).load(url).setBodyParameters(params).asString()
@@ -147,7 +139,6 @@ class wt_deviceform : AppCompatActivity() {
 
     }
     layout.addView(button_submit)
-
   }
 
   private fun create_form() {
@@ -255,7 +246,6 @@ class wt_deviceform : AppCompatActivity() {
           } else {
             Log.d(TAG, "$key is unknown")
           }
-
         }
       }
     }

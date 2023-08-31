@@ -25,4 +25,5 @@
   <string name="username_label">Jmeno uzivatele:</string>
   <string name="nextcloud">Login přez Nextcloud</string>
   <string name="update_device_parameters">Odeslat zmeny do zarizeni</string>
+  <string name="not_logged_in">Not logged in</string>
 </resources>

@@ -107,13 +107,15 @@ class wt_f_login : Fragment() {
   }
 
   fun get_username(): String {
-    var url: String
+    val url: String
+    lateinit var cookies: String
+
     url = "https://wiot.cz/wiot/v1/username"
     Log.d(TAG, "get_username(): start")
 
-    lateinit var cookies: String
-
-    cookies = android.webkit.CookieManager.getInstance()?.getCookie(url).toString()
+    cookies = android.webkit.CookieManager.getInstance()
+      ?.getCookie(url)
+      .toString()
 
     if (cookies == "null") {
       Log.d(TAG, "get_username(): webkit no cookies, login .....")
@@ -133,19 +135,6 @@ class wt_f_login : Fragment() {
     Log.d(TAG, "get_username(): returned data: $data")
 
     return data
-
-    /*    Ion.with(context)
-      .load(url)
-      .asString()
-      .setCallback(FutureCallback<String?> { exception, result ->
-        if (result == null) {
-          Log.e(TAG, "klyk2: error")
-          return @FutureCallback
-        }
-
-        Log.d(TAG, "Klyk2: " + result.toString())
-      })
-*/
   }
 
   fun stuff() {
@@ -163,16 +152,13 @@ class wt_f_login : Fragment() {
         tv_username.setText(get_username())
       }
 
-      else -> {}
+      else -> tv_username.text = getString(R.string.not_logged_in)
     }
   }
 
-
   private fun create_form() {
-
     val i = Intent(activity, wt_deviceform::class.java)
     i.putExtra("device_name", "thermostat0");
     startActivity(i)
-
   }
 }
