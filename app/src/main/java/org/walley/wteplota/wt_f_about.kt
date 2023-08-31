@@ -63,7 +63,8 @@ class wt_f_about : wt_f_base() {
   fun SimpleScreen() {
     Column(Modifier.fillMaxSize()) {
       Text(
-        text = "x", style = MaterialTheme.typography.headlineMedium, color =
+        text = "x", style = MaterialTheme.typography.headlineMedium
+        //, color =
       )
       Text(
         text = "xx", style = MaterialTheme.typography.headlineSmall
