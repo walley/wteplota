@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 
 class wt_f_about : wt_f_base() {
 
   lateinit var tv_about: TextView
   lateinit var compost: ComposeView
+  lateinit var navController: NavController
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -28,6 +39,8 @@ class wt_f_about : wt_f_base() {
     val root = inflater.inflate(R.layout.fragment_about, container, false)
     tv_about = root.findViewById<TextView>(R.id.tv_about)
     compost = root.findViewById<ComposeView>(R.id.compose_view)
+    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+
     return root
   }
 
@@ -59,22 +72,100 @@ class wt_f_about : wt_f_base() {
     }
   }
 
+  val red200 = Color(0XFFEF9A9A)
+  val red500 = Color(0XFFF44336)
+  val red700 = Color(0XFFD32F2F)
+  val pink200 = Color(0XFFF27584)
+  val pink500 = Color(0XFFEF5366)
+
+  val pink700 = Color(0XFFD74A5B)
+  val purple200 = Color(0XFFCE93D8)
+  val purple500 = Color(0XFF9C27B0)
+  val purple700 = Color(0XFF7B1FA2)
+
+  val indigo200 = Color(0XFF9FA8DA)
+  val indigo500 = Color(0XFF3F51B5)
+  val indigo700 = Color(0XFF303f9f)
+  val blue200 = Color(0XFF90CAF9)
+  val blue500 = Color(0xFF2195F2)
+  val blue700 = Color(0xFF1976D2)
+
+  val teal200 = Color(0XFF80DEEA)
+
+  val green200 = Color(0XFFA5D6A7)
+  val green500 = Color(0XFF4CAF50)
+  val green700 = Color(0XFF388E3C)
+
+  val yellow200 = Color(0XFFFFF59D)
+  val yellow500 = Color(0XFFFFEB3B)
+  val yellow700 = Color(0XFFFBC02D)
+
+  val orange200 = Color(0XFFFFCC80)
+  val orange500 = Color(0XFFFF9800)
+  val orange700 = Color(0XFFF57C00)
+
+  val brown200 = Color(0XFFBCAAA4)
+  val brown500 = Color(0XFF795548)
+  val brown700 = Color(0XFF5D4037)
+  val grey200 = Color(0XFFEEEEEE)
+  val grey500 = Color(0XFF9E9E9E)
+  val grey700 = Color(0XFF616161)
+
+  private val DarkColorScheme = darkColorScheme(
+    primary = red500,
+    secondary = red200,
+    tertiary = androidx.compose.ui.graphics.Color.White,
+    background = Black,
+  )
+
+  private val DarkOrangeColorPalette = darkColorScheme(
+    primary = orange200,
+    secondary = orange700,
+    tertiary = teal200,
+    background = Black,
+    surface = Black,
+    onPrimary = Black,
+    onTertiary = White,
+    onBackground = White,
+    onSurface = White,
+    error = Red,
+  )
+
+  val wt_t_style = TextStyle(
+    color = DarkOrangeColorPalette.primary
+  )
+
   @Composable
-  fun SimpleScreen() {
-    Column(Modifier.fillMaxSize()) {
-      Text(
-        text = "x", style = MaterialTheme.typography.headlineMedium
-        //, color =
-      )
-      Text(
-        text = "xx", style = MaterialTheme.typography.headlineSmall
-      )
-      Text(
-        text = "xxx", style = MaterialTheme.typography.bodyMedium
-      )
-      Spacer(modifier = Modifier.weight(1f))
-      Button(onClick = { /* Handle click */ }, Modifier.fillMaxWidth()) {
-        Text(text = "cudl")
+  fun MyTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit
+  ) {
+    MaterialTheme(
+      colorScheme = DarkOrangeColorPalette, content = content
+    )
+  }
+
+  @Composable
+  @Preview
+  fun SimpleScreen(
+  ) {
+
+    MyTheme() {
+      Column(Modifier.fillMaxSize()) {
+        Text(
+          text = "xx",
+          style = wt_t_style,
+        )
+        Text(
+          text = "xxx", style = wt_t_style
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Button(onClick = {
+
+          navController.navigate(R.id.nav_start)
+
+        }, Modifier.fillMaxWidth()) {
+          Text(text = "cudl")
+        }
       }
     }
   }
