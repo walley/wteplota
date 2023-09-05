@@ -6,24 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
@@ -32,6 +40,10 @@ class wt_f_about : wt_f_base() {
   lateinit var tv_about: TextView
   lateinit var compost: ComposeView
   lateinit var navController: NavController
+
+  var version: String = ""
+  var packageName: String = ""
+  var versionCode: Long = 0
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,9 +62,9 @@ class wt_f_about : wt_f_base() {
     val info = manager.getPackageInfo(
       requireContext().packageName, 0
     )
-    val version = info.versionName
-    val packageName = info.packageName
-    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    version = info.versionName
+    packageName = info.packageName
+    versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       info.getLongVersionCode()
     } else {
       TODO("VERSION.SDK_INT < P")
@@ -150,14 +162,36 @@ class wt_f_about : wt_f_base() {
   ) {
 
     MyTheme() {
-      Column(Modifier.fillMaxSize()) {
+      Column(
+        modifier = Modifier
+          .padding(30.dp)
+          .fillMaxWidth()
+          .wrapContentSize(Alignment.Center)
+      ) {
         Text(
-          text = "xx",
+          modifier = Modifier.fillMaxWidth(),
+          text = "WTEPLOTA",
+          textAlign = TextAlign.Center,
           style = wt_t_style,
         )
         Text(
-          text = "xxx", style = wt_t_style
+          text = "$version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}",
+          textAlign = TextAlign.Center,
+          style = wt_t_style,
+          modifier = Modifier.fillMaxWidth(),
         )
+        Box(
+          modifier = Modifier
+            .border(width = 4.dp, color = Gray, shape = RoundedCornerShape(16.dp))
+            .fillMaxWidth(),
+        ) {
+          Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "TEST",
+            textAlign = TextAlign.Center,
+            style = wt_t_style,
+          )
+        }
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = {
 
