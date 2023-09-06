@@ -24,10 +24,12 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
+import com.koushikdutta.async.http.Headers
 import com.koushikdutta.ion.Ion
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.net.URI
 import java.util.Arrays
 import java.util.Hashtable
 
@@ -54,13 +56,15 @@ class wt_deviceform : AppCompatActivity() {
   override fun onStop() {
     super.onStop()
     Log.d(TAG, "onStop() called")
-    EventBus.getDefault().unregister(this)
+    EventBus.getDefault()
+      .unregister(this)
   }
 
   override fun onStart() {
     super.onStart()
     Log.d(TAG, "onStart() called")
-    EventBus.getDefault().register(this)
+    EventBus.getDefault()
+      .register(this)
     create_form()
   }
 
@@ -68,8 +72,10 @@ class wt_deviceform : AppCompatActivity() {
     super.onCreate(savedInstanceState)
 
     prefs = PreferenceManager.getDefaultSharedPreferences(this)
-    api = prefs.getString("api_type", "default_api").toString()
-    base_url = prefs.getString("server_url", "localhost").toString()
+    api = prefs.getString("api_type", "default_api")
+      .toString()
+    base_url = prefs.getString("server_url", "localhost")
+      .toString()
     Log.d(TAG, "oncreate() api:" + api)
     Log.d(TAG, "oncreate() urli:" + base_url)
 
@@ -100,7 +106,7 @@ class wt_deviceform : AppCompatActivity() {
 
   override fun onCreateView(
     parent: View?, name: String, context: Context, attrs: AttributeSet
-                           ): View? {
+  ): View? {
     Log.d(TAG, "onCreateView() $name")
     return super.onCreateView(parent, name, context, attrs)
   }
@@ -112,7 +118,8 @@ class wt_deviceform : AppCompatActivity() {
     button_submit.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     button_submit.text = getString(R.string.update_device_parameters)
     button_submit.setOnClickListener() {
-      Toast.makeText(this, "buzumbura $url", Toast.LENGTH_LONG).show()
+      Toast.makeText(this, "buzumbura $url", Toast.LENGTH_LONG)
+        .show()
 
       val params = HashMap<String, List<String>>();
 
@@ -128,7 +135,20 @@ class wt_deviceform : AppCompatActivity() {
         }
       }
 
-      Ion.with(this).load(url).setBodyParameters(params).asString()
+      val cookies = get_cookies(url)
+      val middleware = Ion.getDefault(this).cookieMiddleware
+      val ion = Ion.getDefault(this)
+      ion.cookieMiddleware.clear()
+
+      val headers = Headers()
+      headers.set("Set-Cookie", cookies)
+      val uri = URI.create(url)
+      middleware.put(uri, headers)
+
+      Ion.with(this)
+        .load(url)
+        .setBodyParameters(params)
+        .asString()
         .setCallback(FutureCallback<String?> { exception, result ->
           if (result == null) {
             Log.e(TAG, "create_form(): error $exception")
@@ -145,7 +165,9 @@ class wt_deviceform : AppCompatActivity() {
 
     val url: String = "https://wiot.cz/wiot/v1/form/$device_name?output=json"
 
-    Ion.with(applicationContext).load(url).asJsonArray()
+    Ion.with(applicationContext)
+      .load(url)
+      .asJsonArray()
       .setCallback(FutureCallback<JsonArray?> { exception, result ->
         if (result == null) {
           Log.e(TAG, "create_form(): error $exception")
@@ -213,7 +235,10 @@ class wt_deviceform : AppCompatActivity() {
               val button_minus = Button(this)
               button_minus.text = "-"
               button_minus.setOnClickListener() {
-                item_row.setText((item_row.text.toString().toInt() - 1).toString())
+                item_row.setText(
+                  (item_row.text.toString()
+                    .toInt() - 1).toString()
+                )
               }
               layout_row.addView(button_minus)
 
@@ -261,7 +286,8 @@ class wt_deviceform : AppCompatActivity() {
       }
     }
 
-    EventBus.getDefault().post(message_event("device_data_done"))
+    EventBus.getDefault()
+      .post(message_event("device_data_done"))
   }
 
   private fun reload_all() {
@@ -274,4 +300,13 @@ class wt_deviceform : AppCompatActivity() {
     Log.i("WC", "onEventMainThread(): got message " + event.message);
     swipeRefreshLayout.isRefreshing = false
   }
+
+  private fun get_cookies(url: String): String {
+//    val url = "https://wiot.cz/wiot/v1/username"
+    val cookies = android.webkit.CookieManager.getInstance()
+      ?.getCookie(url)
+      .toString()
+    return cookies
+  }
+
 }

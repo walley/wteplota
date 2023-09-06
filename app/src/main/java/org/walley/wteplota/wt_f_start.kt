@@ -169,9 +169,9 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
   private fun add_to_devices_list(name: String, value: String) {
 
-    var device_name: String
-    var device_type: String
-    var device_value: String
+    val device_name: String
+    val device_type: String
+    val device_value: String
     var device_index = 0
     var has_name = false
     var has_type = false
@@ -179,7 +179,8 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
 
     if (api == "marek") {
       if (name.contains(".typ")) {
-        device_name = name.substring(0, name.length - 4).replace("\"", "")
+        device_name = name.substring(0, name.length - 4)
+          .replace("\"", "")
         device_type = value.replace("\"", "")
         device_value = ""
       } else {

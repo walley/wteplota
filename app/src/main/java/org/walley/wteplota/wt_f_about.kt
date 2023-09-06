@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +47,8 @@ class wt_f_about : wt_f_base() {
   var version: String = ""
   var packageName: String = ""
   var versionCode: Long = 0
+
+  var ver_string = ""
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,6 +76,8 @@ class wt_f_about : wt_f_base() {
     }
 
     tv_about.setText("nazdar bazar $version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}")
+    ver_string = "$version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}"
+
     compost.setContent { SimpleScreen() }
   }
 
@@ -175,10 +182,16 @@ class wt_f_about : wt_f_base() {
           style = wt_t_style,
         )
         Text(
-          text = "$version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}",
+          text = ver_string,
           textAlign = TextAlign.Center,
           style = wt_t_style,
           modifier = Modifier.fillMaxWidth(),
+        )
+        Icon(
+          painter = painterResource(id = R.drawable.ic_dragon), contentDescription = null
+        )
+        Image(
+          painter = painterResource(id = R.drawable.ic_dragon_24), contentDescription = "buzumbura"
         )
         Box(
           modifier = Modifier
@@ -191,7 +204,10 @@ class wt_f_about : wt_f_base() {
             textAlign = TextAlign.Center,
             style = wt_t_style,
           )
-        }
+        }/* AsyncImage(
+          model = "http://placekitten.com/200/300",
+          contentDescription = "buzumbura"
+        )*/
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = {
 
