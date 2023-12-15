@@ -40,7 +40,7 @@ public class wt_viewmodel extends AndroidViewModel
     data_hash = new Hashtable<String, JsonObject>();
 
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-    url = prefs.getString("server_url", "https://localhost");
+    url = prefs.getString("server_url", "https://localhost/");
     api = prefs.getString("api_type", "default_api");
 
     if (api.equals("marek")) {
