@@ -71,7 +71,9 @@ class wt_f_login : Fragment() {
 
       Log.d(TAG, "Klyk2: data: $data")
 
-      Ion.with(context).load(url).asString()
+      Ion.with(context)
+        .load(url)
+        .asString()
         .setCallback(FutureCallback<String?> { exception, result ->
           if (result == null) {
             Log.e(TAG, "klyk2: error")
@@ -79,6 +81,9 @@ class wt_f_login : Fragment() {
           }
           Log.d(TAG, "Klyk2: " + result.toString())
         })
+
+      val i = Intent(activity, wt_pin::class.java)
+      startActivity(i)
 
     }
 

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,13 +71,15 @@ class wt_f_about : wt_f_base() {
     version = info.versionName
     packageName = info.packageName
     versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      info.getLongVersionCode()
+      info.longVersionCode
     } else {
       TODO("VERSION.SDK_INT < P")
     }
 
-    tv_about.setText("nazdar bazar $version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}")
-    ver_string = "$version $versionCode $packageName \n ${BuildConfig.BUILD_TYPE} ${get_app_name()}"
+    ver_string =
+      "WTeplota $version\n" + "versioncode:$versionCode\n" + "package:$packageName\n" + "build:${BuildConfig.BUILD_TYPE}\n" + "app:${get_app_name()}"
+
+    tv_about.setText("ABOUT")
 
     compost.setContent { SimpleScreen() }
   }
@@ -165,9 +168,7 @@ class wt_f_about : wt_f_base() {
 
   @Composable
   @Preview
-  fun SimpleScreen(
-  ) {
-
+  fun SimpleScreen() {
     MyTheme() {
       Column(
         modifier = Modifier
@@ -175,12 +176,6 @@ class wt_f_about : wt_f_base() {
           .fillMaxWidth()
           .wrapContentSize(Alignment.Center)
       ) {
-        Text(
-          modifier = Modifier.fillMaxWidth(),
-          text = "WTEPLOTA",
-          textAlign = TextAlign.Center,
-          style = wt_t_style,
-        )
         Text(
           text = ver_string,
           textAlign = TextAlign.Center,
@@ -214,7 +209,7 @@ class wt_f_about : wt_f_base() {
           navController.navigate(R.id.nav_start)
 
         }, Modifier.fillMaxWidth()) {
-          Text(text = "cudl")
+          Text(text = stringResource(R.string.back))
         }
       }
     }

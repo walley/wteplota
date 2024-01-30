@@ -48,7 +48,7 @@ class wt_pin : AppCompatActivity() {
             modifier = Modifier.padding(bottom = 16.dp)
           )
           Row(
-            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+            Modifier.fillMaxWidth(), Arrangement.Center
           ) {
             for (i in 1 .. 9) {
               Button(

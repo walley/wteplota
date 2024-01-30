@@ -66,5 +66,6 @@
   <string name="title_activity_wt_deviceform">Device Form</string>
   <string name="update_device_parameters">Submit and Update device parameters</string>
   <string name="not_logged_in">Not logged in</string>
+  <string name="back">Back</string>
 
 </resources>

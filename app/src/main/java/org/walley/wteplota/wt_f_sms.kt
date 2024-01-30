@@ -138,7 +138,6 @@ class wt_f_sms : Fragment() {
      * @param param2 Parameter 2.
      * @return A new instance of fragment wt_f_sms.
      */
-    // TODO: Rename and change types and number of parameters
     @JvmStatic
     fun newInstance(param1: String, param2: String) = wt_f_sms().apply {
       arguments = Bundle().apply {

@@ -15,7 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.koushikdutta.ion.Ion;
-import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,9 +43,10 @@ public class wt_main extends wt_base
     super.onCreate(savedInstanceState);
     String t_appkey = "agayut8g5hm4xagxh3u9";
     String t_appsecret = "qav7rhpdcf77t7whf45pyvr5snndpujv";
-    TuyaHomeSdk.init(getApplication(), t_appkey, t_appsecret);
-    TuyaHomeSdk.setDebugMode(true);
-    TuyaHomeSdk.getRequestInstance();
+
+//    TuyaHomeSdk.init(getApplication(), t_appkey, t_appsecret);
+//    TuyaHomeSdk.setDebugMode(true);
+//    TuyaHomeSdk.getRequestInstance();
 
 //ryRoomList(callback: ITuyaGetRoomListCallback)
 
@@ -95,7 +95,7 @@ public class wt_main extends wt_base
   {
     EventBus.getDefault().unregister(this);
     //TUYA
-    TuyaHomeSdk.onDestroy();
+    // TuyaHomeSdk.onDestroy();
 
     super.onStop();
   }

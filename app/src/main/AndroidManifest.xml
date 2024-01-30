@@ -35,7 +35,6 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".wt_preferences" />
     <activity
       android:name="net.openid.appauth.RedirectUriReceiverActivity"
       android:exported="true">
@@ -51,7 +50,9 @@
           android:scheme="https" />
       </intent-filter>
     </activity>
+    <activity android:name=".wt_preferences" />
     <activity android:name=".wt_webview" />
+    <activity android:name=".wt_pin" />
   </application>
 
 </manifest>
