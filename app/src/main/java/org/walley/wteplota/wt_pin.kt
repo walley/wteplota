@@ -1,14 +1,14 @@
 package org.walley.wteplota
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,15 +19,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -49,6 +51,8 @@ class wt_pin : AppCompatActivity() {
   }
 
   var pin: String = ""
+  val c = mutableStateOf(pin)
+
   val context: Context = this
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,25 +64,17 @@ class wt_pin : AppCompatActivity() {
   }
 
   @Composable
-  fun MyCanvas() {
-    Canvas(modifier = Modifier.fillMaxSize()) {
-      drawRect(color = Color.Blue, size = size)
-    }
-  }
-
-  @Composable
-  fun pin_view(pin: String) {
+  fun pin_view(xpin: String) {
     val size = Size()
     val screenHeight = size.height()
+    val pin by c
 
     Row(
       modifier = Modifier
         .height(40.dp)
         .fillMaxWidth()
-        .background(
-          Color.Red, shape = RoundedCornerShape(4.dp)
-        )
-        .border(2.dp, Color.Magenta),
+      //.background(Color.Red, shape = RoundedCornerShape(4.dp))
+      //.border(2.dp, Color.Magenta),
     ) {
 
       val circleRadius = 10.dp
@@ -113,7 +109,10 @@ class wt_pin : AppCompatActivity() {
     ) {
       for (i in from .. from + 2) {
         Button(
-          onClick = { pin += "$i" },
+          onClick = {
+            //pin += "$i"
+            c.value += "$i"
+          },
           modifier = Modifier
             .padding(8.dp)
             .size(64.dp)
@@ -140,7 +139,7 @@ class wt_pin : AppCompatActivity() {
         }
         Text(
           color = Color.Red,
-          text = "Enter your PIN",
+          text = stringResource(R.string.enter_your_pin),
           style = typography.headlineLarge,
           modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -153,14 +152,15 @@ class wt_pin : AppCompatActivity() {
           Modifier.fillMaxWidth(), Arrangement.Center
         ) {
           Button(
-            onClick = { pin = "" }, modifier = Modifier
+            onClick = { c.value = "" },
+            modifier = Modifier
               .padding(8.dp)
               .size(64.dp)
           ) {
             Text(text = "X")
           }
           Button(
-            onClick = { pin += "0" },
+            onClick = { c.value += "0" },
             modifier = Modifier
               .padding(8.dp)
               .size(64.dp)
@@ -169,7 +169,7 @@ class wt_pin : AppCompatActivity() {
           }
           Button(
             onClick = {
-              pin = pin.dropLast(1)
+              c.value = c.value.dropLast(1)
               //pin.substring(1, pin.length - 1)
             },
             modifier = Modifier
@@ -183,7 +183,7 @@ class wt_pin : AppCompatActivity() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
           onClick = {
-            Toast.makeText(context, pin, Toast.LENGTH_SHORT)
+            Toast.makeText(context, c.value, Toast.LENGTH_SHORT)
               .show()
           }, modifier = Modifier.fillMaxWidth()
         ) {
@@ -191,6 +191,14 @@ class wt_pin : AppCompatActivity() {
         }
       }
     }
+  }
+
+  fun return_pin() {
+    val data = Intent()
+    data.putExtra("pin", c.value)
+    data.putExtra("buzumbura", "hadra")
+    setResult(Activity.RESULT_OK, data)
+    finish()
   }
 
 }
