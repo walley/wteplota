@@ -91,7 +91,7 @@ class wt_deviceform : AppCompatActivity() {
 
     Log.d(TAG, "onCreate(): device name: $device_name")
 
-    setContentView(R.layout.activity_deviceform);
+    setContentView(R.layout.activity_deviceform)
 
     swipeRefreshLayout = findViewById(R.id.swipe_container)
     swipeRefreshLayout.setOnRefreshListener {
@@ -121,12 +121,12 @@ class wt_deviceform : AppCompatActivity() {
       Toast.makeText(this, "buzumbura $url", Toast.LENGTH_LONG)
         .show()
 
-      val params = HashMap<String, List<String>>();
+      val params = HashMap<String, List<String>>()
 
       for ((key, value) in item_values) {
         val v: View = findViewById(value)
         if (v is EditText) {
-          params.put(key, Arrays.asList(v.text.toString()));
+          params.put(key, Arrays.asList(v.text.toString()))
           Log.d(TAG, "post data: $key," + v.text.toString())
         } else if (v is ToggleButton) {
           Log.d(TAG, "$key is togglebutton")
@@ -181,7 +181,7 @@ class wt_deviceform : AppCompatActivity() {
 
   private fun parse_result(result: JsonArray) {
     val it: Iterator<JsonElement> = result.iterator()
-    var run = true;
+    var run = true
 
     data_hash.clear()
     while (it.hasNext()) {
@@ -191,7 +191,7 @@ class wt_deviceform : AppCompatActivity() {
       val jo = element.asJsonObject
 
       for ((key, value) in jo.asMap()) {
-        temps += key + " = " + value + "\n"
+        temps += "$key = $value\n"
       }
 
       Log.d(TAG, "parsed stuff $temps")
@@ -204,12 +204,12 @@ class wt_deviceform : AppCompatActivity() {
           layout_row = LinearLayout(this)
           layout_row.layoutParams =
             LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-          layout_row.setOrientation(LinearLayout.HORIZONTAL);
+          layout_row.setOrientation(LinearLayout.HORIZONTAL)
 
           label_row = TextView(this)
-          label_row.text = "$key"
+          label_row.text = key
           label_row.id = generateViewId()
-          label_row.setTextColor(Color.RED);
+          label_row.setTextColor(Color.RED)
 
           label_row.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32F)
 
@@ -252,7 +252,7 @@ class wt_deviceform : AppCompatActivity() {
             }
           }
 
-          layout.addView(layout_row);
+          layout.addView(layout_row)
           Log.d(TAG, "added $key $value $label_row.id ")
 
         }
@@ -260,7 +260,7 @@ class wt_deviceform : AppCompatActivity() {
         //set values
         Log.d(TAG, "setting values")
         for ((key, value) in jo.asMap()) {
-          var id: Int;
+          var id: Int
           id = item_values.get(key)!!
           val v: View = findViewById(id)
           if (v is EditText) {
@@ -296,8 +296,8 @@ class wt_deviceform : AppCompatActivity() {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public fun onEventMainThread(event: message_event) {
-    Log.i("WC", "onEventMainThread(): got message " + event.message);
+  fun onEventMainThread(event: message_event) {
+    Log.i("WC", "onEventMainThread(): got message " + event.message)
     swipeRefreshLayout.isRefreshing = false
   }
 

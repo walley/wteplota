@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string-array name="apy_types">x</string-array>
-  <string-array name="api_types_k">x</string-array>
-  <string-array name="api_types_v">v</string-array>
+  <string-array name="api_types">
+    <item>array x</item>
+    <item>y</item>
+  </string-array>
+  <string-array name="api_types_k">
+    <item>k x</item>
+    <item>k y</item>
+
+  </string-array>
+  <string-array name="api_types_v">
+    <item>walley</item>
+    <item>marek</item>
+
+  </string-array>
 </resources>

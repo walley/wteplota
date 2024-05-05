@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+  <androidx.preference.ListPreference
+    android:key="api_selection"
+    android:title="@string/select_api_type"
+    android:entries="@array/api_types_k"
+    android:entryValues="@array/api_types_v"
+    android:summary="@string/select_api_type_summary"
+    android:icon="@drawable/ic_cat" />
+  <androidx.preference.EditTextPreference
+    android:key="api_type"
+    android:summary="@string/settings_api_type"
+    android:title="@string/api_type" />
+  <androidx.preference.EditTextPreference
+    android:key="server_url"
+    android:summary="@string/settings_url"
+    android:title="@string/url" />
+  <androidx.preference.EditTextPreference
+    android:key="login"
+    android:summary="@string/settings_login"
+    android:title="@string/title_login"
+    android:icon="@drawable/ic_menu_manage" />
+  <androidx.preference.EditTextPreference
+    android:key="password"
+    android:summary="@string/settings_password"
+    android:title="@string/title_password" />
+
+</androidx.preference.PreferenceScreen>
+

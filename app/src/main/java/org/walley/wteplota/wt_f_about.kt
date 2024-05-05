@@ -80,7 +80,7 @@ class wt_f_about : wt_f_base() {
     ver_string =
       "WTeplota $version\n" + "versioncode:$versionCode\n" + "package:$packageName\n" + "build:${BuildConfig.BUILD_TYPE}\n" + "app:${get_app_name()}"
 
-    tv_about.setText("ABOUT")
+    tv_about.setText(getString(R.string.about_text))
 
     compost.setContent { SimpleScreen() }
   }
