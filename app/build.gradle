@@ -53,10 +53,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.relase
+            signingConfig signingConfigs.release
 //            useProguard false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
         buzumbura {
             minifyEnabled false
             signingConfig signingConfigs.shit
