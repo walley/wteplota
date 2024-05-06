@@ -2,7 +2,7 @@
 
 IoT stuff.
 
-Smart home app, similar to Google Home, Mi Home or eWeLink - Smart Home.
+Smart home app, similar to Google Home, Mi Home or eWeLink - Smart Home or Tuya.
 
 Aims to support multiple backend apis
 

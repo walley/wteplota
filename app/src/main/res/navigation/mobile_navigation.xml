@@ -36,15 +36,14 @@
     tools:layout="@layout/fragment_sms" />
 
   <fragment
-    android:id="@+id/nav_prefs"
-    android:name="org.walley.wteplota.wt_f_prefs"
-    android:label="test"
-    tools:layout="@layout/fragment_prefs" />
-
-  <fragment
     android:id="@+id/nav_preferences"
     android:name="org.walley.wteplota.wt_f_preferences"
     android:label="@string/menu_pref"
     tools:layout="@layout/fragment_prefs" />
 
+  <fragment
+    android:id="@+id/nav_prefs"
+    android:name="org.walley.wteplota.wt_f_prefs"
+    android:label="test"
+    tools:layout="@layout/fragment_prefs" />
 </navigation>
