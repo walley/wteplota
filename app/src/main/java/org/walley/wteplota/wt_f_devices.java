@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -62,6 +63,8 @@ public class wt_f_devices extends wt_f_base
     devices_array = new ArrayList<>();
     data_hash = new Hashtable<String, JsonObject>();
     rooms_list = new ArrayList<>();
+
+    stuff();
 
     gd = new GradientDrawable();
     gd.setColor(R.color.menu);
@@ -141,7 +144,6 @@ public class wt_f_devices extends wt_f_base
     }
   }
 
-
   private void update_rooms_list()
   {
     String temps = "";
@@ -150,17 +152,23 @@ public class wt_f_devices extends wt_f_base
     Log.i(TAG, "update_rooms_list() start.");
 
     for (String key : data_hash.keySet()) {
-      JsonElement element = (JsonElement) data_hash.get(key);
-      assert element != null;
-      JsonObject jo = element.getAsJsonObject();
-      for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-        if (entry.getKey().equals("Nazev")) {
-          String room_name = entry.getValue().toString().replace("\"", "");
-          rooms_list.add(room_name);
-          Log.i(TAG, "update_rooms_list() name: " + entry.getValue().toString());
+      Log.i(TAG, "update_rooms_list(): key: " + key);
+      if (base_api.equals("marek")) {
+        JsonElement element = (JsonElement) data_hash.get(key);
+        assert element != null;
+        JsonObject jo = element.getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+          if (entry.getKey().equals("Nazev")) {
+            String room_name = entry.getValue().toString().replace("\"", "");
+            rooms_list.add(room_name);
+            Log.i(TAG, "update_rooms_list() name: " + entry.getValue().toString());
+          }
         }
+      } else if (base_api.equals("walley")) {
+        rooms_list.add(key);
       }
     }
+    Log.i(TAG, "update_rooms_list(): list: " + rooms_list.toString());
     create_rooms_menu(rooms_list);
   }
 

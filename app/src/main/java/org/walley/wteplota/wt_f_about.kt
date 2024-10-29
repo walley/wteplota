@@ -40,7 +40,7 @@ import androidx.multidex.BuildConfig
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
-class wt_f_about : wt_f_base() {
+private class wt_f_about : wt_f_base() {
 
   lateinit var tv_about: TextView
   lateinit var compost: ComposeView

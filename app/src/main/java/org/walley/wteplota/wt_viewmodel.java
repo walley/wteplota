@@ -16,7 +16,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -41,6 +40,7 @@ public class wt_viewmodel extends AndroidViewModel
 
     prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
     url = prefs.getString("server_url", "https://localhost/");
+    if (!url.endsWith("/")) {url += "/";}
     api = prefs.getString("api_type", "default_api");
 
     if (api.equals("marek")) {
@@ -48,7 +48,8 @@ public class wt_viewmodel extends AndroidViewModel
     }
 
     if (api.equals("walley")) {
-      url += "wiot/v1/devices?output=json";
+//      url += "wiot/v1/devices?output=json";
+      url += "wiot/v1/house?output=json";
     }
 
     Log.d(TAG, "wt_viewmodel() url:" + url);
@@ -105,16 +106,26 @@ public class wt_viewmodel extends AndroidViewModel
     return x;
   }
 
-  private String get_room_id(JsonObject jo)
+  private String get_room_name(JsonObject jo)
   {
     for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
-      if (entry.getKey().equals("room")) {
-        String room_name = entry.getValue().toString().replace("\"", "");
-        return room_name;
+      if (entry.getKey().equals("roomname")) {
+        return entry.getValue().toString().replace("\"", "");
       }
     }
 
     return "default_room";
+  }
+
+  private String get_device_name(JsonObject jo)
+  {
+    for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+      if (entry.getKey().equals("name")) {
+        return entry.getValue().toString().replace("\"", "");
+      }
+    }
+
+    return "default_device";
   }
 
   private void parse_result(JsonObject result)
@@ -131,29 +142,26 @@ public class wt_viewmodel extends AndroidViewModel
       String entryset_key = main_entry.getKey();
       JsonElement entryset_value = (JsonElement) main_entry.getValue();
       JsonObject jo = entryset_value.getAsJsonObject();
-      String room_name = get_room_id(jo);
+      String room_name = get_room_name(jo);
 
       Log.d(TAG, "parse_result(OBJECT): entry key: " + entryset_key);
       Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value.toString());
-      Log.d(TAG, "parse_result(OBJECT): room: " + room_name);
+      Log.d(TAG, "parse_result(OBJECT): room name: " + room_name);
 
       JsonObject temp = data_hash.get(room_name);
 
-      Random random = new Random();
-      int rand = random.nextInt(1000);
-
       if (temp != null) {
-        temp.add("kokot" + rand, jo);
+        temp.add(get_device_name(jo), jo);
         data_hash.put(room_name, temp);
       } else {
         JsonObject final_temp = new JsonObject();
-        final_temp.add("kokot" + rand, jo);
+        final_temp.add(get_device_name(jo), jo);
         data_hash.put(room_name, final_temp);
       }
 
-      Log.d(TAG, "parse_result(OBJECT): data_hash: " + data_hash.toString());
 
     }
+    Log.d(TAG, "parse_result(OBJECT): final data_hash: " + data_hash.toString());
     EventBus.getDefault().post(new message_event("data_done"));
   }
 
