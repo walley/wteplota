@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -142,23 +143,45 @@ public class wt_viewmodel extends AndroidViewModel
       String entryset_key = main_entry.getKey();
       JsonElement entryset_value = (JsonElement) main_entry.getValue();
       JsonObject jo = entryset_value.getAsJsonObject();
-      String room_name = get_room_name(jo);
+      //String room_name = get_room_name(jo);
+      String room_name = entryset_key;
 
       Log.d(TAG, "parse_result(OBJECT): entry key: " + entryset_key);
       Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value.toString());
       Log.d(TAG, "parse_result(OBJECT): room name: " + room_name);
 
-      JsonObject temp = data_hash.get(room_name);
 
-      if (temp != null) {
-        temp.add(get_device_name(jo), jo);
-        data_hash.put(room_name, temp);
-      } else {
-        JsonObject final_temp = new JsonObject();
-        final_temp.add(get_device_name(jo), jo);
-        data_hash.put(room_name, final_temp);
+      for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+        String key = entry.getKey();
+        JsonElement value = entry.getValue();
+
+        Log.d(TAG, "Key: " + key + ", Value: " + value);
+       try {
+         JsonObject final_temp = new JsonObject();
+         final_temp.add(key, value);
+         data_hash.put(room_name, final_temp);
+       } catch (Exception e) {
+         Log.e(TAG, "exception Key: " + key + ", Value: " + value);
+       }
       }
 
+
+     /* Set<Map.Entry<String, JsonElement>> i;
+      for (i = jo.entrySet(); jo.entrySet() != null;) {
+        // JsonObject temp = data_hash.get(room_name);
+        JsonObject temp = null; //entryset_value.getAsJsonObject();
+
+        Log.d(TAG,i.toString());
+
+        if (temp != null) {
+          temp.add(get_device_name(jo), jo);
+          data_hash.put(room_name, temp);
+        } else {
+          JsonObject final_temp = new JsonObject();
+          final_temp.add(get_device_name(jo), jo);
+          data_hash.put(room_name, final_temp);
+        }
+      }*/
 
     }
     Log.d(TAG, "parse_result(OBJECT): final data_hash: " + data_hash.toString());
