@@ -150,20 +150,23 @@ public class wt_viewmodel extends AndroidViewModel
       Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value.toString());
       Log.d(TAG, "parse_result(OBJECT): room name: " + room_name);
 
+      data_hash.put(entryset_key, (JsonObject) entryset_value.getAsJsonObject());
+      Log.d(TAG,"data_hash:" + data_hash.toString());
 
-      for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
+     /* for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
         String key = entry.getKey();
         JsonElement value = entry.getValue();
 
         Log.d(TAG, "Key: " + key + ", Value: " + value);
-       try {
-         JsonObject final_temp = new JsonObject();
-         final_temp.add(key, value);
-         data_hash.put(room_name, final_temp);
-       } catch (Exception e) {
-         Log.e(TAG, "exception Key: " + key + ", Value: " + value);
-       }
-      }
+        try {
+          JsonObject final_temp = new JsonObject();
+          final_temp.add(key, value);
+          data_hash.put(room_name, final_temp);
+          Log.d(TAG,"data_hash:" + data_hash.toString());
+        } catch (Exception e) {
+          Log.e(TAG, "exception Key: " + key + ", Value: " + value);
+        }
+      }*/
 
 
      /* Set<Map.Entry<String, JsonElement>> i;
