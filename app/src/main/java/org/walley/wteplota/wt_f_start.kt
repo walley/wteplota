@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.get
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -47,7 +49,8 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     prefs = PreferenceManager.getDefaultSharedPreferences(c)
     api = prefs.getString("api_type", "default_api").toString()
 
-    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
+   // wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel::class.java)
+    wtviewmodel = ViewModelProvider(this)[wt_viewmodel::class.java]
     wtviewmodel!!._server_data.observe(viewLifecycleOwner) {
       Log.i(TAG, "viewmodel observer onchanged()")
     }
@@ -73,7 +76,6 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
     val i = Intent(activity, wt_deviceform::class.java)
     i.putExtra("device_name", devices_array[position].name.replace("\"", ""));
     startActivity(i)
-
   }
 
   override fun onStart() {
@@ -95,7 +97,7 @@ class wt_f_start : wt_f_base(), adapter_RecyclerView.ItemClickListener {
         if (api == "marek") {
           show_listview("Uvod")
         } else {
-          show_listview("1")
+          show_listview("room")
         }
       }
     }

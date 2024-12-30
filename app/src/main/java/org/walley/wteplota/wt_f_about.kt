@@ -85,7 +85,7 @@ open class wt_f_about : wt_f_base() {
     compost.setContent { SimpleScreen() }
   }
 
-  fun get_app_name(): String? {
+  fun get_app_name(): String {
     val applicationInfo = requireContext().applicationInfo
     val stringId = applicationInfo.labelRes
     if (stringId == 0) {

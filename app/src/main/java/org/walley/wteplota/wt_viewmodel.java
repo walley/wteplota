@@ -30,8 +30,8 @@ public class wt_viewmodel extends AndroidViewModel
   String url;
   String api;
   SharedPreferences prefs;
-  private Hashtable<String, JsonObject> data_hash;
-  private MutableLiveData<Hashtable<String, JsonObject>> server_data;
+  private final Hashtable<String, JsonObject> data_hash;
+  private final MutableLiveData<Hashtable<String, JsonObject>> server_data;
 
   public wt_viewmodel(Application app)
   {
@@ -72,7 +72,7 @@ public class wt_viewmodel extends AndroidViewModel
     data_hash.clear();
 
     while (it.hasNext()) {
-      JsonElement element = (JsonElement) it.next();
+      JsonElement element = it.next();
       Log.i(TAG, "element " + element.getAsJsonObject().toString());
       String xs = element.getAsJsonObject().toString();
       JsonObject jo = element.getAsJsonObject();
@@ -103,7 +103,7 @@ public class wt_viewmodel extends AndroidViewModel
 
     x.add(name + Math.random() * 1000, one);
     x.add(name + Math.random() * 1000, two);
-    Log.d(TAG, "jo x: " + x.toString());
+    Log.d(TAG, "jo x: " + x);
     return x;
   }
 
@@ -141,16 +141,16 @@ public class wt_viewmodel extends AndroidViewModel
 
     for (Map.Entry<String, JsonElement> main_entry : result.entrySet()) {
       String entryset_key = main_entry.getKey();
-      JsonElement entryset_value = (JsonElement) main_entry.getValue();
+      JsonElement entryset_value = main_entry.getValue();
       JsonObject jo = entryset_value.getAsJsonObject();
       //String room_name = get_room_name(jo);
       String room_name = entryset_key;
 
       Log.d(TAG, "parse_result(OBJECT): entry key: " + entryset_key);
-      Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value.toString());
+      Log.d(TAG, "parse_result(OBJECT): entry value (element): " + entryset_value);
       Log.d(TAG, "parse_result(OBJECT): room name: " + room_name);
 
-      data_hash.put(entryset_key, (JsonObject) entryset_value.getAsJsonObject());
+      data_hash.put(entryset_key, entryset_value.getAsJsonObject());
       Log.d(TAG,"data_hash:" + data_hash.toString());
 
      /* for (Map.Entry<String, JsonElement> entry : jo.entrySet()) {
@@ -198,17 +198,12 @@ public class wt_viewmodel extends AndroidViewModel
     Ion.with(context)
             .load(url)
             .asJsonArray()
-            .setCallback(new FutureCallback<JsonArray>()
-            {
-              @Override
-              public void onCompleted(Exception e, JsonArray result)
-              {
-                if (result == null) {
-                  Log.e(TAG, "get_as_array(): json error " + e.toString());
-                  return;
-                }
-                parse_result(result);
+            .setCallback((e, result) -> {
+              if (result == null) {
+                Log.e(TAG, "get_as_array(): json error " + e.toString());
+                return;
               }
+              parse_result(result);
             });
   }
 

@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +37,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -73,7 +76,8 @@ public class wt_f_devices extends wt_f_base
     gd.setStroke(3, 0x03DAC5);
 
     ll_scroll = (LinearLayout) root.findViewById(R.id.ll_scroll);
-    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel.class);
+//    wtviewmodel = ViewModelProviders.of(this).get(wt_viewmodel.class);
+    wtviewmodel = new ViewModelProvider(this).get(wt_viewmodel.class);
     tv_data = root.findViewById(R.id.text_home);
     tv_data.setMovementMethod(new ScrollingMovementMethod());
     tv_data.setTextSize(20);
@@ -135,7 +139,10 @@ public class wt_f_devices extends wt_f_base
         update_rooms_list();
 
         if (first_run) {
-          show_listview("Uvod");
+        switch (base_api) {
+          case "marek": show_listview("Uvod"); break;
+          case "walley": show_listview("room"); break;
+        }
         } else {
           first_run = false;
         }
@@ -212,54 +219,97 @@ public class wt_f_devices extends wt_f_base
     boolean has_type = false;
     boolean has_value = false;
 
-
-    if (name.contains(".typ")) {
-      device_name = name.substring(0, name.length() - 4).replace("\"", "");
-      device_type = value.replace("\"", "");
-      device_value = "";
-    } else {
-      device_name = name.replace("\"", "");
-      device_type = "";
-      device_value = value.replace("\"", "");
-    }
-
-    for (int i = 0; i < devices_array.size(); i++) {
-      wt_device x = devices_array.get(i);
-      if (x.getName().equals(device_name)) {
-        has_name = true;
-        device_index = i;
-        if (x.getType() != null && !x.getType().isEmpty()) {
-          has_type = true;
-        }
-        if (x.getValue() != null && !x.getValue().isEmpty()) {
-          has_value = true;
-        }
-        break;
+    if (base_api.equals("marek")) {
+      if (name.contains(".typ")) {
+        device_name = name.substring(0, name.length() - 4).replace("\"", "");
+        device_type = value.replace("\"", "");
+        device_value = "";
+      } else {
+        device_name = name.replace("\"", "");
+        device_type = "";
+        device_value = value.replace("\"", "");
       }
-    }
 
-    Log.i(
-            TAG,
-            "a_t_d_l(" + name + "," + value + "): has_value:" + has_value + ", has_type:" + has_type
-         );
+      for (int i = 0; i < devices_array.size(); i++) {
+        wt_device x = devices_array.get(i);
+        if (x.getName().equals(device_name)) {
+          has_name = true;
+          device_index = i;
+          if (x.getType() != null && !x.getType().isEmpty()) {
+            has_type = true;
+          }
+          if (x.getValue() != null && !x.getValue().isEmpty()) {
+            has_value = true;
+          }
+          break;
+        }
+      }
 
-    if (has_name) {
       Log.i(
               TAG,
-              "a_t_d_l(" + name + "," + value + "): existing :" + device_name + "," + device_value + "," + device_type
+              "a_t_d_l(" + name + "," + value + "): has_value:" + has_value + ", has_type:" + has_type
            );
-      devices_array.get(device_index).setName(device_name);
-      if (!has_type) {
-        devices_array.get(device_index).setType(device_type);
+
+      if (has_name) {
+        Log.i(
+                TAG,
+                "a_t_d_l(" + name + "," + value + "): existing :" + device_name + "," + device_value + "," + device_type
+             );
+        devices_array.get(device_index).setName(device_name);
+        if (!has_type) {
+          devices_array.get(device_index).setType(device_type);
+        }
+        if (!has_value) {
+          devices_array.get(device_index).setValue(device_value);
+        }
+      } else {
+        Log.i(
+                TAG,
+                "a_t_d_l(" + name + "," + value + "): new :" + device_name + "," + device_value + "," + device_type + "."
+             );
+        wt_device x = new wt_device(device_name, device_value, device_type);
+        devices_array.add(x);
       }
-      if (!has_value) {
-        devices_array.get(device_index).setValue(device_value);
-      }
-    } else {
+    }
+
+    if (base_api.equals("walley")) {
       Log.i(
               TAG,
-              "a_t_d_l(" + name + "," + value + "): new :" + device_name + "," + device_value + "," + device_type
+              "a_t_d_l(" + name + "," + value + "): walley"
            );
+
+      device_name = "what";
+      device_type = "unknown";
+      device_value = "∞";
+
+      JsonObject newJsonObject = null;
+      try {
+        newJsonObject = JsonParser.parseString(value).getAsJsonObject();
+
+        for (Map.Entry<String, JsonElement> entry : newJsonObject.entrySet()) {
+          String key = entry.getKey();
+          JsonElement innerValue = entry.getValue();
+
+          Log.d("NewJsonObjectIteration", "Key: " + key + ", Value: " + innerValue);
+          // Process the key and innerValue as needed
+          String value_cleaned = innerValue.toString().replace("\"", "");
+
+          if (key.equalsIgnoreCase("name")) {
+            device_name = value_cleaned;
+          }
+          if (key.equalsIgnoreCase("type")) {
+            if (value_cleaned.equalsIgnoreCase(
+                    "thermo") || value_cleaned.equalsIgnoreCase("thermostat")) {
+              device_type = "thermostat";
+            } else {
+              device_type = value_cleaned;
+            }
+          }
+        }
+      } catch (JsonSyntaxException e) {
+        Log.w("CreateJsonObject", "Invalid JSON string: " + value, e);
+      }
+
       wt_device x = new wt_device(device_name, device_value, device_type);
       devices_array.add(x);
     }
@@ -304,6 +354,8 @@ public class wt_f_devices extends wt_f_base
         convertView = LayoutInflater.from(getContext()).inflate(
                 R.layout.item_device, parent, false);
       }
+
+
       TextView tv_device_name = (TextView) convertView.findViewById(R.id.tv_device_name);
       TextView tv_device_value = (TextView) convertView.findViewById(R.id.tv_device_value);
 
@@ -341,7 +393,12 @@ public class wt_f_devices extends wt_f_base
           unwrappedDrawable = AppCompatResources.getDrawable(
                   getContext(), R.drawable.ic_door_open_24);
           break;
+        case "light":
+          unwrappedDrawable = AppCompatResources.getDrawable(
+                  getContext(), R.drawable.baseline_lightbulb_24);
+          break;
         case "teplomer":
+        case "thermostat":
           unwrappedDrawable = AppCompatResources.getDrawable(
                   getContext(), R.drawable.ic_thermometer_empty_24);
           break;
@@ -369,6 +426,16 @@ public class wt_f_devices extends wt_f_base
 
       iv_device_image.setImageDrawable(wrappedDrawable);
 
+
+      convertView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          // Handle the click event here
+          wt_device clickedDevice = getItem(position);
+          Log.i(TAG, "Clicked device: " + clickedDevice.getName());
+          // You can start a new activity, show a dialog, etc.
+        }
+      });
       return convertView;
     }
   }

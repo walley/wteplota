@@ -77,6 +77,8 @@ class adapter_RecyclerView internal constructor(
       "thermostat" -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
       "motor"      -> AppCompatResources.getDrawable(context, R.drawable.ic_fan_24)
       "voda"       -> AppCompatResources.getDrawable(context, R.drawable.ic_faucet_24)
+      "light"      -> AppCompatResources.getDrawable(context, R.drawable.baseline_lightbulb_24)
+      "test"       -> AppCompatResources.getDrawable(context, R.drawable.outline_fire_hydrant_alt_24)
       else         -> AppCompatResources.getDrawable(context, R.drawable.ic_cat_24)
     }
 
