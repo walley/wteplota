@@ -216,10 +216,10 @@ open class wt_f_about : wt_f_base() {
             textAlign = TextAlign.Center,
             style = wt_t_style,
           )
-        }/* AsyncImage(
-          model = "http://placekitten.com/200/300",
-          contentDescription = "buzumbura"
-        )*/
+        } 
+
+        AsyncImage(model = "http://placebear.com/200/300", contentDescription = "buzumbura")
+      
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = {
 
