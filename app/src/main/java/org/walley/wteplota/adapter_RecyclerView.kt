@@ -71,6 +71,9 @@ class adapter_RecyclerView internal constructor(
 
     val unwrappedDrawable: Drawable?
     unwrappedDrawable = when (mData[position].type) {
+      "ups"        -> AppCompatResources.getDrawable(context, R.drawable.ic_baseline_flash_on_24)
+      "solar"      -> AppCompatResources.getDrawable(context, R.drawable.ic_solar_24)
+      "switch"     -> AppCompatResources.getDrawable(context, R.drawable.ic_switch_24)
       "dvere"      -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
       "door"       -> AppCompatResources.getDrawable(context, R.drawable.ic_door_open_24)
       "teplomer"   -> AppCompatResources.getDrawable(context, R.drawable.ic_thermometer_empty_24)
@@ -95,7 +98,7 @@ class adapter_RecyclerView internal constructor(
     Log.i(TAG, "name: " + mData[position].name)
   }
 
-  // stores and recycles views as they are scrolled off screen
+  // stores and recycles views as they are scrolled off-screen
   inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
     var tv_name: TextView
     var tv_value: TextView
