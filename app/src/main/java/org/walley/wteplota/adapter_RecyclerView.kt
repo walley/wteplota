@@ -1,4 +1,4 @@
-package org.walley.wteplota;
+package org.walley.wteplota
 
 import android.content.Context
 import android.content.res.Configuration
@@ -24,14 +24,14 @@ class adapter_RecyclerView internal constructor(
   val context: Context
   private val mData: java.util.ArrayList<wt_device> = data
   private val mInflater: LayoutInflater
-  private var mClickListener: ItemClickListener? = null;
+  private var mClickListener: ItemClickListener? = null
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view: View = mInflater.inflate(R.layout.item_recyclerview, parent, false)
     return ViewHolder(view)
   }
 
-  public fun dump_data() {
+  fun dump_data() {
     Log.i(TAG, "Data dump:")
     for (device in mData) {
       Log.i(TAG, "devices: (" + device.name + "," + device.value + "," + device.type + ")")
@@ -40,9 +40,9 @@ class adapter_RecyclerView internal constructor(
 
   // binds the data to the TextView in each cell
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    holder.tv_name.setText(mData[position].name)
-    holder.tv_type.setText(mData[position].type)
-    holder.tv_value.setText(mData[position].value)
+    holder.tv_name.text = mData[position].name
+    holder.tv_type.text = mData[position].type
+    holder.tv_value.text = mData[position].value
 
     val positive: Int
     positive = if (is_dark_theme()) {
@@ -51,7 +51,7 @@ class adapter_RecyclerView internal constructor(
       ContextCompat.getColor(context, R.color.dark_green)
     }
 
-    var temp_temp: Float = 0F
+    var temp_temp = 0F
     Log.i(TAG, "converting:" + mData[position].value)
     temp_temp = try {
       mData[position].value.replace("\"", "").toFloat()
@@ -104,8 +104,9 @@ class adapter_RecyclerView internal constructor(
     var tv_value: TextView
     var tv_type: TextView
     var is_image: ImageView
+
     override fun onClick(view: View?) {
-      if (mClickListener != null) mClickListener!!.onItemClick(view, getAdapterPosition())
+      if (mClickListener != null) mClickListener!!.onItemClick(view, bindingAdapterPosition)
     }
 
     init {
@@ -134,7 +135,7 @@ class adapter_RecyclerView internal constructor(
 
   override fun getItemCount(): Int {
     Log.i(TAG, "size: " + mData.size)
-    return mData.size;
+    return mData.size
   }
 
   fun is_dark_theme(): Boolean {
