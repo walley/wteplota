@@ -28,6 +28,8 @@ class wt_f_login : Fragment() {
   private lateinit var button_login: Button
   private lateinit var button2_login: Button
   private lateinit var button_nextcloud: Button
+  private lateinit var button_github: Button
+
   lateinit var prefs: SharedPreferences
   lateinit var api: String
   lateinit var login: String
@@ -96,7 +98,13 @@ class wt_f_login : Fragment() {
 
       startActivity(i)
     }
+
+    button_github.setOnClickListener {
+      Log.d(TAG, "klyk github")
+    }
   }
+
+
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -106,6 +114,7 @@ class wt_f_login : Fragment() {
     button_login = root.findViewById(R.id.button_login)
     button2_login = root.findViewById(R.id.button2_login)
     button_nextcloud = root.findViewById(R.id.button_nextcloud)
+    button_github = root.findViewById(R.id.button_github)
     tv_username = root.findViewById(R.id.tv_username)
     return root
   }

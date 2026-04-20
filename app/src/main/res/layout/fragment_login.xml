@@ -6,10 +6,10 @@
   tools:context=".wt_f_login">
 
   <LinearLayout
-    android:orientation="vertical"
+    android:layout_width="match_parent"
 
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:orientation="vertical">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -28,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="24sp"
-        android:text="username unknown" />
+        android:text="username unknown"
+        android:textSize="24sp" />
     </LinearLayout>
 
     <Button
@@ -51,6 +51,12 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/nextcloud" />
+
+    <Button
+      android:id="@+id/button_github"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/login_github" />
   </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

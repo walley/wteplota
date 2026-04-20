@@ -69,5 +69,6 @@
   <string name="back">Back</string>
   <string name="enter_your_pin">Enter your PIN</string>
   <string name="about_text">ABOUT</string>
+  <string name="login_github">Login via Github</string>
 
 </resources>
