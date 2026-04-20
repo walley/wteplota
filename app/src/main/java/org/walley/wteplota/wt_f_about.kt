@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.multidex.BuildConfig
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import coil.compose.AsyncImage
 
 open class wt_f_about : wt_f_base() {
 
