@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,8 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -82,7 +85,7 @@ open class wt_f_about : wt_f_base() {
 
     tv_about.setText(getString(R.string.about_text))
 
-    compost.setContent { SimpleScreen() }
+    compost.setContent { SimpleScreen(navController) }
   }
 
   fun get_app_name(): String {
@@ -168,14 +171,27 @@ open class wt_f_about : wt_f_base() {
   }
 
   @Composable
-  @Preview
-  fun SimpleScreen() {
+  fun SimpleScreen(navController: NavController) {
     MyTheme() {
       Column(
         modifier = Modifier
           .padding(30.dp)
           .fillMaxWidth()
           .wrapContentSize(Alignment.Center)
+          .onKeyEvent { keyEvent ->
+            when (keyEvent.key) {
+              Key.Back -> {
+                navController.navigateUp()
+                true
+              }
+              Key.Enter -> {
+                navController.navigate(R.id.nav_start)
+                true
+              }
+              else -> false
+            }
+          }
+          .focusable()
       ) {
         Text(
           text = ver_string,
