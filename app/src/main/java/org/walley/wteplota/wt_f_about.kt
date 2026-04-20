@@ -31,17 +31,17 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.multidex.BuildConfig
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import coil.compose.AsyncImage
 
 open class wt_f_about : wt_f_base() {
@@ -57,12 +57,12 @@ open class wt_f_about : wt_f_base() {
   var ver_string = ""
 
   override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
   ): View? {
     val root = inflater.inflate(R.layout.fragment_about, container, false)
     tv_about = root.findViewById<TextView>(R.id.tv_about)
     compost = root.findViewById<ComposeView>(R.id.compose_view)
-    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    navController = findNavController()
 
     return root
   }
@@ -164,7 +164,7 @@ open class wt_f_about : wt_f_base() {
 
   @Composable
   fun MyTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit
+    useDarkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit,
   ) {
     MaterialTheme(
       colorScheme = DarkOrangeColorPalette, content = content
@@ -182,7 +182,7 @@ open class wt_f_about : wt_f_base() {
           .onKeyEvent { keyEvent ->
             when (keyEvent.key) {
               Key.Back -> {
-                navController.navigateUp()
+                navController.popBackStack()
                 true
               }
               Key.Enter -> {
@@ -223,9 +223,7 @@ open class wt_f_about : wt_f_base() {
       
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = {
-
-          navController.navigate(R.id.nav_start)
-
+          navController.popBackStack()
         }, Modifier.fillMaxWidth()) {
           Text(text = stringResource(R.string.back))
         }
